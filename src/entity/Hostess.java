@@ -28,8 +28,12 @@ public class Hostess extends Thread {
         this.da.prepareForPassBoarding();
         while (!this.readyToFly) {
             this.da.checkDocuments();
-            readyToFly = this.da.waitForNextPassenger();
+            this.readyToFly = this.da.waitForNextPassenger();
+
         }
+        this.da.informPlaneReadyForTakeOff();
+
+        System.out.println("Hostess lifecycle ended");
 
 
 

@@ -23,7 +23,8 @@ public class Pilot extends Thread{
     @Override
     public void run() {
         this.da.informPlaneReadyForBoarding();
-        //System.out.println("informed");
+        this.da.waitForAllInBoard();
 
+        System.out.println("Pilot lifecycle ended");
     }
 }

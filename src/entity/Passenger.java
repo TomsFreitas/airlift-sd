@@ -23,21 +23,19 @@ public class Passenger extends Thread {
 
     @Override
     public void run(){
-        System.out.println("PassengerRun");
-        //travelToAirport();
+        travelToAirport();
+        System.out.println("Passenger arrived at airport ID: " + this.id);
         this.da.waitInQueue();
         this.da.showDocuments();
         this.plane.boardThePlane();
-        System.out.println("ehhe");
+        System.out.println("Life cycle of passenger ended ID: " + this.id);
     }
 
     private void travelToAirport() {
-        Random random = new Random();
-        long duration = (long) random.nextInt(5000 + 1 - 500) - 500;
+        long duration = (long) (1 + 2000 * Math.random());
         System.out.println(duration);
         try {
             sleep(duration);
-            System.out.println("slept");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
