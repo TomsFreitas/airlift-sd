@@ -28,11 +28,13 @@ public class Passenger extends Thread {
         this.da.waitInQueue();
         this.da.showDocuments();
         this.plane.boardThePlane();
+        this.plane.leaveThePlane();
         System.out.println("Life cycle of passenger ended ID: " + this.id);
     }
 
     private void travelToAirport() {
         long duration = (long) (1 + 2000 * Math.random());
+        //long duration = (long) 1000 * this.id;
         System.out.println(duration);
         try {
             sleep(duration);

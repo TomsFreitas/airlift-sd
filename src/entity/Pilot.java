@@ -22,9 +22,36 @@ public class Pilot extends Thread{
 
     @Override
     public void run() {
-        this.da.informPlaneReadyForBoarding();
-        this.da.waitForAllInBoard();
+        this.plane.informPlaneReadyForBoarding();
+        this.plane.waitForAllInBoard();
+        flyToDestinationPoint();
+        this.plane.announceArrival();
+        flyToDeparturePoint();
+        parkAtTransferGate();
+
 
         System.out.println("Pilot lifecycle ended");
+    }
+
+    private void flyToDestinationPoint(){
+        state = pilotStates.FLYING_FORWARD;
+        long duration = (long) (1 + 20 * Math.random());
+        try {
+            sleep(duration);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    private void flyToDeparturePoint(){
+        state = pilotStates.FLYING_BACK;
+        long duration = (long) (1 + 20 * Math.random());
+        try {
+            sleep(duration);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    private void parkAtTransferGate() {
+        state = pilotStates.AT_TRANSFER_GATE;
     }
 }

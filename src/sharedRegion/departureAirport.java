@@ -36,14 +36,6 @@ public class departureAirport {
     }
 
 
-    public synchronized void informPlaneReadyForBoarding(){
-        Pilot pilot = (Pilot) Thread.currentThread();
-        pilot.setState(pilotStates.READY_FOR_BOARDING);
-        this.ReadyForBoarding = true;
-        notifyAll();
-    }
-
-
     public synchronized void waitInQueue(){
         System.out.println("Trying to get in queue");
         Passenger passenger = (Passenger) Thread.currentThread();
@@ -65,17 +57,6 @@ public class departureAirport {
     }
 
 
-    public synchronized void waitForFlight() {
-        Hostess hostess = (Hostess) Thread.currentThread();
-        while(!this.ReadyForBoarding){
-            System.out.println(this.ReadyForBoarding);
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     public synchronized void prepareForPassBoarding() {
         Hostess hostess = (Hostess) Thread.currentThread();
@@ -99,6 +80,7 @@ public class departureAirport {
             Passenger passenger = this.passengerQueue.take();
             System.out.println("Waking up passenger " + passenger.getID());
             this.passengerToCheck = passenger.getID();
+            hostess.setLastCheckedPassenger(passenger.getID());
             notifyAll();
             while (this.documentsgiven != this.passengerToCheck) {
                 wait();
@@ -151,26 +133,4 @@ public class departureAirport {
 
     }
 
-
-    public synchronized void informPlaneReadyForTakeOff() {
-        Hostess hostess = (Hostess) Thread.currentThread();
-        hostess.setState(hostessStates.READY_TO_FLY);
-        this.planeReadyForTakeOff = true;
-        notifyAll();
-
-    }
-
-    public synchronized void waitForAllInBoard() {
-        Pilot pilot = (Pilot) Thread.currentThread();
-        pilot.setState(pilotStates.WAIT_FOR_BOARDING);
-        while (!this.planeReadyForTakeOff){
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        this.planeReadyForTakeOff = false;
-    }
 }
