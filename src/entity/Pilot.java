@@ -7,6 +7,7 @@ public class Pilot extends Thread{
     private departureAirport da;
     private destinationAirport destA;
     private Plane plane;
+    private boolean endOfDay;
 
 
     public Pilot(departureAirport da, destinationAirport destA, Plane plane){
@@ -14,6 +15,7 @@ public class Pilot extends Thread{
         this.da = da;
         this.destA = destA;
         this.plane = plane;
+        this.endOfDay = false;
     }
 
     public void setState(pilotStates state) {
@@ -22,12 +24,18 @@ public class Pilot extends Thread{
 
     @Override
     public void run() {
-        this.plane.informPlaneReadyForBoarding();
-        this.plane.waitForAllInBoard();
-        flyToDestinationPoint();
-        this.plane.announceArrival();
-        flyToDeparturePoint();
+        while (!this.endOfDay) {
+            parkAtTransferGate();
+            this.plane.informPlaneReadyForBoarding();
+            this.plane.waitForAllInBoard();
+            flyToDestinationPoint();
+            this.plane.announceArrival();
+            flyToDeparturePoint();
+            System.out.println("Flying to departure");
+            this.endOfDay = this.da.endOfDay();
+        }
         parkAtTransferGate();
+
 
 
         System.out.println("Pilot lifecycle ended");
@@ -35,7 +43,7 @@ public class Pilot extends Thread{
 
     private void flyToDestinationPoint(){
         state = pilotStates.FLYING_FORWARD;
-        long duration = (long) (1 + 20 * Math.random());
+        long duration = (long) (1 + 100 * Math.random());
         try {
             sleep(duration);
         } catch (InterruptedException e) {
@@ -44,7 +52,7 @@ public class Pilot extends Thread{
     }
     private void flyToDeparturePoint(){
         state = pilotStates.FLYING_BACK;
-        long duration = (long) (1 + 20 * Math.random());
+        long duration = (long) (1 + 100 * Math.random());
         try {
             sleep(duration);
         } catch (InterruptedException e) {

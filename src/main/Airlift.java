@@ -18,7 +18,7 @@ public class Airlift {
         Passenger passenger = new Passenger(1, depA, destA, plane);
         Passenger passenger2 = new Passenger(2, depA, destA, plane);
 
-        for (int i = 0; i <= MAX_PASSENGERS; i++){
+        for (int i = 0; i < MAX_PASSENGERS; i++){
             Passenger passenger_temp = new Passenger(i+1, depA, destA, plane);
             passenger_temp.start();
         }

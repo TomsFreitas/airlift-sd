@@ -20,6 +20,7 @@ public class departureAirport {
     private int documentsgiven;
     private boolean planeReadyForTakeOff;
     private int passengersChecked;
+    private int passengersFlown;
 
 
     public departureAirport(){
@@ -32,17 +33,17 @@ public class departureAirport {
         this.documentsgiven = 0;
         this.planeReadyForTakeOff = false;
         this.passengersChecked = 0;
+        this.passengersFlown = 0;
 
     }
 
 
     public synchronized void waitInQueue(){
-        System.out.println("Trying to get in queue");
         Passenger passenger = (Passenger) Thread.currentThread();
         passenger.setState(passengerStates.IN_QUEUE);
         try {
             this.passengerQueue.put(passenger);
-            System.out.println("Added to Queue passenger id " + passenger.getID());
+            System.out.println("Added to Queue passenger id " + passenger.getID() + "QUEUE SIZE: " + this.passengerQueue.size());
             notifyAll();
             while (this.passengerToCheck != passenger.getID()) {
                 wait();
@@ -75,8 +76,6 @@ public class departureAirport {
         Hostess hostess = (Hostess) Thread.currentThread();
         hostess.setState(hostessStates.CHECK_PASSENGER);
         try {
-
-            System.out.println("Getting a passenger from the queue");
             Passenger passenger = this.passengerQueue.take();
             System.out.println("Waking up passenger " + passenger.getID());
             this.passengerToCheck = passenger.getID();
@@ -99,8 +98,10 @@ public class departureAirport {
         System.out.println("Passenger allowed to Board");
         notifyAll();
         // TODO check this expression for the blocking status
-        if (this.passengerQueue.size() == 0 && (this.passengersChecked >= 5 && this.passengersChecked <= 20)){
+        if ((this.passengerQueue.size() == 0 && this.passengersChecked >= 5) || this.passengersChecked == 10 || this.passengersFlown + this.passengersChecked == 21){
+            this.passengersFlown += this.passengersChecked;
             this.passengersChecked = 0;
+            System.out.println(this.passengerQueue.size());
             System.out.println("Ready to Fly");
             return true;
         }
@@ -131,6 +132,11 @@ public class departureAirport {
         }
         this.boardThePlane = false;
 
+    }
+
+    public synchronized boolean endOfDay(){
+        System.out.println(this.passengersFlown);
+        return this.passengersFlown == 21;
     }
 
 }

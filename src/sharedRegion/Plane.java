@@ -40,6 +40,8 @@ public class Plane {
                 e.printStackTrace();
             }
         }
+        this.ReadyForBoarding = false;
+
     }
 
 
@@ -78,6 +80,7 @@ public class Plane {
     public synchronized void waitForAllInBoard() {
         Pilot pilot = (Pilot) Thread.currentThread();
         pilot.setState(pilotStates.WAIT_FOR_BOARDING);
+        System.out.println(this.planeReadyForTakeOff);
         while (!this.planeReadyForTakeOff){
             try {
                 wait();
@@ -85,7 +88,7 @@ public class Plane {
                 e.printStackTrace();
             }
         }
-
+        System.out.println("PLANE TAKING OFF WITH " + this.occupiedSeats);
         this.planeReadyForTakeOff = false;
     }
 
@@ -102,6 +105,7 @@ public class Plane {
             }
         }
         System.out.println("The plane is empty");
+        this.timeToLeave = false;
     }
 
     public synchronized void leaveThePlane() {

@@ -33,9 +33,8 @@ public class Passenger extends Thread {
     }
 
     private void travelToAirport() {
-        long duration = (long) (1 + 2000 * Math.random());
+        long duration = (long) (1 + 500 * Math.random());
         //long duration = (long) 1000 * this.id;
-        System.out.println(duration);
         try {
             sleep(duration);
         } catch (InterruptedException e) {

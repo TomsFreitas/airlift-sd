@@ -9,6 +9,7 @@ public class Hostess extends Thread {
     private departureAirport da;
     private boolean readyToFly;
     private int lastCheckedPassenger;
+    private boolean endOfDay;
 
 
     public Hostess(destinationAirport destA, departureAirport da, Plane plane){
@@ -18,6 +19,7 @@ public class Hostess extends Thread {
         this.plane = plane;
         this.readyToFly = false;
         this.lastCheckedPassenger = 0;
+        this.endOfDay = false;
 
     }
 
@@ -36,14 +38,17 @@ public class Hostess extends Thread {
     @Override
     public void run() {
 
-        this.plane.waitForNextFlight();
-        this.da.prepareForPassBoarding();
-        while (!this.readyToFly) {
-            this.da.checkDocuments();
-            this.readyToFly = this.da.waitForNextPassenger();
+        while (!this.da.endOfDay()) {
+            this.plane.waitForNextFlight();
+            this.da.prepareForPassBoarding();
+            while (!this.readyToFly) {
+                this.da.checkDocuments();
+                this.readyToFly = this.da.waitForNextPassenger();
 
+            }
+            this.readyToFly = false;
+            this.plane.informPlaneReadyForTakeOff();
         }
-        this.plane.informPlaneReadyForTakeOff();
 
 
         System.out.println("Hostess lifecycle ended");
