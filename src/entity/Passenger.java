@@ -28,6 +28,7 @@ public class Passenger extends Thread {
         this.da.waitInQueue();
         this.da.showDocuments();
         this.plane.boardThePlane();
+        this.plane.waitForEndOfFlight();
         this.plane.leaveThePlane();
         System.out.println("Life cycle of passenger ended ID: " + this.id);
     }

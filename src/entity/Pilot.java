@@ -26,7 +26,7 @@ public class Pilot extends Thread{
     public void run() {
         while (!this.endOfDay) {
             parkAtTransferGate();
-            this.plane.informPlaneReadyForBoarding();
+            this.da.informPlaneReadyForBoarding();
             this.plane.waitForAllInBoard();
             flyToDestinationPoint();
             this.plane.announceArrival();

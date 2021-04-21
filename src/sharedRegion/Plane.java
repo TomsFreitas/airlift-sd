@@ -7,8 +7,6 @@ import states.hostessStates;
 import states.passengerStates;
 import states.pilotStates;
 
-import java.util.ArrayList;
-
 public class Plane {
     private int occupiedSeats;
     private boolean timeToLeave;
@@ -23,26 +21,9 @@ public class Plane {
         this.lastCheckedId = 0;
     }
 
-    public synchronized void informPlaneReadyForBoarding(){
-        Pilot pilot = (Pilot) Thread.currentThread();
-        pilot.setState(pilotStates.READY_FOR_BOARDING);
-        this.ReadyForBoarding = true;
-        notifyAll();
-    }
 
-    public synchronized void waitForNextFlight() {
-        Hostess hostess = (Hostess) Thread.currentThread();
-        while(!this.ReadyForBoarding){
-            System.out.println(this.ReadyForBoarding);
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        this.ReadyForBoarding = false;
 
-    }
+
 
 
     public synchronized void boardThePlane() {
@@ -52,6 +33,11 @@ public class Plane {
         System.out.println("Passenger entered the plane ID: " + passenger.getID());
         this.lastCheckedId = passenger.getID();
         notifyAll();
+
+
+    }
+
+    public synchronized void waitForEndOfFlight(){
         while (!timeToLeave){
             try {
                 wait();
@@ -59,13 +45,12 @@ public class Plane {
                 e.printStackTrace();
             }
         }
-
     }
 
     public synchronized void informPlaneReadyForTakeOff() {
         Hostess hostess = (Hostess) Thread.currentThread();
         hostess.setState(hostessStates.READY_TO_FLY);
-        while (this.lastCheckedId != hostess.getLastCheckedPassenger()){
+        while (this.occupiedSeats != hostess.getPassengersInFlight()){
             try {
                 wait();
             } catch (InterruptedException e) {

@@ -37,6 +37,27 @@ public class departureAirport {
 
     }
 
+    public synchronized void informPlaneReadyForBoarding(){
+        Pilot pilot = (Pilot) Thread.currentThread();
+        pilot.setState(pilotStates.READY_FOR_BOARDING);
+        this.ReadyForBoarding = true;
+        notifyAll();
+    }
+
+    public synchronized void waitForNextFlight() {
+        Hostess hostess = (Hostess) Thread.currentThread();
+        while(!this.ReadyForBoarding){
+            System.out.println(this.ReadyForBoarding);
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        this.ReadyForBoarding = false;
+
+    }
+
 
     public synchronized void waitInQueue(){
         Passenger passenger = (Passenger) Thread.currentThread();
@@ -79,7 +100,6 @@ public class departureAirport {
             Passenger passenger = this.passengerQueue.take();
             System.out.println("Waking up passenger " + passenger.getID());
             this.passengerToCheck = passenger.getID();
-            hostess.setLastCheckedPassenger(passenger.getID());
             notifyAll();
             while (this.documentsgiven != this.passengerToCheck) {
                 wait();
@@ -100,6 +120,7 @@ public class departureAirport {
         // TODO check this expression for the blocking status
         if ((this.passengerQueue.size() == 0 && this.passengersChecked >= 5) || this.passengersChecked == 10 || this.passengersFlown + this.passengersChecked == 21){
             this.passengersFlown += this.passengersChecked;
+            hostess.setPassengersInFlight(this.passengersChecked);
             this.passengersChecked = 0;
             System.out.println(this.passengerQueue.size());
             System.out.println("Ready to Fly");

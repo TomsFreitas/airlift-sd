@@ -8,7 +8,7 @@ public class Hostess extends Thread {
     private destinationAirport destA;
     private departureAirport da;
     private boolean readyToFly;
-    private int lastCheckedPassenger;
+    private int passengersInFlight;
     private boolean endOfDay;
 
 
@@ -18,7 +18,7 @@ public class Hostess extends Thread {
         this.da = da;
         this.plane = plane;
         this.readyToFly = false;
-        this.lastCheckedPassenger = 0;
+        this.passengersInFlight = 0;
         this.endOfDay = false;
 
     }
@@ -27,19 +27,19 @@ public class Hostess extends Thread {
         this.state = state;
     }
 
-    public void setLastCheckedPassenger(int lastCheckedPassenger) {
-        this.lastCheckedPassenger = lastCheckedPassenger;
+    public void setPassengersInFlight(int passengersInFlight) {
+        this.passengersInFlight = passengersInFlight;
     }
 
-    public int getLastCheckedPassenger() {
-        return lastCheckedPassenger;
+    public int getPassengersInFlight() {
+        return passengersInFlight;
     }
 
     @Override
     public void run() {
 
         while (!this.da.endOfDay()) {
-            this.plane.waitForNextFlight();
+            this.da.waitForNextFlight();
             this.da.prepareForPassBoarding();
             while (!this.readyToFly) {
                 this.da.checkDocuments();
