@@ -3,10 +3,10 @@ package states;
 public enum passengerStates {
 
 
-    GOING_TO_AIRPORT("GTA"),
-    IN_QUEUE("IQ"),
-    IN_FLIGHT("IF"),
-    AT_DESTINATION("AD");
+    GOING_TO_AIRPORT("GTAP"),
+    IN_QUEUE("INQE"),
+    IN_FLIGHT("INFL"),
+    AT_DESTINATION("ATDS");
 
     private String state;
 

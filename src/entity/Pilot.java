@@ -9,12 +9,15 @@ public class Pilot extends Thread{
     private Plane plane;
     private boolean endOfDay;
 
+    private genRepo repo;
 
-    public Pilot(departureAirport da, destinationAirport destA, Plane plane){
+
+    public Pilot(departureAirport da, destinationAirport destA, Plane plane, genRepo repo){
         this.state = pilotStates.AT_TRANSFER_GATE;
         this.da = da;
         this.destA = destA;
         this.plane = plane;
+        this.repo = repo;
         this.endOfDay = false;
     }
 
@@ -43,6 +46,8 @@ public class Pilot extends Thread{
 
     private void flyToDestinationPoint(){
         state = pilotStates.FLYING_FORWARD;
+        repo.setPilotState(pilotStates.FLYING_FORWARD.getState());
+        repo.reportStatus();
         long duration = (long) (1 + 100 * Math.random());
         try {
             sleep(duration);
@@ -52,6 +57,8 @@ public class Pilot extends Thread{
     }
     private void flyToDeparturePoint(){
         state = pilotStates.FLYING_BACK;
+        repo.setPilotState(pilotStates.FLYING_BACK.getState());
+        repo.reportStatus();
         long duration = (long) (1 + 100 * Math.random());
         try {
             sleep(duration);
@@ -61,5 +68,7 @@ public class Pilot extends Thread{
     }
     private void parkAtTransferGate() {
         state = pilotStates.AT_TRANSFER_GATE;
+        //repo.setPilotState(pilotStates.AT_TRANSFER_GATE.getState());
+        //repo.reportStatus();
     }
 }

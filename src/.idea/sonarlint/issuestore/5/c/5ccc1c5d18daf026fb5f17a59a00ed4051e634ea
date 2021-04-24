@@ -1,0 +1,12 @@
+
+H
+java:S1128"-Remove this unused import 'java.util.Random'.(èøÉ›ùÿÿÿÿ
+”
+java:S18457"yRename method "getID" to prevent any misunderstanding/clash with method "getId" defined in superclass "java.lang.Thread".(ÙË¡Íýÿÿÿÿ
+N	java:S106"9Replace this use of System.out or System.err by a logger.(±ªýì
+N	java:S106!"9Replace this use of System.out or System.err by a logger.(à€¿î
+t
+java:S2142)"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€
+V	java:S125&"<This block of commented-out lines of code should be removed.(ªÈù±ÿÿÿÿÿ
+D
+java:S1068")Remove this unused "destA" private field.(Æì½þÿÿÿÿ

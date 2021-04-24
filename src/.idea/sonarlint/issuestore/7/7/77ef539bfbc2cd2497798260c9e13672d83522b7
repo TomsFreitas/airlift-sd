@@ -1,0 +1,30 @@
+
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ı™ÇÓûÿÿÿÿ
+p	java:S116"[Rename this field "ReadyForBoarding" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥€«„
+Q
+java:S6212"/Declare this local variable with "var" instead.(Âºõäùÿÿÿÿ8—Ÿ£‚/
+Z	java:S106!"9Replace this use of System.out or System.err by a logger.(îÕÉ¼ÿÿÿÿÿ8¹®ÿõ/
+t
+java:S2142+"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€
+K
+java:S62122"/Declare this local variable with "var" instead.(„ïák8±Ÿ£‚/
+t
+java:S21429"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€
+Q
+java:S6212C"/Declare this local variable with "var" instead.(è…¦•úÿÿÿÿ8¹Ÿ£‚/
+N	java:S106G"9Replace this use of System.out or System.err by a logger.(ğÂéù
+t
+java:S2142K"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€
+N	java:S106O"9Replace this use of System.out or System.err by a logger.(áÜøÈ
+Q
+java:S6212U"/Declare this local variable with "var" instead.(è…¦•úÿÿÿÿ8ÀŸ£‚/
+{
+java:S2142^"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€8‘Åÿş/
+Z	java:S106b"9Replace this use of System.out or System.err by a logger.(×ô—„øÿÿÿÿ8‘Åÿş/
+Q
+java:S6212h"/Declare this local variable with "var" instead.(Âºõäùÿÿÿÿ8ÆŸ£‚/
+Z	java:S106n"9Replace this use of System.out or System.err by a logger.(É²®üÿÿÿÿ8‘Åÿş/
+J
+java:S1068"4Remove this unused "ReadyForBoarding" private field.(¥€«„
+G
+java:S1068"1Remove this unused "lastCheckedId" private field.(†Õêõ

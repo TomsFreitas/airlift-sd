@@ -12,6 +12,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class departureAirport {
 
+    private genRepo repo;
     private BlockingQueue<Passenger> passengerQueue;
     private int passengersInAirport;
     private boolean ReadyForBoarding;
@@ -23,8 +24,9 @@ public class departureAirport {
     private int passengersFlown;
 
 
-    public departureAirport(){
+    public departureAirport(genRepo repo){
         int maxPeopleInAirport = 30;
+        this.repo = repo;
         this.passengerQueue = new LinkedBlockingQueue<>();
         this.passengersInAirport = 0;
         this.ReadyForBoarding = false;
@@ -40,12 +42,19 @@ public class departureAirport {
     public synchronized void informPlaneReadyForBoarding(){
         Pilot pilot = (Pilot) Thread.currentThread();
         pilot.setState(pilotStates.READY_FOR_BOARDING);
+        repo.setPilotState(pilotStates.READY_FOR_BOARDING.getState());
         this.ReadyForBoarding = true;
+        repo.readyForBoarding(this.ReadyForBoarding);
+        repo.reportStatus();
         notifyAll();
+
     }
 
     public synchronized void waitForNextFlight() {
         Hostess hostess = (Hostess) Thread.currentThread();
+        hostess.setState(hostessStates.WAIT_FOR_NEXT_FLIGHT);
+        repo.setHostessState(hostessStates.WAIT_FOR_NEXT_FLIGHT.getState());
+        repo.reportStatus();
         while(!this.ReadyForBoarding){
             System.out.println(this.ReadyForBoarding);
             try {
@@ -55,13 +64,17 @@ public class departureAirport {
             }
         }
         this.ReadyForBoarding = false;
+        repo.readyForBoarding(this.ReadyForBoarding);
 
     }
 
 
     public synchronized void waitInQueue(){
+
         Passenger passenger = (Passenger) Thread.currentThread();
         passenger.setState(passengerStates.IN_QUEUE);
+        repo.setPassengerState(passenger.getID(), passengerStates.IN_QUEUE.getState());
+        repo.putPassengerInQueue(passenger.getID());
         try {
             this.passengerQueue.put(passenger);
             System.out.println("Added to Queue passenger id " + passenger.getID() + "QUEUE SIZE: " + this.passengerQueue.size());
@@ -69,13 +82,9 @@ public class departureAirport {
             while (this.passengerToCheck != passenger.getID()) {
                 wait();
             }
-
-
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
     }
 
 
@@ -83,6 +92,8 @@ public class departureAirport {
     public synchronized void prepareForPassBoarding() {
         Hostess hostess = (Hostess) Thread.currentThread();
         hostess.setState(hostessStates.WAIT_FOR_PASSENGER);
+        repo.setHostessState(hostessStates.WAIT_FOR_PASSENGER.getState());
+        repo.reportStatus();
         while(this.passengerQueue.size() == 0){
             try{
                 wait();
@@ -90,14 +101,19 @@ public class departureAirport {
                 e.printStackTrace();
             }
         }
-
     }
 
     public synchronized void checkDocuments() {
+
         Hostess hostess = (Hostess) Thread.currentThread();
         hostess.setState(hostessStates.CHECK_PASSENGER);
+
         try {
             Passenger passenger = this.passengerQueue.take();
+            repo.remPassengerInQueue(passenger.getID());
+            repo.setHostessState(hostessStates.CHECK_PASSENGER.getState());
+            repo.reportStatus();
+            //repo.reportStatus();
             System.out.println("Waking up passenger " + passenger.getID());
             this.passengerToCheck = passenger.getID();
             notifyAll();
@@ -106,15 +122,19 @@ public class departureAirport {
             }
             this.passengersChecked++;
 
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
     }
 
     public synchronized boolean waitForNextPassenger(){
         Hostess hostess = (Hostess) Thread.currentThread();
         hostess.setState(hostessStates.WAIT_FOR_PASSENGER);
+        repo.setHostessState(hostessStates.WAIT_FOR_PASSENGER.getState());
         this.boardThePlane = true;
+        repo.reportStatus();
         System.out.println("Passenger allowed to Board");
         notifyAll();
         // TODO check this expression for the blocking status
@@ -135,6 +155,7 @@ public class departureAirport {
                 e.printStackTrace();
             }
         }
+
         return false;
     }
 
@@ -152,6 +173,7 @@ public class departureAirport {
             }
         }
         this.boardThePlane = false;
+
 
     }
 

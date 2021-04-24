@@ -1,0 +1,61 @@
+
+b	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(ñ“±¡
+`
+java:S1155`">Use isEmpty() to check whether the collection is empty or not.(»â›ìıÿÿÿÿ8—‰™ÿ/
+a
+java:S1155‹">Use isEmpty() to check whether the collection is empty or not.(Ší¸¸úÿÿÿÿ8—‰™ÿ/
+a
+java:S1155•">Use isEmpty() to check whether the collection is empty or not.(»â›ìıÿÿÿÿ8—‰™ÿ/
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ı™ÇÓûÿÿÿÿ
+p	java:S116"[Rename this field "ReadyForBoarding" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥€«„
+L
+java:S6212"/Declare this local variable with "var" instead.(Îƒ¥õ8ó£‚/
+Q
+java:S6212+"/Declare this local variable with "var" instead.(è…¦•úÿÿÿÿ8û£‚/
+P
+java:S18546";Remove this useless assignment to local variable "hostess".(„ïák
+K
+java:S62126"/Declare this local variable with "var" instead.(„ïák8£‚/
+S	java:S1068"9Replace this use of System.out or System.err by a logger.(‹«üøÿÿÿÿ
+t
+java:S2142;"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€
+Q
+java:S6212F"/Declare this local variable with "var" instead.(Âºõäùÿÿÿÿ8‰£‚/
+{
+java:S2142T"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€8—‰™ÿ/
+Z	java:S106M"9Replace this use of System.out or System.err by a logger.(ñÑÍìøÿÿÿÿ8—‰™ÿ/
+K
+java:S6212\"/Declare this local variable with "var" instead.(„ïák8”£‚/
+{
+java:S2142c"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€8—‰™ÿ/
+K
+java:S6212k"/Declare this local variable with "var" instead.(„ïák8›£‚/
+{
+java:S2142{"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€8—‰™ÿ/
+L
+java:S6212p"/Declare this local variable with "var" instead.(‚†Ù8£‚/
+U	java:S106r"9Replace this use of System.out or System.err by a logger.(æ’×Š8—‰™ÿ/
+L
+java:S6212‚"/Declare this local variable with "var" instead.(„ïák8¤£‚/
+U	java:S106ˆ"9Replace this use of System.out or System.err by a logger.(äÑïk8—‰™ÿ/
+P
+java:S1135Š"2Complete the task associated to this TODO comment.(ï¸8—‰™ÿ/
+V	java:S106"9Replace this use of System.out or System.err by a logger.(–£éÓ8—‰™ÿ/
+V	java:S106"9Replace this use of System.out or System.err by a logger.(ŸÖçÅ8‹¥¸ú/
+V	java:S106“"9Replace this use of System.out or System.err by a logger.(€û˜8—‰™ÿ/
+|
+java:S2142˜"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€8—‰™ÿ/
+R
+java:S6212¡"/Declare this local variable with "var" instead.(Âºõäùÿÿÿÿ8°£‚/
+U	java:S106¢"9Replace this use of System.out or System.err by a logger.(×½­%8—‰™ÿ/
+|
+java:S2142©"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€8—‰™ÿ/
+[	java:S106´"9Replace this use of System.out or System.err by a logger.(¾áÆÓüÿÿÿÿ8—‰™ÿ/
+M
+java:S1481"7Remove this unused "maxPeopleInAirport" local variable.(Îƒ¥õ
+A
+java:S14816",Remove this unused "hostess" local variable.(„ïák
+R
+java:S1068"7Remove this unused "passengersInAirport" private field.(Áı‰‡øÿÿÿÿ
+M
+java:S1068"8Remove this unused "planeReadyForTakeOff" private field.(Ó¸Î

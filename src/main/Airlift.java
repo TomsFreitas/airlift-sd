@@ -8,12 +8,15 @@ public class Airlift {
 
         int MAX_PASSENGERS = 21;
         int MIN_PASSENGERS = 5;
-        departureAirport depA = new departureAirport();
-        destinationAirport destA = new destinationAirport();
-        Plane plane = new Plane();
-        genRepo repo = new genRepo();
+
+        //Initiate Shared Regions
+        genRepo repo = new genRepo("logger.txt");
+        departureAirport depA = new departureAirport(repo);
+        destinationAirport destA = new destinationAirport(repo);
+        Plane plane = new Plane(repo);
+
         Hostess hostess = new Hostess(destA, depA, plane);
-        Pilot pilot = new Pilot(depA, destA, plane);
+        Pilot pilot = new Pilot(depA, destA, plane, repo);
 
         Passenger passenger = new Passenger(1, depA, destA, plane);
         Passenger passenger2 = new Passenger(2, depA, destA, plane);

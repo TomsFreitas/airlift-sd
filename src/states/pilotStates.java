@@ -2,12 +2,12 @@ package states;
 
 public enum pilotStates {
 
-    AT_TRANSFER_GATE("ATG"),
-    READY_FOR_BOARDING("RFB"),
-    WAIT_FOR_BOARDING("WFB"),
-    FLYING_FORWARD("FF"),
-    DEBOARDING("DB"),
-    FLYING_BACK("FB");
+    AT_TRANSFER_GATE("ATRG"),
+    READY_FOR_BOARDING("RDFB"),
+    WAIT_FOR_BOARDING("WTFB"),
+    FLYING_FORWARD("FLFW"),
+    DEBOARDING("DRPP"),
+    FLYING_BACK("FLBK");
 
     private String state;
 
