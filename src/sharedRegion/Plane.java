@@ -14,7 +14,6 @@ public class Plane {
     private boolean timeToLeave;
     private boolean ReadyForBoarding;
     private boolean planeReadyForTakeOff;
-    private int lastCheckedId;
 
     public Plane(genRepo repo){
         this.repo = repo;
@@ -22,7 +21,6 @@ public class Plane {
         this.passengersAtDestination = 0;
         this.timeToLeave = false;
         this.ReadyForBoarding = false;
-        this.lastCheckedId = 0;
     }
 
 
@@ -31,10 +29,9 @@ public class Plane {
         Passenger passenger = (Passenger) Thread.currentThread();
         passenger.setState(passengerStates.IN_FLIGHT);
         repo.setPassengerState(passenger.getID(), passengerStates.IN_FLIGHT.getState());
-        repo.getPassengersInFlight(occupiedSeats);
+        repo.setPassengerInFlight(occupiedSeats);
         repo.reportStatus();
         System.out.println("Passenger entered the plane ID: " + passenger.getID());
-        this.lastCheckedId = passenger.getID();
         notifyAll();
 
     }
@@ -51,9 +48,8 @@ public class Plane {
 
     public synchronized void informPlaneReadyForTakeOff() {
         Hostess hostess = (Hostess) Thread.currentThread();
-        hostess.setState(hostessStates.READY_TO_FLY);
-        repo.setHostessState(hostessStates.READY_TO_FLY.getState());
-        repo.reportStatus();
+
+
         while (this.occupiedSeats != hostess.getPassengersInFlight()){
             try {
                 wait();
@@ -61,8 +57,11 @@ public class Plane {
                 e.printStackTrace();
             }
         }
+        hostess.setState(hostessStates.READY_TO_FLY);
+        repo.reportFlightDeparted();
+        repo.setHostessState(hostessStates.READY_TO_FLY.getState());
+        repo.reportStatus();
         this.planeReadyForTakeOff = true;
-        repo.readyToFly(this.planeReadyForTakeOff);
         notifyAll();
 
     }
@@ -82,13 +81,14 @@ public class Plane {
         }
         System.out.println("PLANE TAKING OFF WITH " + this.occupiedSeats);
         this.planeReadyForTakeOff = false;
-        repo.readyToFly(this.planeReadyForTakeOff);
 
     }
 
     public synchronized void announceArrival(){
+
         Pilot pilot = (Pilot) Thread.currentThread();
         pilot.setState(pilotStates.DEBOARDING);
+        repo.reportFlightArrived();
         repo.setPilotState(pilotStates.DEBOARDING.getState());
         repo.reportStatus();
         this.timeToLeave = true;
@@ -108,12 +108,15 @@ public class Plane {
     public synchronized void leaveThePlane() {
         Passenger passenger = (Passenger) Thread.currentThread();
         passenger.setState(passengerStates.AT_DESTINATION);
-        repo.setPassengerState(passenger.getID(), passengerStates.AT_DESTINATION.getState());
-        repo.reportStatus();
         this.passengersAtDestination++;
         this.occupiedSeats--;
-        repo.leaveThePlane(this.passengersAtDestination, this.occupiedSeats);
-        notifyAll();
+        repo.setPassengerState(passenger.getID(), passengerStates.AT_DESTINATION.getState());
+        repo.setNumberOfPassengersArrived(this.passengersAtDestination);
+        this.repo.setPassengerInFlight(this.occupiedSeats);
+        repo.reportStatus();
+        if(this.occupiedSeats == 0) {
+            notifyAll();
+        }
         System.out.println("Passenger left the plane ID: " + passenger.getID() );
 
 

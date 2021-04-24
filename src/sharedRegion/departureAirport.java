@@ -22,6 +22,7 @@ public class departureAirport {
     private boolean planeReadyForTakeOff;
     private int passengersChecked;
     private int passengersFlown;
+    private int flightNumber;
 
 
     public departureAirport(genRepo repo){
@@ -36,6 +37,7 @@ public class departureAirport {
         this.planeReadyForTakeOff = false;
         this.passengersChecked = 0;
         this.passengersFlown = 0;
+        this.flightNumber = 0;
 
     }
 
@@ -44,10 +46,32 @@ public class departureAirport {
         pilot.setState(pilotStates.READY_FOR_BOARDING);
         repo.setPilotState(pilotStates.READY_FOR_BOARDING.getState());
         this.ReadyForBoarding = true;
-        repo.readyForBoarding(this.ReadyForBoarding);
+        this.flightNumber++;
+        repo.setFlightNumber(this.flightNumber);
+        repo.reportBoardingStarted();
         repo.reportStatus();
         notifyAll();
 
+    }
+
+    public synchronized void parkAtTransferGate() {
+        Pilot pilot = (Pilot) Thread.currentThread();
+        pilot.setState(pilotStates.AT_TRANSFER_GATE);
+        repo.setPilotState(pilotStates.AT_TRANSFER_GATE.getState());
+        repo.reportStatus();
+    }
+
+    public synchronized void flyToDestinationPoint(){
+        Pilot pilot = (Pilot) Thread.currentThread();
+        pilot.setState(pilotStates.FLYING_FORWARD);
+        repo.setPilotState(pilotStates.FLYING_FORWARD.getState());
+        repo.reportStatus();
+        long duration = (long) (1 + 200 * Math.random());
+        try {
+            Thread.sleep(duration);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public synchronized void waitForNextFlight() {
@@ -55,6 +79,9 @@ public class departureAirport {
         hostess.setState(hostessStates.WAIT_FOR_NEXT_FLIGHT);
         repo.setHostessState(hostessStates.WAIT_FOR_NEXT_FLIGHT.getState());
         repo.reportStatus();
+        if(this.endOfDay()){
+            return;
+        }
         while(!this.ReadyForBoarding){
             System.out.println(this.ReadyForBoarding);
             try {
@@ -64,7 +91,6 @@ public class departureAirport {
             }
         }
         this.ReadyForBoarding = false;
-        repo.readyForBoarding(this.ReadyForBoarding);
 
     }
 
@@ -74,9 +100,10 @@ public class departureAirport {
         Passenger passenger = (Passenger) Thread.currentThread();
         passenger.setState(passengerStates.IN_QUEUE);
         repo.setPassengerState(passenger.getID(), passengerStates.IN_QUEUE.getState());
-        repo.putPassengerInQueue(passenger.getID());
         try {
             this.passengerQueue.put(passenger);
+            repo.setPassengersInQueue(this.passengerQueue.size());
+            repo.reportStatus();
             System.out.println("Added to Queue passenger id " + passenger.getID() + "QUEUE SIZE: " + this.passengerQueue.size());
             notifyAll();
             while (this.passengerToCheck != passenger.getID()) {
@@ -110,8 +137,10 @@ public class departureAirport {
 
         try {
             Passenger passenger = this.passengerQueue.take();
-            repo.remPassengerInQueue(passenger.getID());
+            repo.setPassengerCheckedId(passenger.getID());
+            repo.reportPassengerChecked();
             repo.setHostessState(hostessStates.CHECK_PASSENGER.getState());
+            repo.setPassengersInQueue(this.passengerQueue.size());
             repo.reportStatus();
             //repo.reportStatus();
             System.out.println("Waking up passenger " + passenger.getID());
@@ -121,6 +150,7 @@ public class departureAirport {
                 wait();
             }
             this.passengersChecked++;
+
 
 
         } catch (InterruptedException e) {
@@ -177,7 +207,7 @@ public class departureAirport {
 
     }
 
-    public synchronized boolean endOfDay(){
+    public boolean endOfDay(){
         System.out.println(this.passengersFlown);
         return this.passengersFlown == 21;
     }

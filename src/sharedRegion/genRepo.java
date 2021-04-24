@@ -1,15 +1,14 @@
 package sharedRegion;
 
 import main.SimulPar;
-import entity.*;
 import states.*;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Arrays;
 //import java.util.concurrent.locks.ReentrantLock;
 
 public class genRepo {
@@ -20,15 +19,11 @@ public class genRepo {
     private String pilotState;
     private String hostessState;
     private String[] passengerState;
-    private Queue<Integer> passengersInQueue;
-    //private Queue<Integer> passengerInFlight;
-    private Integer passengerInFlight;
-    private Integer numberOfPassengersArrived;
-
-    private boolean readyToFly = false;
-    private boolean passengerChecked = false;
-    private boolean readyForBoarding = false;
-    private int atualPassengerCheckedId;
+    private int passengersInQueue;
+    private int passengerInFlight;
+    private int numberOfPassengersArrived;
+    private int passengerCheckedId;
+    private ArrayList<Integer> flightsmade;
 
 
     /**
@@ -43,13 +38,7 @@ public class genRepo {
             this.logFileName = logFileName;
 
         passengerState = new String[SimulPar.N_Passengers];
-        this.passengersInQueue = new LinkedList<>();
-        //this.passengerInFlight = new LinkedList<>();
 
-/*
-        for(int i = 0; i < SimulPar.N_Passengers; i++)
-            passengersInQueue.add(0);
-*/
 
         for(int i = 0; i < SimulPar.N_Passengers; i++){
             passengerState[i] = "GTAP";
@@ -60,6 +49,8 @@ public class genRepo {
         this.hostessState = hostessStates.WAIT_FOR_NEXT_FLIGHT.getState();
         this.passengerInFlight = 0;
         this.numberOfPassengersArrived = 0;
+        this.passengersInQueue = 0;
+        this.flightsmade = new ArrayList<>();
         reportInitialStatus();
     }
 
@@ -68,7 +59,7 @@ public class genRepo {
      *  @param flightNumber number of the actual flight
      */
 
-    public synchronized void setFlightNumber(int flightNumber){
+    public void setFlightNumber(int flightNumber){
         this.flightNumber = flightNumber;
     }
 
@@ -76,7 +67,7 @@ public class genRepo {
      *  Set pilotState
      *  @param state state of the pilot
      */
-    public synchronized void setPilotState(String state){
+    public void setPilotState(String state){
         this.pilotState = state;
     }
 
@@ -84,7 +75,7 @@ public class genRepo {
      *  Set hostessState
      *  @param state state of the hostess
      */
-    public synchronized void setHostessState(String state){
+    public void setHostessState(String state){
         this.hostessState = state;
     }
 
@@ -97,66 +88,23 @@ public class genRepo {
         this.passengerState[id-1] = state;
     }
 
-    /**
-     *  Put passenger in Queue
-     *  @param id id passenger
-     */
-    public synchronized void putPassengerInQueue(int id){
-        passengersInQueue.add(id);
-        reportStatus();
-        passengerChecked = true;
-        atualPassengerCheckedId = id - 1;
+
+    public void setNumberOfPassengersArrived(Integer numberOfPassengersArrived) {
+        this.numberOfPassengersArrived = numberOfPassengersArrived;
     }
 
-    /**
-     *  Put passenger in Flight
-     */
-    /*public void putPassengerInFlight(){
-        remPassengerInQueue();
-    }*/
-
-    /**
-     *  Remove passenger in Queue
-     */
-    public synchronized void remPassengerInQueue(int id){
-        //passengerChecked = true;
-        //atualPassengerCheckedId = passengersInQueue.remove() - 1;
-        passengersInQueue.remove();
-
-        //reportStatus();
+    public void setPassengerInFlight(Integer passengerInFlight) {
+        this.passengerInFlight = passengerInFlight;
     }
 
-    public synchronized void getPassengersInFlight(int occupiedSeats){
-        passengerInFlight = occupiedSeats;
+    public void setPassengerCheckedId(int passengerCheckedId) {
+        this.passengerCheckedId = passengerCheckedId;
     }
 
-    public synchronized void readyForBoarding(boolean readyForBoarding){
-        this.readyForBoarding = readyForBoarding;
+    public void setPassengersInQueue(int passengersInQueue) {
+        this.passengersInQueue = passengersInQueue;
     }
 
-    public synchronized void leaveThePlane(int passengersAtDestination, int occupiedSeats){
-        this.numberOfPassengersArrived = passengersAtDestination;
-        this.passengerInFlight = occupiedSeats;
-        reportStatus();
-    }
-
-    public synchronized void readyToFly(boolean readyToFly){
-        this.readyToFly = readyToFly;
-        reportStatus();
-    }
-
-
-
-
-    /*public synchronized void passengerChecked(boolean boardThePlane){
-        passengerChecked = boardThePlane;
-    }*/
-
-    /*public synchronized void getPassengerChecked(int id){
-        passengerChecked = true;
-        atualPassengerCheckedId = id;
-    }
-*/
     /**
      *  Write the header to the logging file.
      *  Internal operation.
@@ -168,7 +116,7 @@ public class genRepo {
         header = "                                                       AirLift - Description of the internal state";
         header += "\n  PT   HT\t ";
         for(int i = 0; i < SimulPar.N_Passengers; i++){
-            header += "P" + i + " \t ";
+            header += "P" + (i+1) + " \t ";
         }
         header += "\t InQ \t InF \t PTAL";
         //log.write("\nPT \t HT \t P00 \t P01 \t P02 \t P03 \t P04 \t P05 \t P06 \t P07 \t P08 \t P09 \t P10 \t P11 \t P12\t P13 \t P14 \t P15 \t P16 \t P17 \t P18 \t P19 \t P20 \t InQ \t InF \t PTAL")
@@ -184,17 +132,10 @@ public class genRepo {
 
 
     private synchronized void reportInitialStatus(){
-        flightNumber = 0;
         try{
             FileWriter log = new FileWriter(logFileName, false);
             String header = getHeader();
             String initialStatus;
-
-            initialStatus = pilotState + "  " + hostessState;
-            for(int i = 0; i < SimulPar.N_Passengers; i++){
-                initialStatus += passengerState[i];
-            }
-            //initialStatus += passengersInQueue.size() + numberOfPassengersPlane + numberOfPassengersArrived;
 
             try(PrintWriter pw = new PrintWriter((log))){
                 pw.print(header);
@@ -206,8 +147,6 @@ public class genRepo {
             e.printStackTrace();
         }
 
-
-        reportStatus();
     }
 
     /**
@@ -217,30 +156,92 @@ public class genRepo {
      *  Internal operation.
      */
 
+    public void reportBoardingStarted(){
+        try {
+            FileWriter log = new FileWriter(logFileName, true);
+            StringBuilder lineStatus = new StringBuilder();
+            lineStatus.append(String.format("\nFlight %-2d : Boarding Started.    \n", this.flightNumber));
+            try(PrintWriter pw = new PrintWriter(log)){
+                pw.print(lineStatus);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void reportPassengerChecked(){
+        try {
+            FileWriter log = new FileWriter(logFileName, true);
+            StringBuilder lineStatus = new StringBuilder();
+            lineStatus.append(String.format("\nFlight %-2d : Passenger %-2d checked.    \n", this.flightNumber, this.passengerCheckedId));
+            try(PrintWriter pw = new PrintWriter(log)){
+                pw.print(lineStatus);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void reportFlightDeparted(){
+        try {
+            FileWriter log = new FileWriter(logFileName, true);
+            StringBuilder lineStatus = new StringBuilder();
+            lineStatus.append(String.format("\nFlight %-2d : Departed with %-2d passengers.    \n", this.flightNumber, passengerInFlight));
+            this.flightsmade.add(passengerInFlight);
+            try(PrintWriter pw = new PrintWriter(log)){
+                pw.print(lineStatus);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void reportFlightArrived(){
+        try {
+            FileWriter log = new FileWriter(logFileName, true);
+            StringBuilder lineStatus = new StringBuilder();
+            lineStatus.append(String.format("\nFlight %-2d : arrived.    \n", this.flightNumber));
+            try(PrintWriter pw = new PrintWriter(log)){
+                pw.print(lineStatus);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void reportFlightReturning(){
+        try {
+            FileWriter log = new FileWriter(logFileName, true);
+            StringBuilder lineStatus = new StringBuilder();
+            lineStatus.append(String.format("\nFlight %-2d : returning.    \n", this.flightNumber));
+            try(PrintWriter pw = new PrintWriter(log)){
+                pw.print(lineStatus);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void finalReport(){
+        try {
+            FileWriter log = new FileWriter(logFileName, true);
+            try (PrintWriter pw = new PrintWriter(log)) {
+                pw.println("Airlift sum up:");
+                for (int i = 0; i < this.flightsmade.size(); i++) {
+                    pw.println("Flight " + (i+1) + " transported " + this.flightsmade.get(i) + " passengers");
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public synchronized void reportStatus(){
         try{
             FileWriter log = new FileWriter(logFileName, true);
             StringBuilder lineStatus = new StringBuilder();                                     // state line to be printed
-
-            //if(readyForBoarding){
-            if(pilotState.equals("RDFB")){
-                flightNumber += 1;
-                lineStatus.append(String.format("\nFlight %-2d : Boarding Started.    \n", flightNumber));
-            }
-
-            if(pilotState.equals("FLBK")){
-                passengerInFlight = 0;
-            }
-
-            if(passengerChecked){
-                lineStatus.append(String.format("\nFlight %-2d : Passenger %-2d checked.    \n", flightNumber, atualPassengerCheckedId));
-                passengerChecked = false;
-            }
-
-            if(readyToFly){
-                lineStatus.append(String.format("\nFlight %-2d : Departed with %-2d passengers.    \n", flightNumber, passengerInFlight));
-            }
 
 
             lineStatus.append(String.format("%-4s  %-2s   ", pilotState, hostessState));
@@ -248,14 +249,14 @@ public class genRepo {
                 lineStatus.append(String.format("    %s", passengerState[i]));
             }
 
-            lineStatus.append(String.format("             %-2d      %-2d     %-2d ", passengersInQueue.size(), passengerInFlight, numberOfPassengersArrived));
+            lineStatus.append(String.format("             %-2d      %-2d     %-2d ", passengersInQueue, passengerInFlight, numberOfPassengersArrived));
             lineStatus.append("\n");
 
             try(PrintWriter pw = new PrintWriter(log)){
                 pw.print(lineStatus);
             }
 
-            System.out.println("Successfully wrote to the file.");
+            //System.out.println("Successfully wrote to the file.");
         }
         catch (IOException e) {
             System.out.println("An error occurred.");
@@ -267,22 +268,4 @@ public class genRepo {
 
     }
 
-    /*private synchronized void finalReport(){
-        File log = new File();
-
-        if(!log.openForWriting(".", logFileName)){
-            System.out.println("The operationg of creating the file " + logFileName + " failed!");
-            System.exit(1);
-        }
-        log.write("Airlift sum up:");
-        for(i = 1; i <= numFlights; i++){
-            log.write("\nFlight " + flightNumber + " transported " + numberOfPassengersPerFlight + " passengers");
-        }
-        log.close();
-
-        if(!log.close()){
-            System.out.println("The operation of closing the file " + logFileName + " failde!");
-        }
-
-    }*/
 }

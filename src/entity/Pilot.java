@@ -2,7 +2,15 @@ package entity;
 import states.pilotStates;
 import sharedRegion.*;
 
+/**
+ * Pilot thread and life cycle implementation
+ * @author Tomás Freitas
+ * @author Tiago Gomes
+ */
 public class Pilot extends Thread{
+    /**
+     *
+     */
     private pilotStates state;
     private departureAirport da;
     private destinationAirport destA;
@@ -21,54 +29,34 @@ public class Pilot extends Thread{
         this.endOfDay = false;
     }
 
+
     public void setState(pilotStates state) {
         this.state = state;
     }
 
     @Override
     public void run() {
-        while (!this.endOfDay) {
-            parkAtTransferGate();
+        while (true) {
+            this.da.parkAtTransferGate();
+            if (this.endOfDay){
+                break;
+            }
             this.da.informPlaneReadyForBoarding();
             this.plane.waitForAllInBoard();
-            flyToDestinationPoint();
+            this.da.flyToDestinationPoint();
             this.plane.announceArrival();
-            flyToDeparturePoint();
+            this.destA.flyToDeparturePoint();
             System.out.println("Flying to departure");
             this.endOfDay = this.da.endOfDay();
         }
-        parkAtTransferGate();
+
 
 
 
         System.out.println("Pilot lifecycle ended");
     }
 
-    private void flyToDestinationPoint(){
-        state = pilotStates.FLYING_FORWARD;
-        repo.setPilotState(pilotStates.FLYING_FORWARD.getState());
-        repo.reportStatus();
-        long duration = (long) (1 + 100 * Math.random());
-        try {
-            sleep(duration);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-    private void flyToDeparturePoint(){
-        state = pilotStates.FLYING_BACK;
-        repo.setPilotState(pilotStates.FLYING_BACK.getState());
-        repo.reportStatus();
-        long duration = (long) (1 + 100 * Math.random());
-        try {
-            sleep(duration);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-    private void parkAtTransferGate() {
-        state = pilotStates.AT_TRANSFER_GATE;
-        //repo.setPilotState(pilotStates.AT_TRANSFER_GATE.getState());
-        //repo.reportStatus();
-    }
+
+
+
 }

@@ -38,8 +38,11 @@ public class Hostess extends Thread {
     @Override
     public void run() {
 
-        while (!this.da.endOfDay()) {
+        while (true) {
             this.da.waitForNextFlight();
+            if(this.da.endOfDay()){
+                break;
+            }
             this.da.prepareForPassBoarding();
             while (!this.readyToFly) {
                 this.da.checkDocuments();
@@ -48,6 +51,7 @@ public class Hostess extends Thread {
             }
             this.readyToFly = false;
             this.plane.informPlaneReadyForTakeOff();
+
         }
 
 
