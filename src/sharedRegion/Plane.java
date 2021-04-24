@@ -7,23 +7,57 @@ import states.hostessStates;
 import states.passengerStates;
 import states.pilotStates;
 
+/**
+ * Plane Shared Region
+ * @author Tomás Freitas
+ * @author Tiago Gomes
+ */
 public class Plane {
+    /**
+     * General Repository Shared Region
+     * @serialField repo
+     */
     private genRepo repo;
+
+    /**
+     * Number of occupied seats in the plane
+     * @serialField occupiedSeats
+     */
     private int occupiedSeats;
+
+    /**
+     * Number of passengers at destination
+     * @serialField passengersAtDestination
+     */
     private int passengersAtDestination;
+
+    /**
+     * True if plane has arrived to destination
+     * @serialField timeToLeave
+     */
     private boolean timeToLeave;
-    private boolean ReadyForBoarding;
+
+    /**
+     * True if plane is ready to take off
+     * @serialField planeReadyForTakeOff
+     */
     private boolean planeReadyForTakeOff;
 
+    /**
+     * Plane Shared Region constructor
+     * @param repo General Repository Shared Region
+     */
     public Plane(genRepo repo){
         this.repo = repo;
         this.occupiedSeats = 0;
         this.passengersAtDestination = 0;
         this.timeToLeave = false;
-        this.ReadyForBoarding = false;
     }
 
 
+    /**
+     * Called by a passenger this function sets the passenger state to IN_FLIGHT and increments the plane's seat counter.
+     */
     public synchronized void boardThePlane() {
         this.occupiedSeats++;
         Passenger passenger = (Passenger) Thread.currentThread();
@@ -36,6 +70,9 @@ public class Plane {
 
     }
 
+    /**
+     * Called by a passenger thread this function blocks the passenger until the pilot announces the flight has landed.
+     */
     public synchronized void waitForEndOfFlight(){
         while (!timeToLeave){
             try {
@@ -46,6 +83,10 @@ public class Plane {
         }
     }
 
+    /**
+     * Called by the hostess, this function blocks until all checked in passengers are effectively on board.
+     * Hostess state is set to READY_TO_FLY and warns the pilot to take off.
+     */
     public synchronized void informPlaneReadyForTakeOff() {
         Hostess hostess = (Hostess) Thread.currentThread();
 
@@ -66,6 +107,9 @@ public class Plane {
 
     }
 
+    /**
+     * Called by the pilot, this function sets the state to WAIT_FOR_BOARDING and blocks until the hostess lets the pilot know it's time to take off.
+     */
     public synchronized void waitForAllInBoard() {
         Pilot pilot = (Pilot) Thread.currentThread();
         pilot.setState(pilotStates.WAIT_FOR_BOARDING);
@@ -84,6 +128,10 @@ public class Plane {
 
     }
 
+    /**
+     * Called by the pilot, this function set the state to DEBOARDING and warns all the passengers that the plane has landed.
+     * It blocks until all the passengers have left the plane
+     */
     public synchronized void announceArrival(){
 
         Pilot pilot = (Pilot) Thread.currentThread();
@@ -105,6 +153,10 @@ public class Plane {
 
     }
 
+    /**
+     * Called by a passenger, this function sets the state to AT_DESTINATION and decrements the occupied seats counter.
+     * When called by the last passenger inside the plane, it warns the pilot that the plane is empty.
+     */
     public synchronized void leaveThePlane() {
         Passenger passenger = (Passenger) Thread.currentThread();
         passenger.setState(passengerStates.AT_DESTINATION);

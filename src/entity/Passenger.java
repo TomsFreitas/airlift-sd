@@ -4,13 +4,51 @@ import sharedRegion.*;
 
 import java.util.Random;
 
+/**
+ * Passenger thread and lifecycle implementation
+ * @author Tomás Freitas
+ * @author Tiago Gomes
+ */
 public class Passenger extends Thread {
+    /**
+     * Current Passenger state
+     * @serialField state
+     */
     private passengerStates state;
+
+    /**
+     * Passenger ID
+     * @serialField id
+     */
     private int id;
+
+    /**
+     * Departure Airport Shared Region
+     * @serialField da
+     */
     private departureAirport da;
+
+    /**
+     * Destination Airport Shared Region
+     * @serialField destA
+     */
     private destinationAirport destA;
+
+    /**
+     * Plane Shared Region
+     * @serialField plane
+     */
+
     private Plane plane;
 
+
+    /**
+     * Passenger constructor
+     * @param id Passenger ID
+     * @param da Departure Airport Shared Region
+     * @param destA Destination Airport Shared Region
+     * @param plane Plane Shared Region
+     */
     public Passenger(int id, departureAirport da, destinationAirport destA, Plane plane){
         this.id = id;
         this.state = passengerStates.GOING_TO_AIRPORT;
@@ -20,7 +58,14 @@ public class Passenger extends Thread {
     }
 
 
-
+    /**
+     * Passenger Lifecycle
+     *
+     * A passenger travels to the departure airport and wait in queue.
+     * When called by the hostess he proceeds to show his documents.
+     * After approval he boards the plane and waits for his flight to end.
+     * He leaves the plane and destination airport.
+     */
     @Override
     public void run(){
         travelToAirport();
@@ -34,6 +79,9 @@ public class Passenger extends Thread {
         System.out.println("Life cycle of passenger ended ID: " + this.id);
     }
 
+    /**
+     * Simulates travelling to Departure Airport
+     */
     private void travelToAirport() {
         long duration = (long) (200 + 1000 * Math.random());
         //long duration = (long) 1000 * this.id;
@@ -44,15 +92,19 @@ public class Passenger extends Thread {
         }
     }
 
+    /**
+     * Set Passenger state
+     * @param state New state
+     */
     public void setState(passengerStates state) {
         this.state = state;
     }
 
 
-    public passengerStates getStates() {
-        return state;
-    }
-
+    /**
+     * Get passenger ID
+     * @return Passenger ID
+     */
     public int getID() {
         return id;
     }

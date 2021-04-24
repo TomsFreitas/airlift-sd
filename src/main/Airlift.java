@@ -18,8 +18,8 @@ public class Airlift {
         destinationAirport destA = new destinationAirport(repo);
         Plane plane = new Plane(repo);
 
-        Hostess hostess = new Hostess(destA, depA, plane);
-        Pilot pilot = new Pilot(depA, destA, plane, repo);
+        Hostess hostess = new Hostess(depA, plane);
+        Pilot pilot = new Pilot(depA, destA, plane);
 
 
         for (int i = 0; i < MAX_PASSENGERS; i++){
