@@ -12,31 +12,26 @@ import java.util.Random;
 public class Passenger extends Thread {
     /**
      * Current Passenger state
-     * @serialField state
      */
     private passengerStates state;
 
     /**
      * Passenger ID
-     * @serialField id
      */
     private int id;
 
     /**
      * Departure Airport Shared Region
-     * @serialField da
      */
     private departureAirport da;
 
     /**
      * Destination Airport Shared Region
-     * @serialField destA
      */
     private destinationAirport destA;
 
     /**
      * Plane Shared Region
-     * @serialField plane
      */
 
     private Plane plane;

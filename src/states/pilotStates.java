@@ -9,7 +9,7 @@ package states;
  *     <li>WAIT_FOR_BOARDING - The pilot waits for the hostess notifying him that the boarding is complete.</li>
  *     <li>FLYING_FORWARD - The pilot flies to the destination town.</li>
  *     <li>DEBOARDING - After landing and parking the plane at the arrival gate, the pilot announces the passengers that they may leave.</li>
- *     li>FLYING_BACK - When the last passenger has exited, the pilot flies back to the origin town.</li>
+ *     <li>FLYING_BACK - When the last passenger has exited, the pilot flies back to the origin town.</li>
  * </ul>
  */
 

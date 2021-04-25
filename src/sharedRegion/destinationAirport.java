@@ -16,13 +16,11 @@ public class destinationAirport {
 
     /**
      * General Repository Shared Region
-     * @serialField repo
      */
     private genRepo repo;
 
     /**
      * Number of passengers at destination
-     * @serialField passengerAtDestination
      */
     private int passengersAtDestination;
 

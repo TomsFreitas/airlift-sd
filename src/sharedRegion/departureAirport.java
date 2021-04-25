@@ -21,67 +21,56 @@ public class departureAirport {
 
     /**
      * General Repository Shared Region
-     * @serialField repo
      */
     private genRepo repo;
 
     /**
      * List of passengers in the transfer gate
-     * @serialField passengerQueue
      */
     private BlockingQueue<Passenger> passengerQueue;
 
     /**
      * Number of passengers in the departure airport
-     * @serialField passengerInAirport
      */
     private int passengersInAirport;
 
     /**
      * Condition variable that allows the hostess start with the documentation check
-     * @serialField ReadyForBoarding
      */
     private boolean ReadyForBoarding;
 
     /**
      * Id of the passenger called by the hostess for the documentation check
-     * @serialField passengerToCheck
      */
     private int passengerToCheck;
 
     /**
      * Condition variable that allows the passenger board the flight
-     * @serialField boardThePlane
      */
     private boolean boardThePlane;
 
     /**
      * ID of the passenger currently showing the documents
-     * @serialField documentsgiven
      */
     private int documentsgiven;
 
     /**
      * Condition variable that allows the plane takeoff
-     * @serialField planeReadyForTakeOff
      */
     private boolean planeReadyForTakeOff;
 
     /**
      * Number of passengers already checked and already seated in the plane
-     * @serialField passengersChecked
      */
     private int passengersChecked;
 
     /**
      * Total number of passengers who have already flown
-     * @serialField passengersFlown
      */
     private int passengersFlown;
 
     /**
      * Number of the current flight
-     * @serialField flightNumber
      */
     private int flightNumber;
 

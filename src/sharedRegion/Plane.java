@@ -16,31 +16,26 @@ import states.pilotStates;
 public class Plane {
     /**
      * General Repository Shared Region
-     * @serialField repo
      */
     private genRepo repo;
 
     /**
      * Number of occupied seats in the plane
-     * @serialField occupiedSeats
      */
     private int occupiedSeats;
 
     /**
      * Number of passengers at destination
-     * @serialField passengersAtDestination
      */
     private int passengersAtDestination;
 
     /**
      * True if plane has arrived to destination
-     * @serialField timeToLeave
      */
     private boolean timeToLeave;
 
     /**
      * True if plane is ready to take off
-     * @serialField planeReadyForTakeOff
      */
     private boolean planeReadyForTakeOff;
 

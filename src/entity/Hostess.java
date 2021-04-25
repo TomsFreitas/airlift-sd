@@ -10,27 +10,22 @@ import sharedRegion.*;
 public class Hostess extends Thread {
     /**
      * Current Hostess state
-     * @serialField state
      */
     private hostessStates state;
     /**
      * Departure Airport Shared Region
-     * @serialField da
      */
     private departureAirport da;
     /**
      * Plane Shared Region
-     * @serialField plane
      */
     private Plane plane;
     /**
      * True if conditions are met for the plane to takeoff
-     * @serialField readyToFly
      */
     private boolean readyToFly;
     /**
      * Number of passengers in the plane
-     * @serialField passengersInFlight
      */
     private int passengersInFlight;
 

@@ -10,30 +10,25 @@ import sharedRegion.*;
 public class Pilot extends Thread{
     /**
      * Current Pilot state
-     * @serialField state
      */
     private pilotStates state;
 
     /**
      * DepartureAirport Shared Region
-     * @serialField da
      */
     private departureAirport da;
 
     /**
      * DestinationAirport Shared Region
-     * @serialField destA
      */
     private destinationAirport destA;
     /**
      * Plane Shared Region
-     * @serialField plane
      */
     private Plane plane;
 
     /**
      * True if end of work day
-     * @serialField endOfDay
      */
     private boolean endOfDay;
 

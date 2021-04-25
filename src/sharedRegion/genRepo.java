@@ -21,61 +21,51 @@ public class genRepo {
 
     /**
      * Name of the file where the logger will be saved.
-     * @serialField logFileName
      */
     private String logFileName;
 
     /**
      * Number of the current flight
-     * @serialField flightNumber
      */
     private Integer flightNumber;
 
     /**
      * State of pilot
-     * @serialField pilotState
      */
     private String pilotState;
 
     /**
      * State of hostess
-     * @serialField hostessState
      */
     private String hostessState;
 
     /**
      * State of passengers # (# - 0 .. 20) - GTAP (GOING_TO_AIRPORT) / INQE (IN_QUEUE) / INFL (IN_FLIGHT) / ATDS (AT_DESTINATION)
-     * @serialField passengerState
      */
     private String[] passengerState;
 
     /**
      * Number of passengers in the transfer gate
-     * @serialField passengersInQueue
      */
     private int passengersInQueue;
 
     /**
      * Number of passengers in the transfer plane
-     * @serialField passengersInFlight
      */
     private int passengerInFlight;
 
     /**
      * Number of passengers that arrived at the destination
-     * @serialField numberOfPassengersArrived
      */
     private int numberOfPassengersArrived;
 
     /**
      * Id of the checked passenger
-     * @serialField passengerCheckedId
      */
     private int passengerCheckedId;
 
     /**
      * Number of flights made
-     * @serialField flightsmade
      */
     private ArrayList<Integer> flightsmade;
 
