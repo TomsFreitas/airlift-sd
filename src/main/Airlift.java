@@ -23,8 +23,7 @@ public class Airlift {
     public static void main(String[] args){
 
         //Global variables
-        int MAX_PASSENGERS = 21;
-        int MIN_PASSENGERS = 5;
+
         ArrayList<Passenger> passengers = new ArrayList<>();
 
         //Initiate Shared Regions
@@ -38,7 +37,7 @@ public class Airlift {
         Pilot pilot = new Pilot(depA, destA, plane);
 
 
-        for (int i = 0; i < MAX_PASSENGERS; i++){
+        for (int i = 0; i < SimulPar.N_Passengers; i++){
             passengers.add(new Passenger(i+1, depA, destA, plane));
         }
 

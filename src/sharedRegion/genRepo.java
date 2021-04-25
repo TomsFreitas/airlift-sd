@@ -7,9 +7,7 @@ import java.io.PrintWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.LinkedList;
-import java.util.Queue;
-//import java.util.concurrent.locks.ReentrantLock;
+
 
 /**
  * Implementation of the General Repository Shared Memory
@@ -134,7 +132,7 @@ public class genRepo {
 
     /**
      *  Set number of passengers arrived
-     *  @param numberOfPassengersArrived number of passengers arrived
+     *  @param numberOfPassengersArrived number of passengers at destination
      */
     public void setNumberOfPassengersArrived(Integer numberOfPassengersArrived) {
         this.numberOfPassengersArrived = numberOfPassengersArrived;
@@ -142,7 +140,7 @@ public class genRepo {
 
     /**
      *  Set passenger in flight
-     *  @param passengerInFlight id passenger in flight
+     *  @param passengerInFlight Number of passengers in flight
      */
     public void setPassengerInFlight(Integer passengerInFlight) {
         this.passengerInFlight = passengerInFlight;
@@ -150,7 +148,7 @@ public class genRepo {
 
     /**
      *  Set passenger checked
-     *  @param passengerCheckedId id passenger checked
+     *  @param passengerCheckedId ID of passenger being checked
      */
     public void setPassengerCheckedId(int passengerCheckedId) {
         this.passengerCheckedId = passengerCheckedId;
@@ -158,7 +156,7 @@ public class genRepo {
 
     /**
      *  Set passengers in transfer gate (queue)
-     *  @param passengersInQueue id passenger checked
+     *  @param passengersInQueue Number of passengers in Queue
      */
     public void setPassengersInQueue(int passengersInQueue) {
         this.passengersInQueue = passengersInQueue;
