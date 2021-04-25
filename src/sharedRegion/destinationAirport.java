@@ -1,8 +1,7 @@
 package sharedRegion;
 
-import entity.Passenger;
 import entity.Pilot;
-import states.passengerStates;
+import main.SimulPar;
 import states.pilotStates;
 
 /**
@@ -19,10 +18,6 @@ public class destinationAirport {
      */
     private genRepo repo;
 
-    /**
-     * Number of passengers at destination
-     */
-    private int passengersAtDestination;
 
     /**
      * Destination Airport constructor
@@ -30,7 +25,6 @@ public class destinationAirport {
      */
     public destinationAirport(genRepo repo) {
         this.repo = repo;
-        this.passengersAtDestination = 0;
 
     }
 
@@ -44,7 +38,7 @@ public class destinationAirport {
         pilot.setState(pilotStates.FLYING_BACK);
         repo.setPilotState(pilotStates.FLYING_BACK.getState());
         repo.reportStatus();
-        long duration = (long) (1 + 200 * Math.random());
+        long duration = (long) (SimulPar.Pilot_MinSleep + SimulPar.Pilot_MaxSleep * Math.random());
         try {
             Thread.sleep(duration);
         } catch (InterruptedException e) {

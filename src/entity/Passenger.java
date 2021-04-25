@@ -1,4 +1,5 @@
 package entity;
+import main.SimulPar;
 import states.passengerStates;
 import sharedRegion.*;
 
@@ -55,10 +56,10 @@ public class Passenger extends Thread {
 
     /**
      * Passenger Lifecycle
-     *
-     * A passenger travels to the departure airport and wait in queue.
-     * When called by the hostess he proceeds to show his documents.
-     * After approval he boards the plane and waits for his flight to end.
+     *<p>
+     * A passenger travels to the departure airport and wait in queue.<p>
+     * When called by the hostess he proceeds to show his documents.<p>
+     * After approval he boards the plane and waits for his flight to end.<p>
      * He leaves the plane and destination airport.
      */
     @Override
@@ -78,7 +79,7 @@ public class Passenger extends Thread {
      * Simulates travelling to Departure Airport
      */
     private void travelToAirport() {
-        long duration = (long) (200 + 1000 * Math.random());
+        long duration = (long) (SimulPar.Passenger_MinSleep + SimulPar.Passenger_MaxSleep * Math.random());
         //long duration = (long) 1000 * this.id;
         try {
             sleep(duration);

@@ -15,6 +15,8 @@ public class Airlift {
 
     /**
      *    Main method.
+     *    Instantiates and runs all the needed threads for the problem.
+     *    When all threads are finished the final report is generated and the program terminates
      *    @param args runtime arguments
      */
 

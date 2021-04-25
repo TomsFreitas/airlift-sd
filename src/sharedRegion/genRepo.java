@@ -65,7 +65,7 @@ public class genRepo {
     private int passengerCheckedId;
 
     /**
-     * Number of flights made
+     * Number of flights made and how many passengers where transported
      */
     private ArrayList<Integer> flightsmade;
 
@@ -194,7 +194,6 @@ public class genRepo {
         try{
             FileWriter log = new FileWriter(logFileName, false);
             String header = getHeader();
-            String initialStatus;
 
             try(PrintWriter pw = new PrintWriter((log))){
                 pw.print(header);

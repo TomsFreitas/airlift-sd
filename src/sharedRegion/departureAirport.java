@@ -1,5 +1,5 @@
 package sharedRegion;
-
+import main.SimulPar;
 import entity.Hostess;
 import entity.Passenger;
 import entity.Pilot;
@@ -29,10 +29,6 @@ public class departureAirport {
      */
     private BlockingQueue<Passenger> passengerQueue;
 
-    /**
-     * Number of passengers in the departure airport
-     */
-    private int passengersInAirport;
 
     /**
      * Condition variable that allows the hostess start with the documentation check
@@ -54,10 +50,6 @@ public class departureAirport {
      */
     private int documentsgiven;
 
-    /**
-     * Condition variable that allows the plane takeoff
-     */
-    private boolean planeReadyForTakeOff;
 
     /**
      * Number of passengers already checked and already seated in the plane
@@ -79,15 +71,12 @@ public class departureAirport {
      * @param repo General Repository of information
      */
     public departureAirport(genRepo repo){
-        int maxPeopleInAirport = 30;
         this.repo = repo;
         this.passengerQueue = new LinkedBlockingQueue<>();
-        this.passengersInAirport = 0;
         this.ReadyForBoarding = false;
         this.passengerToCheck = 0;
         this.boardThePlane = false;
         this.documentsgiven = 0;
-        this.planeReadyForTakeOff = false;
         this.passengersChecked = 0;
         this.passengersFlown = 0;
         this.flightNumber = 0;
@@ -124,14 +113,14 @@ public class departureAirport {
 
     /**
      * Called by the pilot.
-     * Pilot state is set to FLYING_FORWARD and this function pauses(suspend) the current thread execution for a random duration.
+     * Pilot state is set to FLYING_FORWARD and this function blocks the current thread execution for a random duration.
      */
     public synchronized void flyToDestinationPoint(){
         Pilot pilot = (Pilot) Thread.currentThread();
         pilot.setState(pilotStates.FLYING_FORWARD);
         repo.setPilotState(pilotStates.FLYING_FORWARD.getState());
         repo.reportStatus();
-        long duration = (long) (1 + 200 * Math.random());
+        long duration = (long) (SimulPar.Pilot_MinSleep + SimulPar.Pilot_MaxSleep * Math.random());
         try {
             Thread.sleep(duration);
         } catch (InterruptedException e) {
@@ -140,7 +129,7 @@ public class departureAirport {
     }
 
     /**
-     * Called by a hostess.
+     * Called by the hostess.
      * Hostess state is set to WAIT_FOR_NEXT_FLIGHT.
      * This function blocks until the pilot announces that the plane is ready to board.
      */
@@ -165,7 +154,7 @@ public class departureAirport {
     }
 
     /**
-     * Called by a passenger
+     * Called by a passenger.
      * Passenger state is set to IN_QUEUE.
      * This function blocks until the id of the passenger called by the hostess for the documentation check matches to the current passenger
      */
@@ -190,7 +179,7 @@ public class departureAirport {
 
 
     /**
-     * Called by a hostess.
+     * Called by the hostess.
      * Hostess state is set to WAIT_FOR_PASSENGER.
      * This function blocks until some passenger arrives at transfer gate
      */
@@ -209,7 +198,7 @@ public class departureAirport {
     }
 
     /**
-     * Called by a hostess.
+     * Called by the hostess.
      * Hostess state is set to CHECK_PASSENGER.
      * This function blocks until the id of the passenger currently showing the documents matches to the id of the passenger called by the hostess for the documentation check
      */
@@ -242,10 +231,12 @@ public class departureAirport {
     }
 
     /**
-     * Called by a hostess.
+     * Called by the hostess.
      * Hostess state is set to WAIT_FOR_PASSENGER.
-     * If the number of passengers at transfer gate is empty and the number of passengers that have already boarded is between MIN and MAX, or there are no more passengers to transfer, the hostess advises the pilot that the boarding is complete and that the the flight may start;
+     * If there are no passengers at transfer gate and the number of passengers that have already boarded is between MIN and MAX, or there are no more passengers to transfer, the hostess advises the pilot that the boarding is complete and that the the flight may start;
      * This function blocks until some passenger arrives at transfer gate.
+     *
+     * @return <code>true</code> if ready to fly.
      */
     public synchronized boolean waitForNextPassenger(){
         Hostess hostess = (Hostess) Thread.currentThread();
@@ -256,7 +247,7 @@ public class departureAirport {
         System.out.println("Passenger allowed to Board");
         notifyAll();
         // TODO check this expression for the blocking status
-        if ((this.passengerQueue.size() == 0 && this.passengersChecked >= 5) || this.passengersChecked == 10 || this.passengersFlown + this.passengersChecked == 21){
+        if ((this.passengerQueue.size() == 0 && this.passengersChecked >= SimulPar.F_MinCapacity) || this.passengersChecked == SimulPar.F_MaxCapacity || this.passengersFlown + this.passengersChecked == SimulPar.N_Passengers){
             this.passengersFlown += this.passengersChecked;
             hostess.setPassengersInFlight(this.passengersChecked);
             this.passengersChecked = 0;
@@ -279,7 +270,7 @@ public class departureAirport {
 
     /**
      * Called by a passenger.
-     * This function blocks until the passenger who's showing the documents enters in the plane.
+     * This function blocks until the hostess gives this passenger permission to board the plane.
      */
     public synchronized void showDocuments() {
         Passenger passenger = (Passenger) Thread.currentThread();
@@ -301,10 +292,11 @@ public class departureAirport {
 
     /**
      * All passengers arrived at the destination
+     * @return True if all passengers have flown to the destination
      */
     public boolean endOfDay(){
         System.out.println(this.passengersFlown);
-        return this.passengersFlown == 21;
+        return this.passengersFlown == SimulPar.N_Passengers;
     }
 
 }

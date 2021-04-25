@@ -67,11 +67,12 @@ public class Hostess extends Thread {
 
     /**
      * Hostess Lifecycle
-     *
-     * The Hostess waits for the next flight.
-     * When advised by the pilot that the plane is ready to board, the hostess signals the passenger at the head of the queue, if there is one, to join her and present the flight documentation.
-     * Performs documents verification. After checking it, she requests him/her to board the plane and wait for the next passenger.
-     * If the queue is empty and the number of passengers that have already boarded is between MIN and MAX, or there are no more passengers to transfer, the hostess advises the pilot that the boarding is complete and that the flight may start.
+     *<p>
+     * The Hostess waits for the next flight.<p>
+     * When advised by the pilot that the plane is ready to board, the hostess signals the passenger at the head of the queue, if there is one, to join her and present the flight documentation.<p>
+     * Performs documents verification. After checking it, she requests him/her to board the plane and wait for the next passenger.<p>
+     * If the queue is empty and the number of passengers that have already boarded is between MIN and MAX, or there are no more passengers to transfer, the hostess advises the pilot that the boarding is complete and that the flight may start. <p>
+     * This cycle repeats until all passengers are transferred.
      */
     @Override
     public void run() {

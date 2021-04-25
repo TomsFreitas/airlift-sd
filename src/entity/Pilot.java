@@ -60,14 +60,14 @@ public class Pilot extends Thread{
 
     /**
      * Pilot Lifecycle
+     *<p>
      *
-     *
-     * Pilot begins parking at the Transfer Gate.
-     * Informs the hostess the plane is ready for boarding.
-     * Waits for all the checked in passengers to board the plane.
-     * When all passengers are on board the pilot flies to the destination airport and announces the arrival.
-     * After all the passengers leave the plane, he flies back to the departure airport.
-     * If all the passengers in the simulation have not been transferred, the cycle repeats.
+     * Pilot begins parking at the Transfer Gate.<p>
+     * Informs the hostess the plane is ready for boarding.<p>
+     * Waits for all the checked in passengers to board the plane.<p>
+     * When all passengers are on board the pilot flies to the destination airport and announces the arrival.<p>
+     * After all the passengers leave the plane, he flies back to the departure airport.<p>
+     * If all the passengers in the simulation have not been transferred, the cycle repeats.<p>
      *
      */
     @Override
