@@ -9,6 +9,7 @@ import states.pilotStates;
 
 /**
  * Plane Shared Region
+ * Takes passengers to their destination
  * @author Tomás Freitas
  * @author Tiago Gomes
  */

@@ -69,7 +69,7 @@ public class Pilot extends Thread{
      *
      * Pilot begins parking at the Transfer Gate.
      * Informs the hostess the plane is ready for boarding.
-     * Waits for all the checked in passangers to board the plane.
+     * Waits for all the checked in passengers to board the plane.
      * When all passengers are on board the pilot flies to the destination airport and announces the arrival.
      * After all the passengers leave the plane, he flies back to the departure airport.
      * If all the passengers in the simulation have not been transferred, the cycle repeats.

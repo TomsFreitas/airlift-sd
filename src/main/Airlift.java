@@ -4,10 +4,23 @@ import entity.*;
 
 import java.util.ArrayList;
 
+/**
+ * Main class for the Airlift
+ * It launches the threads for all entities of the problem
+ * @author Tomás Freitas
+ * @author Tiago Gomes
+ */
+
 public class Airlift {
+
+    /**
+     *    Main method.
+     *    @param args runtime arguments
+     */
 
     public static void main(String[] args){
 
+        //Global variables
         int MAX_PASSENGERS = 21;
         int MIN_PASSENGERS = 5;
         ArrayList<Passenger> passengers = new ArrayList<>();
@@ -18,6 +31,7 @@ public class Airlift {
         destinationAirport destA = new destinationAirport(repo);
         Plane plane = new Plane(repo);
 
+        //Initiate entities
         Hostess hostess = new Hostess(depA, plane);
         Pilot pilot = new Pilot(depA, destA, plane);
 
@@ -52,21 +66,6 @@ public class Airlift {
         }
 
         repo.finalReport();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     }

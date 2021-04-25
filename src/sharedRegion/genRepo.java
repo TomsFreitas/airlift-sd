@@ -11,18 +11,72 @@ import java.util.LinkedList;
 import java.util.Queue;
 //import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * Implementation of the General Repository Shared Memory
+ * Responsible for logging all changes during the program run.
+ * @author Tomás Freitas
+ * @author Tiago Gomes
+ */
 public class genRepo {
-    //private final ReentrantLock rl;
+
+    /**
+     * Name of the file where the logger will be saved.
+     * @serialField logFileName
+     */
     private String logFileName;
 
+    /**
+     * Number of the current flight
+     * @serialField flightNumber
+     */
     private Integer flightNumber;
+
+    /**
+     * State of pilot
+     * @serialField pilotState
+     */
     private String pilotState;
+
+    /**
+     * State of hostess
+     * @serialField hostessState
+     */
     private String hostessState;
+
+    /**
+     * State of passengers # (# - 0 .. 20) - GTAP (GOING_TO_AIRPORT) / INQE (IN_QUEUE) / INFL (IN_FLIGHT) / ATDS (AT_DESTINATION)
+     * @serialField passengerState
+     */
     private String[] passengerState;
+
+    /**
+     * Number of passengers in the transfer gate
+     * @serialField passengersInQueue
+     */
     private int passengersInQueue;
+
+    /**
+     * Number of passengers in the transfer plane
+     * @serialField passengersInFlight
+     */
     private int passengerInFlight;
+
+    /**
+     * Number of passengers that arrived at the destination
+     * @serialField numberOfPassengersArrived
+     */
     private int numberOfPassengersArrived;
+
+    /**
+     * Id of the checked passenger
+     * @serialField passengerCheckedId
+     */
     private int passengerCheckedId;
+
+    /**
+     * Number of flights made
+     * @serialField flightsmade
+     */
     private ArrayList<Integer> flightsmade;
 
 
@@ -88,19 +142,34 @@ public class genRepo {
         this.passengerState[id-1] = state;
     }
 
-
+    /**
+     *  Set number of passengers arrived
+     *  @param numberOfPassengersArrived number of passengers arrived
+     */
     public void setNumberOfPassengersArrived(Integer numberOfPassengersArrived) {
         this.numberOfPassengersArrived = numberOfPassengersArrived;
     }
 
+    /**
+     *  Set passenger in flight
+     *  @param passengerInFlight id passenger in flight
+     */
     public void setPassengerInFlight(Integer passengerInFlight) {
         this.passengerInFlight = passengerInFlight;
     }
 
+    /**
+     *  Set passenger checked
+     *  @param passengerCheckedId id passenger checked
+     */
     public void setPassengerCheckedId(int passengerCheckedId) {
         this.passengerCheckedId = passengerCheckedId;
     }
 
+    /**
+     *  Set passengers in transfer gate (queue)
+     *  @param passengersInQueue id passenger checked
+     */
     public void setPassengersInQueue(int passengersInQueue) {
         this.passengersInQueue = passengersInQueue;
     }
@@ -156,6 +225,10 @@ public class genRepo {
      *  Internal operation.
      */
 
+    /**
+     * Boarding started
+     * Append the message to the logger file.
+     */
     public void reportBoardingStarted(){
         try {
             FileWriter log = new FileWriter(logFileName, true);
@@ -170,6 +243,10 @@ public class genRepo {
 
     }
 
+    /**
+     * Passenger checked
+     * Append the message to the logger file.
+     */
     public void reportPassengerChecked(){
         try {
             FileWriter log = new FileWriter(logFileName, true);
@@ -183,6 +260,10 @@ public class genRepo {
         }
     }
 
+    /**
+     * Flight departed
+     * Append the message to the logger file.
+     */
     public void reportFlightDeparted(){
         try {
             FileWriter log = new FileWriter(logFileName, true);
@@ -197,6 +278,10 @@ public class genRepo {
         }
     }
 
+    /**
+     * Flight arrived
+     * Append the message to the logger file.
+     */
     public void reportFlightArrived(){
         try {
             FileWriter log = new FileWriter(logFileName, true);
@@ -210,6 +295,10 @@ public class genRepo {
         }
     }
 
+    /**
+     * Flight returning
+     * Append the message to the logger file.
+     */
     public void reportFlightReturning(){
         try {
             FileWriter log = new FileWriter(logFileName, true);
@@ -223,11 +312,15 @@ public class genRepo {
         }
     }
 
+    /**
+     * Calculate the Airlift sum up (number of passengers transported per flight)
+     * Append the final report to the logger file.
+     */
     public void finalReport(){
         try {
             FileWriter log = new FileWriter(logFileName, true);
             try (PrintWriter pw = new PrintWriter(log)) {
-                pw.println("Airlift sum up:");
+                pw.println("\nAirlift sum up:");
                 for (int i = 0; i < this.flightsmade.size(); i++) {
                     pw.println("Flight " + (i+1) + " transported " + this.flightsmade.get(i) + " passengers");
                 }
@@ -238,6 +331,10 @@ public class genRepo {
 
     }
 
+    /**
+     * Report status
+     * Append the message to the logger file.
+     */
     public synchronized void reportStatus(){
         try{
             FileWriter log = new FileWriter(logFileName, true);

@@ -69,6 +69,15 @@ public class Hostess extends Thread {
         return passengersInFlight;
     }
 
+
+    /**
+     * Hostess Lifecycle
+     *
+     * The Hostess waits for the next flight.
+     * When advised by the pilot that the plane is ready to board, the hostess signals the passenger at the head of the queue, if there is one, to join her and present the flight documentation.
+     * Performs documents verification. After checking it, she requests him/her to board the plane and wait for the next passenger.
+     * If the queue is empty and the number of passengers that have already boarded is between MIN and MAX, or there are no more passengers to transfer, the hostess advises the pilot that the boarding is complete and that the flight may start.
+     */
     @Override
     public void run() {
 
