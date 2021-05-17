@@ -43,7 +43,11 @@ public final class SimulPar{
      */
     public static final int Passenger_MaxSleep = 1000;
 
+
     public static final int planeServerPort = 22190;
+
+    public static String genRepoServerHost = "localhost";
+    public static int genRepoServerPort = 22191;
 
 
     /**

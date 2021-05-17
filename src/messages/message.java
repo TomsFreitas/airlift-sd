@@ -19,6 +19,10 @@ public class message implements Serializable {
      */
     private boolean aBoolean;
 
+    private String aString;
+
+    private int anInt;
+
 
     /**
      * Message constructor
@@ -33,5 +37,29 @@ public class message implements Serializable {
 
     public messageType getMessageType() {
         return this.messageType;
+    }
+
+    public void setaBoolean(boolean aBoolean) {
+        this.aBoolean = aBoolean;
+    }
+
+    public boolean getaBoolean(){
+        return this.aBoolean;
+    }
+
+    public void setAnInt(int anInt) {
+        this.anInt = anInt;
+    }
+
+    public int getAnInt() {
+        return anInt;
+    }
+
+    public void setaString(String aString) {
+        this.aString = aString;
+    }
+
+    public String getaString() {
+        return aString;
     }
 }

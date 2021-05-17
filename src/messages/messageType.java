@@ -64,5 +64,7 @@ public enum messageType implements Serializable {
 
     REPORT_FLIGHT_RETURNING,
 
-    REPORT_STATUS
+    REPORT_STATUS,
+
+    LEAVE
 }

@@ -142,7 +142,7 @@ public class genRepo {
      *  Set passenger in flight
      *  @param passengerInFlight Number of passengers in flight
      */
-    public void setPassengerInFlight(Integer passengerInFlight) {
+    public void setPassengerInFlight(int passengerInFlight) {
         this.passengerInFlight = passengerInFlight;
     }
 

@@ -5,9 +5,7 @@ import main.SimulPar;
 import server.interfaces.planeInterface;
 import server.proxies.planeProxy;
 import server.sharedRegion.Plane;
-import stubs.genRepoStub;
-
-import java.net.SocketTimeoutException;
+import client.stubs.genRepoStub;
 
 public class planeServer {
 
@@ -24,7 +22,7 @@ public class planeServer {
         scon = new ServerCom(port);
         scon.start();
 
-        repoStub = new genRepoStub();
+        repoStub = new genRepoStub(SimulPar.genRepoServerHost, SimulPar.genRepoServerPort);
 
         plane = new Plane(repoStub);
         planeInterface = new planeInterface(plane);
@@ -33,11 +31,11 @@ public class planeServer {
 
         waitConnection = true;
         while (waitConnection)
-            try {
-                sconi = scon.accept ();                          // entrada em processo de escuta
-                proxy = new planeProxy(sconi, planeInterface);  // lançamento do agente prestador do serviço
-                proxy.start ();
-            } catch (SocketTimeoutException e) {}
+        {
+            sconi = scon.accept ();                          // entrada em processo de escuta
+            proxy = new planeProxy(sconi, planeInterface);  // lançamento do agente prestador do serviço
+            proxy.start ();
+        }
         scon.end ();                                         // terminação de operações
         System.out.println("O servidor foi desactivado.");
     }

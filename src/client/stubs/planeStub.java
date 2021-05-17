@@ -1,13 +1,10 @@
-package stubs;
+package client.stubs;
 
 import client.entity.Hostess;
 import client.entity.Passenger;
 import client.entity.Pilot;
 import communication.ClientCom;
 import messages.messageType;
-import states.hostessStates;
-import states.passengerStates;
-import states.pilotStates;
 import messages.message;
 
 public class planeStub {
@@ -22,7 +19,7 @@ public class planeStub {
     /**
      * Called by a passenger this function sets the passenger state to IN_FLIGHT and increments the plane's seat counter.
      */
-    public synchronized void boardThePlane() {
+    public  void boardThePlane() {
 
         ClientCom con = new ClientCom(serverHostName, serverPort);
         message in, out;
@@ -46,7 +43,7 @@ public class planeStub {
     /**
      * Called by a passenger thread this function blocks the passenger until the pilot announces the flight has landed.
      */
-    public synchronized void waitForEndOfFlight(){
+    public  void waitForEndOfFlight(){
         ClientCom con = new ClientCom(serverHostName, serverPort);
         message in, out;
         Passenger passenger = (Passenger) Thread.currentThread();
@@ -67,7 +64,7 @@ public class planeStub {
      * Called by the hostess, this function blocks until all checked in passengers are effectively on board.
      * Hostess state is set to READY_TO_FLY and warns the pilot to take off.
      */
-    public synchronized void informPlaneReadyForTakeOff() {
+    public  void informPlaneReadyForTakeOff() {
         Hostess hostess = (Hostess) Thread.currentThread();
         ClientCom con = new ClientCom(serverHostName, serverPort);
         message in, out;
@@ -86,7 +83,7 @@ public class planeStub {
     /**
      * Called by the pilot, this function sets the state to WAIT_FOR_BOARDING and blocks until the hostess lets the pilot know it's time to take off.
      */
-    public synchronized void waitForAllInBoard() {
+    public  void waitForAllInBoard() {
         Pilot pilot = (Pilot) Thread.currentThread();
         ClientCom con = new ClientCom(serverHostName, serverPort);
         message in, out;
@@ -107,7 +104,7 @@ public class planeStub {
      * Called by the pilot, this function set the state to DEBOARDING and warns all the passengers that the plane has landed.
      * It blocks until all the passengers have left the plane
      */
-    public synchronized void announceArrival(){
+    public  void announceArrival(){
         Pilot pilot = (Pilot) Thread.currentThread();
         ClientCom con = new ClientCom(serverHostName, serverPort);
         message in, out;
@@ -129,7 +126,7 @@ public class planeStub {
      * Called by a passenger, this function sets the state to AT_DESTINATION and decrements the occupied seats counter.
      * When called by the last passenger inside the plane, it warns the pilot that the plane is empty.
      */
-    public synchronized void leaveThePlane() {
+    public  void leaveThePlane() {
         ClientCom con = new ClientCom(serverHostName, serverPort);
         message in, out;
         Passenger passenger = (Passenger) Thread.currentThread();

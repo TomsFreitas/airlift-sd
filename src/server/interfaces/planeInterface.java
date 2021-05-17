@@ -1,6 +1,7 @@
 package server.interfaces;
 
 import messages.message;
+import messages.messageType;
 import server.proxies.planeProxy;
 import server.sharedRegion.Plane;
 
@@ -36,5 +37,6 @@ public class planeInterface {
                 System.out.println("Error in plane interface");
 
         }
+        return new message(messageType.BOARD_THE_PLANE,1);
     }
 }

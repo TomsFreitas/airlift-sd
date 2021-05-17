@@ -6,6 +6,7 @@ import client.entity.Pilot;
 import states.hostessStates;
 import states.passengerStates;
 import states.pilotStates;
+import client.stubs.genRepoStub;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -22,7 +23,7 @@ public class departureAirport {
     /**
      * General Repository Shared Region
      */
-    private genRepo repo;
+    private genRepoStub repo;
 
     /**
      * List of passengers in the transfer gate
@@ -70,7 +71,7 @@ public class departureAirport {
      * Departure Airport constructor
      * @param repo General Repository of information
      */
-    public departureAirport(genRepo repo){
+    public departureAirport(genRepoStub repo){
         this.repo = repo;
         this.passengerQueue = new LinkedBlockingQueue<>();
         this.ReadyForBoarding = false;

@@ -3,6 +3,7 @@ package server.sharedRegion;
 import client.entity.Pilot;
 import main.SimulPar;
 import states.pilotStates;
+import client.stubs.genRepoStub;
 
 /**
  * Implementation of the Destination Airport Shared Memory
@@ -16,7 +17,7 @@ public class destinationAirport {
     /**
      * General Repository Shared Region
      */
-    private genRepo repo;
+    private genRepoStub repo;
 
     /**
      * Passenger counter
@@ -28,7 +29,7 @@ public class destinationAirport {
      * Destination Airport constructor
      * @param repo General Repository of information
      */
-    public destinationAirport(genRepo repo) {
+    public destinationAirport(genRepoStub repo) {
         this.repo = repo;
         this.counter = 0;
 

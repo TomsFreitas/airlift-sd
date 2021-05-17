@@ -6,7 +6,7 @@ import client.entity.Pilot;
 import states.hostessStates;
 import states.passengerStates;
 import states.pilotStates;
-import stubs.genRepoStub;
+import client.stubs.genRepoStub;
 
 /**
  * Plane Shared Region
