@@ -1,6 +1,6 @@
-package entity;
+package client.entity;
 import states.hostessStates;
-import sharedRegion.*;
+import server.sharedRegion.*;
 
 /**
  * Hostess thread and Lifecycle implementation

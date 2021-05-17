@@ -1,11 +1,12 @@
-package sharedRegion;
+package server.sharedRegion;
 
-import entity.Hostess;
-import entity.Passenger;
-import entity.Pilot;
+import client.entity.Hostess;
+import client.entity.Passenger;
+import client.entity.Pilot;
 import states.hostessStates;
 import states.passengerStates;
 import states.pilotStates;
+import stubs.genRepoStub;
 
 /**
  * Plane Shared Region
@@ -17,7 +18,7 @@ public class Plane {
     /**
      * General Repository Shared Region
      */
-    private genRepo repo;
+    private genRepoStub repo;
 
     /**
      * Number of occupied seats in the plane
@@ -43,7 +44,7 @@ public class Plane {
      * Plane Shared Region constructor
      * @param repo General Repository Shared Region
      */
-    public Plane(genRepo repo){
+    public Plane(genRepoStub repo){
         this.repo = repo;
         this.occupiedSeats = 0;
         this.passengersAtDestination = 0;

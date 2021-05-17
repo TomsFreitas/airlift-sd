@@ -1,4 +1,4 @@
-package sharedRegion;
+package server.sharedRegion;
 
 import main.SimulPar;
 import states.*;

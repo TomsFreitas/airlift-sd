@@ -1,8 +1,8 @@
-package sharedRegion;
+package server.sharedRegion;
 import main.SimulPar;
-import entity.Hostess;
-import entity.Passenger;
-import entity.Pilot;
+import client.entity.Hostess;
+import client.entity.Passenger;
+import client.entity.Pilot;
 import states.hostessStates;
 import states.passengerStates;
 import states.pilotStates;

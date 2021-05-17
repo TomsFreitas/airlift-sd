@@ -1,9 +1,7 @@
-package entity;
+package client.entity;
 import main.SimulPar;
 import states.passengerStates;
-import sharedRegion.*;
-
-import java.util.Random;
+import server.sharedRegion.*;
 
 /**
  * Passenger thread and lifecycle implementation
@@ -71,6 +69,7 @@ public class Passenger extends Thread {
         this.plane.boardThePlane();
         this.plane.waitForEndOfFlight();
         this.plane.leaveThePlane();
+        this.destA.leave();
 
         System.out.println("Life cycle of passenger ended ID: " + this.id);
     }
@@ -80,7 +79,6 @@ public class Passenger extends Thread {
      */
     private void travelToAirport() {
         long duration = (long) (SimulPar.Passenger_MinSleep + SimulPar.Passenger_MaxSleep * Math.random());
-        //long duration = (long) 1000 * this.id;
         try {
             sleep(duration);
         } catch (InterruptedException e) {

@@ -1,6 +1,6 @@
-package entity;
+package client.entity;
 import states.pilotStates;
-import sharedRegion.*;
+import server.sharedRegion.*;
 
 /**
  * Pilot thread and life cycle implementation
@@ -83,7 +83,7 @@ public class Pilot extends Thread{
             this.plane.announceArrival();
             this.destA.flyToDeparturePoint();
             System.out.println("Flying to departure");
-            this.endOfDay = this.da.endOfDay();
+            this.endOfDay = this.destA.endOfDay();
         }
 
         System.out.println("Pilot lifecycle ended");

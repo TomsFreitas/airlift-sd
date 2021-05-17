@@ -1,6 +1,6 @@
 package main;
-import sharedRegion.*;
-import entity.*;
+import server.sharedRegion.*;
+import client.entity.*;
 
 import java.util.ArrayList;
 
@@ -66,7 +66,7 @@ public class Airlift {
             interruptedException.printStackTrace();
         }
 
-        repo.finalReport();
+
 
 
     }

@@ -43,6 +43,9 @@ public final class SimulPar{
      */
     public static final int Passenger_MaxSleep = 1000;
 
+    public static final int planeServerPort = 22190;
+
+
     /**
      * It can not be instantiated
      */

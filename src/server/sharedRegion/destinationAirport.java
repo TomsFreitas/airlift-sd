@@ -1,6 +1,6 @@
-package sharedRegion;
+package server.sharedRegion;
 
-import entity.Pilot;
+import client.entity.Pilot;
 import main.SimulPar;
 import states.pilotStates;
 
@@ -18,6 +18,11 @@ public class destinationAirport {
      */
     private genRepo repo;
 
+    /**
+     * Passenger counter
+     */
+    private int counter;
+
 
     /**
      * Destination Airport constructor
@@ -25,6 +30,7 @@ public class destinationAirport {
      */
     public destinationAirport(genRepo repo) {
         this.repo = repo;
+        this.counter = 0;
 
     }
 
@@ -44,6 +50,18 @@ public class destinationAirport {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public synchronized void leave(){
+        this.counter++;
+    }
+
+    public synchronized boolean endOfDay(){
+        if(this.counter >= 21){
+            repo.finalReport();
+            return true;
+        }
+        return false;
     }
 
 
