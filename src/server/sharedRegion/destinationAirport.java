@@ -1,8 +1,8 @@
 package server.sharedRegion;
 
 import client.entity.Pilot;
-import main.SimulPar;
-import states.pilotStates;
+import commInfra.SimulPar;
+import commInfra.states.pilotStates;
 import client.stubs.genRepoStub;
 
 /**

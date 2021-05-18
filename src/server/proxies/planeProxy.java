@@ -1,7 +1,7 @@
 package server.proxies;
 
-import communication.ServerCom;
-import messages.message;
+import commInfra.communication.ServerCom;
+import commInfra.messages.message;
 import server.interfaces.planeInterface;
 
 public class planeProxy extends Thread {

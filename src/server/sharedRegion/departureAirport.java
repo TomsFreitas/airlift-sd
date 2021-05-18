@@ -1,11 +1,11 @@
 package server.sharedRegion;
-import main.SimulPar;
+import commInfra.SimulPar;
 import client.entity.Hostess;
 import client.entity.Passenger;
 import client.entity.Pilot;
-import states.hostessStates;
-import states.passengerStates;
-import states.pilotStates;
+import commInfra.states.hostessStates;
+import commInfra.states.passengerStates;
+import commInfra.states.pilotStates;
 import client.stubs.genRepoStub;
 
 import java.util.concurrent.BlockingQueue;

@@ -1,7 +1,7 @@
 package server.interfaces;
 
-import messages.message;
-import messages.messageType;
+import commInfra.messages.message;
+import commInfra.messages.messageType;
 import server.proxies.planeProxy;
 import server.sharedRegion.Plane;
 

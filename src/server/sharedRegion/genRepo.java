@@ -1,7 +1,7 @@
 package server.sharedRegion;
 
-import main.SimulPar;
-import states.*;
+import commInfra.SimulPar;
+import commInfra.states.*;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.IOException;

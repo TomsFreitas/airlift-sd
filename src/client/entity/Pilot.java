@@ -1,5 +1,5 @@
 package client.entity;
-import states.pilotStates;
+import commInfra.states.pilotStates;
 import client.stubs.*;
 
 /**
@@ -36,9 +36,9 @@ public class Pilot extends Thread{
     /**
      * Pilot constructor
      *
-     * @param da Departure Airport Shared Region
-     * @param destA Destination Airport Shared Region
-     * @param plane Plane Shared Region
+     * @param da Departure Airport Stub
+     * @param destA Destination Airport Stub
+     * @param plane Plane Stub
      */
     public Pilot(departureAirportStub da, destinationAirportStub destA, planeStub plane){
         this.state = pilotStates.AT_TRANSFER_GATE;

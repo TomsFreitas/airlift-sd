@@ -1,6 +1,6 @@
 package client.entity;
-import main.SimulPar;
-import states.passengerStates;
+import commInfra.SimulPar;
+import commInfra.states.passengerStates;
 import client.stubs.*;
 
 /**
@@ -39,9 +39,9 @@ public class Passenger extends Thread {
     /**
      * Passenger constructor
      * @param id Passenger ID
-     * @param da Departure Airport Shared Region
-     * @param destA Destination Airport Shared Region
-     * @param plane Plane Shared Region
+     * @param da Departure Airport Stub
+     * @param destA Destination Airport Stub
+     * @param plane Plane Stub
      */
     public Passenger(int id, departureAirportStub da, destinationAirportStub destA, planeStub plane){
         this.id = id;

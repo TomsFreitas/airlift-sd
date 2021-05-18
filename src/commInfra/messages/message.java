@@ -1,4 +1,4 @@
-package messages;
+package commInfra.messages;
 
 import java.io.Serializable;
 

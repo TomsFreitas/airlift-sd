@@ -1,4 +1,4 @@
-package communication;
+package commInfra.communication;
 
 import genclass.GenericIO;
 import java.io.*;
@@ -8,7 +8,7 @@ import java.net.*;
  *   Communication manager - server side.
  *
  *   Communication is based on message passing over sockets using the TCP protocol.
- *   It supposes the setup of a communication channel between the two end points before data transfer can take place.
+ *   It supposes the setup of a commInfra.communication channel between the two end points before data transfer can take place.
  *   Data transfer is bidirectional and is made through the transmission and the reception of objects in output and
  *   input streams, respectively.
  *
@@ -37,19 +37,19 @@ public class ServerCom
    private int serverPortNumb;
 
   /**
-   *  Input stream of the communication channel.
+   *  Input stream of the commInfra.communication channel.
    */
 
    private ObjectInputStream in = null;
 
   /**
-   *  Output stream of the communication channel.
+   *  Output stream of the commInfra.communication channel.
    */
 
    private ObjectOutputStream out = null;
 
   /**
-   *  Instantiation of a communication channel (form 1).
+   *  Instantiation of a commInfra.communication channel (form 1).
    *
    *    @param portNumb number of the listening port at the computational system where the server is located
    */
@@ -60,7 +60,7 @@ public class ServerCom
    }
 
   /**
-   *  Instantiation of a communication channel (form 2).
+   *  Instantiation of a commInfra.communication channel (form 2).
    *
    *    @param portNumb number of the listening port at the computational system where the server is located
    *    @param lSocket listening socket
@@ -121,8 +121,8 @@ public class ServerCom
   /**
    *  Listening process.
    *
-   *  Instantiation of a communication channel for a pending request.
-   *  Instantiation of the communication socket and its binding to the client address.
+   *  Instantiation of a commInfra.communication channel for a pending request.
+   *  Instantiation of the commInfra.communication socket and its binding to the client address.
    *  The socket input and output streams are opened.
    *
    *    @return reference to the commmunication channel
@@ -130,7 +130,7 @@ public class ServerCom
 
    public ServerCom accept ()
    {
-      ServerCom scon;                                      // communication channel
+      ServerCom scon;                                      // commInfra.communication channel
 
       scon = new ServerCom(serverPortNumb, listeningSocket);
       try
@@ -144,7 +144,7 @@ public class ServerCom
       }
       catch (IOException e)
       { GenericIO.writelnString (Thread.currentThread ().getName () +
-                                 " - it was not possible to instantiate a communication channel for the pending request!");
+                                 " - it was not possible to instantiate a commInfra.communication channel for the pending request!");
         e.printStackTrace ();
         System.exit (1);
       }
@@ -173,10 +173,10 @@ public class ServerCom
    }
 
   /**
-   *  Close the communication channel.
+   *  Close the commInfra.communication channel.
    *
    *  The socket input and output streams are closed.
-   *  The communication socket is closed.
+   *  The commInfra.communication socket is closed.
    */
 
    public void close ()
@@ -206,14 +206,14 @@ public class ServerCom
       }
       catch (IOException e)
       { GenericIO.writelnString (Thread.currentThread ().getName () +
-                                 " - it was not possible to close the communication socket!");
+                                 " - it was not possible to close the commInfra.communication socket!");
         e.printStackTrace ();
         System.exit (1);
       }
    }
 
   /**
-   *  Object read from the communication channel.
+   *  Object read from the commInfra.communication channel.
    *
    *    @return reference to the object that was read
    */
@@ -248,7 +248,7 @@ public class ServerCom
    }
 
   /**
-   *  Object write to the communication channel.
+   *  Object write to the commInfra.communication channel.
    *
    *    @param toClient reference to the object to be written
    */

@@ -3,9 +3,9 @@ package client.stubs;
 import client.entity.Hostess;
 import client.entity.Passenger;
 import client.entity.Pilot;
-import communication.ClientCom;
-import messages.message;
-import messages.messageType;
+import commInfra.communication.ClientCom;
+import commInfra.messages.message;
+import commInfra.messages.messageType;
 
 public class departureAirportStub {
     private String serverHostName;
@@ -70,7 +70,7 @@ public class departureAirportStub {
 
     }
 
-    public  void waitForNextFlight() {
+    public void waitForNextFlight() {
         Hostess hostess = (Hostess) Thread.currentThread();
 
         ClientCom con = new ClientCom(serverHostName, serverPort);
@@ -87,7 +87,7 @@ public class departureAirportStub {
         in = (message) con.readObject();
     }
 
-    public  void waitInQueue() {
+    public void waitInQueue() {
         Passenger passenger = (Passenger) Thread.currentThread();
 
         ClientCom con = new ClientCom(serverHostName, serverPort);

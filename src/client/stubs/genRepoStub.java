@@ -1,8 +1,8 @@
 package client.stubs;
 
-import communication.ClientCom;
-import messages.message;
-import messages.messageType;
+import commInfra.communication.ClientCom;
+import commInfra.messages.message;
+import commInfra.messages.messageType;
 
 public class genRepoStub {
 

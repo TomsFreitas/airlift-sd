@@ -1,8 +1,14 @@
 package server.proxies;
 
-import communication.ServerCom;
-import messages.message;
+import commInfra.communication.ServerCom;
+import commInfra.messages.message;
+import commInfra.states.hostessStates;
+import commInfra.states.passengerStates;
+import commInfra.states.pilotStates;
 import server.interfaces.departureInterface;
+import server.interfaces.Pilot;
+import server.interfaces.Hostess;
+import server.interfaces.Passenger
 
 /**
  * departureProxy
@@ -15,7 +21,7 @@ import server.interfaces.departureInterface;
  * @author Tiago Almeida
  */
 
-public class departureProxy extends Thread {
+public class departureProxy extends Thread implements Passenger, Pilot, Hostess {
     private static int proxyNo;
 
     private ServerCom sconi;
@@ -73,4 +79,33 @@ public class departureProxy extends Thread {
         return proxyId;
     }
 
+    @Override
+    public void setState(hostessStates state) {
+
+    }
+
+    @Override
+    public void setPassengersInFlight(int passengersInFlight) {
+
+    }
+
+    @Override
+    public int getPassengersInFlight() {
+        return 0;
+    }
+
+    @Override
+    public void setState(passengerStates state) {
+
+    }
+
+    @Override
+    public int getID() {
+        return 0;
+    }
+
+    @Override
+    public void setState(pilotStates state) {
+
+    }
 }

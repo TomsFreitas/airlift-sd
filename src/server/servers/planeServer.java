@@ -1,7 +1,7 @@
 package server.servers;
 
-import communication.ServerCom;
-import main.SimulPar;
+import commInfra.communication.ServerCom;
+import commInfra.SimulPar;
 import server.interfaces.planeInterface;
 import server.proxies.planeProxy;
 import server.sharedRegion.Plane;

@@ -3,9 +3,9 @@ package client.stubs;
 import client.entity.Hostess;
 import client.entity.Passenger;
 import client.entity.Pilot;
-import communication.ClientCom;
-import messages.messageType;
-import messages.message;
+import commInfra.communication.ClientCom;
+import commInfra.messages.messageType;
+import commInfra.messages.message;
 
 public class planeStub {
     private String serverHostName;

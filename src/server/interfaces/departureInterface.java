@@ -1,6 +1,6 @@
 package server.interfaces;
 
-import messages.*;
+import commInfra.messages.*;
 import server.proxies.departureProxy;
 import server.sharedRegion.departureAirport;
 

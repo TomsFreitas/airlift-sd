@@ -1,7 +1,7 @@
 package client.entity;
 import client.stubs.departureAirportStub;
 import client.stubs.planeStub;
-import states.hostessStates;
+import commInfra.states.hostessStates;
 
 
 /**

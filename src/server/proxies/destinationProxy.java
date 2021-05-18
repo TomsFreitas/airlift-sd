@@ -1,7 +1,7 @@
 package server.proxies;
 
-import communication.ServerCom;
-import messages.message;
+import commInfra.communication.ServerCom;
+import commInfra.messages.message;
 import server.interfaces.destinationInterface;
 
 /**
@@ -25,7 +25,7 @@ public class destinationProxy extends Thread {
     /**
      * Interface instantiation
      *
-     * @param sconi communication channel
+     * @param sconi commInfra.communication channel
      * @param destinationInterface
      */
     public destinationProxy(ServerCom sconi, destinationInterface destinationInterface){

@@ -1,4 +1,4 @@
-package states;
+package commInfra.states;
 
 /**
  * Enum implementing the typical hostess States:
