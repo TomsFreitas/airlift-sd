@@ -1,6 +1,6 @@
 package client.entity;
 import states.pilotStates;
-import server.sharedRegion.*;
+import client.stubs.*;
 
 /**
  * Pilot thread and life cycle implementation
@@ -16,16 +16,16 @@ public class Pilot extends Thread{
     /**
      * DepartureAirport Shared Region
      */
-    private departureAirport da;
+    private departureAirportStub da;
 
     /**
      * DestinationAirport Shared Region
      */
-    private destinationAirport destA;
+    private destinationAirportStub destA;
     /**
      * Plane Shared Region
      */
-    private Plane plane;
+    private planeStub plane;
 
     /**
      * True if end of work day
@@ -40,7 +40,7 @@ public class Pilot extends Thread{
      * @param destA Destination Airport Shared Region
      * @param plane Plane Shared Region
      */
-    public Pilot(departureAirport da, destinationAirport destA, Plane plane){
+    public Pilot(departureAirportStub da, destinationAirportStub destA, planeStub plane){
         this.state = pilotStates.AT_TRANSFER_GATE;
         this.da = da;
         this.destA = destA;

@@ -1,7 +1,7 @@
 package client.entity;
 import main.SimulPar;
 import states.passengerStates;
-import server.sharedRegion.*;
+import client.stubs.*;
 
 /**
  * Passenger thread and lifecycle implementation
@@ -22,18 +22,18 @@ public class Passenger extends Thread {
     /**
      * Departure Airport Shared Region
      */
-    private departureAirport da;
+    private departureAirportStub da;
 
     /**
      * Destination Airport Shared Region
      */
-    private destinationAirport destA;
+    private destinationAirportStub destA;
 
     /**
      * Plane Shared Region
      */
 
-    private Plane plane;
+    private planeStub plane;
 
 
     /**
@@ -43,7 +43,7 @@ public class Passenger extends Thread {
      * @param destA Destination Airport Shared Region
      * @param plane Plane Shared Region
      */
-    public Passenger(int id, departureAirport da, destinationAirport destA, Plane plane){
+    public Passenger(int id, departureAirportStub da, destinationAirportStub destA, planeStub plane){
         this.id = id;
         this.state = passengerStates.GOING_TO_AIRPORT;
         this.da = da;

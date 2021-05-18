@@ -1,6 +1,8 @@
 package client.entity;
+import client.stubs.departureAirportStub;
+import client.stubs.planeStub;
 import states.hostessStates;
-import server.sharedRegion.*;
+
 
 /**
  * Hostess thread and Lifecycle implementation
@@ -15,11 +17,11 @@ public class Hostess extends Thread {
     /**
      * Departure Airport Shared Region
      */
-    private departureAirport da;
+    private departureAirportStub da;
     /**
      * Plane Shared Region
      */
-    private Plane plane;
+    private planeStub plane;
     /**
      * True if conditions are met for the plane to takeoff
      */
@@ -31,10 +33,10 @@ public class Hostess extends Thread {
 
 
     /** Hostess constructor
-     * @param da Departure Airport Shared Region
-     * @param plane Plane Shared Region
+     * @param da Departure Airport Stub
+     * @param plane Plane Stub
      */
-    public Hostess(departureAirport da, Plane plane){
+    public Hostess(departureAirportStub da, planeStub plane){
         this.state = hostessStates.WAIT_FOR_NEXT_FLIGHT;
         this.da = da;
         this.plane = plane;

@@ -191,9 +191,14 @@ public class genRepoStub {
     }
 
 
+    public void reportBoardingStarted() {
+        ClientCom con = new ClientCom(serverHostName, serverPort);
+        message in, out;
+        while(!con.open());
 
+        out = new message(messageType.REPORT_BOARDING_STARTED, -1);
+        con.writeObject(out);
 
-
-
-
+        in = (message) con.readObject();
+    }
 }

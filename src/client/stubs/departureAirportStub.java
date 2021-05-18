@@ -139,7 +139,7 @@ public class departureAirportStub {
         in = (message) con.readObject();
     }
 
-    public  void waitForNextPassenger() {
+    public boolean waitForNextPassenger() {
         Hostess hostess = (Hostess) Thread.currentThread();
 
         ClientCom con = new ClientCom(serverHostName, serverPort);
@@ -154,6 +154,7 @@ public class departureAirportStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        return in.getaBoolean();
     }
 
     public  void showDocuments() {
@@ -174,7 +175,7 @@ public class departureAirportStub {
 
     }
 
-    public  void endOfDay() {
+    public boolean endOfDay() {
         Hostess hostess = (Hostess) Thread.currentThread();
 
         ClientCom con = new ClientCom(serverHostName, serverPort);
@@ -189,6 +190,7 @@ public class departureAirportStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        return in.getaBoolean();
     }
     
 
