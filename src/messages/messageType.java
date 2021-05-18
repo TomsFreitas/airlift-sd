@@ -66,5 +66,8 @@ public enum messageType implements Serializable {
 
     REPORT_STATUS,
 
-    LEAVE
+    LEAVE,
+
+    FINAL_REPORT;
+
 }

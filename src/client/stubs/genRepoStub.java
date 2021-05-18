@@ -1,7 +1,5 @@
 package client.stubs;
 
-import client.entity.Hostess;
-import client.entity.Pilot;
 import communication.ClientCom;
 import messages.message;
 import messages.messageType;
@@ -68,6 +66,132 @@ public class genRepoStub {
         in = (message) con.readObject();
 
     }
+
+    public void setNumberOfPassengersArrived(int numberOfPassengersArrived){
+        ClientCom con = new ClientCom(serverHostName, serverPort);
+        message in, out;
+        while(!con.open());
+
+        out = new message(messageType.SET_NUMBER_OF_PASSENGERS_ARRIVED, -1);
+        out.setAnInt(numberOfPassengersArrived);
+        con.writeObject(out);
+
+        in = (message) con.readObject();
+
+    }
+    public void setPassengerInFlight(int passengerInFlight){
+        ClientCom con = new ClientCom(serverHostName, serverPort);
+        message in, out;
+        while(!con.open());
+
+        out = new message(messageType.SET_PASSENGER_IN_FLIGHT, -1);
+        out.setAnInt(passengerInFlight);
+        con.writeObject(out);
+
+        in = (message) con.readObject();
+
+    }
+
+    public void setPassengerCheckedId(int passengerCheckedId){
+        ClientCom con = new ClientCom(serverHostName, serverPort);
+        message in, out;
+        while(!con.open());
+
+        out = new message(messageType.SET_PASSENGER_CHECKED_ID, -1);
+        out.setAnInt(passengerCheckedId);
+        con.writeObject(out);
+
+        in = (message) con.readObject();
+
+    }
+
+    public void setPassengersInQueue(int passengersInQueue){
+        ClientCom con = new ClientCom(serverHostName, serverPort);
+        message in, out;
+        while(!con.open());
+
+        out = new message(messageType.SET_PASSENGERS_IN_QUEUE, -1);
+        out.setAnInt(passengersInQueue);
+        con.writeObject(out);
+
+        in = (message) con.readObject();
+
+    }
+
+    public void reportPassengerChecked(){
+        ClientCom con = new ClientCom(serverHostName, serverPort);
+        message in, out;
+        while(!con.open());
+
+        out = new message(messageType.REPORT_PASSENGER_CHECKED, -1);
+        con.writeObject(out);
+
+        in = (message) con.readObject();
+
+    }
+
+    public void reportFlightDeparted(){
+        ClientCom con = new ClientCom(serverHostName, serverPort);
+        message in, out;
+        while(!con.open());
+
+        out = new message(messageType.REPORT_FLIGHT_DEPARTED, -1);
+        con.writeObject(out);
+
+        in = (message) con.readObject();
+
+    }
+
+    public void reportFlightArrived(){
+        ClientCom con = new ClientCom(serverHostName, serverPort);
+        message in, out;
+        while(!con.open());
+
+        out = new message(messageType.REPORT_FLIGHT_ARRIVED, -1);
+        con.writeObject(out);
+
+        in = (message) con.readObject();
+
+    }
+
+    public void reportFlightReturning(){
+        ClientCom con = new ClientCom(serverHostName, serverPort);
+        message in, out;
+        while(!con.open());
+
+        out = new message(messageType.REPORT_FLIGHT_RETURNING, -1);
+        con.writeObject(out);
+
+        in = (message) con.readObject();
+
+    }
+
+    public void finalReport(){
+        ClientCom con = new ClientCom(serverHostName, serverPort);
+        message in, out;
+        while(!con.open());
+
+        out = new message(messageType.FINAL_REPORT, -1);
+        con.writeObject(out);
+
+        in = (message) con.readObject();
+
+    }
+
+    public void reportStatus(){
+        ClientCom con = new ClientCom(serverHostName, serverPort);
+        message in, out;
+        while(!con.open());
+
+        out = new message(messageType.REPORT_STATUS, -1);
+        con.writeObject(out);
+
+        in = (message) con.readObject();
+
+    }
+
+
+
 
 
 
