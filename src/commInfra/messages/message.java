@@ -1,5 +1,6 @@
 package commInfra.messages;
 
+import commInfra.states.*;
 import java.io.Serializable;
 
 public class message implements Serializable {
@@ -22,7 +23,12 @@ public class message implements Serializable {
     private String aString;
 
     private int anInt;
-
+    
+    private hostessStates hostessStates;
+    
+    private pilotStates pilotStates;
+    
+    private passengerStates passengerStates;
 
     /**
      * Message constructor
@@ -33,6 +39,10 @@ public class message implements Serializable {
         this.messageType = type;
         this.ID = id;
 
+    }
+
+    public int getID() {
+        return ID;
     }
 
     public messageType getMessageType() {
@@ -62,4 +72,30 @@ public class message implements Serializable {
     public String getaString() {
         return aString;
     }
+
+    public hostessStates getHostessStates() {
+        return hostessStates;
+    }
+
+    public void setHostessStates(hostessStates hostessStates) {
+        this.hostessStates = hostessStates;
+    }
+
+    public pilotStates getPilotStates() {
+        return pilotStates;
+    }
+
+    public void setPilotStates(pilotStates pilotStates) {
+        this.pilotStates = pilotStates;
+    }
+
+    public passengerStates getPassengerStates() {
+        return passengerStates;
+    }
+
+    public void setPassengerStates(passengerStates passengerStates) {
+        this.passengerStates = passengerStates;
+    }
+    
+    
 }

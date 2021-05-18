@@ -2,6 +2,10 @@ package server.proxies;
 
 import commInfra.communication.ServerCom;
 import commInfra.messages.message;
+import commInfra.states.passengerStates;
+import commInfra.states.pilotStates;
+import server.interfaces.Passenger;
+import server.interfaces.Pilot;
 import server.interfaces.destinationInterface;
 
 /**
@@ -15,12 +19,14 @@ import server.interfaces.destinationInterface;
  * @author Tiago Almeida
  */
 
-public class destinationProxy extends Thread {
+public class destinationProxy extends Thread implements Pilot, Passenger{
     private static int proxyNo;
 
     private ServerCom sconi;
 
-    private server.interfaces.destinationInterface destinationInterface;
+    private destinationInterface destinationInterface;
+    private passengerStates passengerState;
+    private pilotStates pilotState;
 
     /**
      * Interface instantiation
@@ -73,4 +79,18 @@ public class destinationProxy extends Thread {
         return proxyId;
     }
 
+    @Override
+    public void setState(passengerStates state) {
+        this.passengerState = state;
+    }
+
+    @Override
+    public int getID() {
+        return 0;
+    }
+
+    @Override
+    public void setState(pilotStates state) {
+        this.pilotState = state;
+    }
 }

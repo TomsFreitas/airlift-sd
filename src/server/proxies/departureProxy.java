@@ -8,7 +8,7 @@ import commInfra.states.pilotStates;
 import server.interfaces.departureInterface;
 import server.interfaces.Pilot;
 import server.interfaces.Hostess;
-import server.interfaces.Passenger
+import server.interfaces.Passenger;
 
 /**
  * departureProxy
@@ -26,7 +26,17 @@ public class departureProxy extends Thread implements Passenger, Pilot, Hostess 
 
     private ServerCom sconi;
 
-    private server.interfaces.departureInterface departureInterface;
+    private departureInterface departureInterface;
+
+    private hostessStates hostessState;
+
+    private pilotStates pilotStates;
+
+    private passengerStates passengerStates;
+
+    private int passengersInFlight;
+
+    private message in, out;
 
     /**
      * Interface instantiation
@@ -37,6 +47,10 @@ public class departureProxy extends Thread implements Passenger, Pilot, Hostess 
     public departureProxy(ServerCom sconi, departureInterface departureInterface){
         this.sconi = sconi;
         this.departureInterface = departureInterface;
+        this.hostessState = hostessStates.WAIT_FOR_NEXT_FLIGHT;
+        this.pilotStates = pilotStates.AT_TRANSFER_GATE;
+        this.passengersInFlight = 0;
+        this.passengerStates = passengerStates.GOING_TO_AIRPORT;
     }
 
     /**
@@ -44,7 +58,7 @@ public class departureProxy extends Thread implements Passenger, Pilot, Hostess 
      */
     @Override
     public void run() {
-        message in, out;                                    // mensagem de entrada/saida
+
 
         in = (message) this.sconi.readObject();
 
@@ -81,31 +95,33 @@ public class departureProxy extends Thread implements Passenger, Pilot, Hostess 
 
     @Override
     public void setState(hostessStates state) {
-
+        this.hostessState = state;
+        this.out.setHostessStates(state);
     }
 
     @Override
     public void setPassengersInFlight(int passengersInFlight) {
-
+        this.passengersInFlight = passengersInFlight;
+        out.setAnInt(passengersInFlight);
     }
 
     @Override
     public int getPassengersInFlight() {
-        return 0;
+        return this.passengersInFlight;
     }
 
     @Override
     public void setState(passengerStates state) {
-
+        this.passengerStates = state;
     }
 
     @Override
     public int getID() {
-        return 0;
+        return in.getID();
     }
 
     @Override
     public void setState(pilotStates state) {
-
+        this.pilotStates = state;
     }
 }
