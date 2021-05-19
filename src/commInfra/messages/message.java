@@ -35,14 +35,27 @@ public class message implements Serializable {
      * @param type The type of message
      * @param id ID of the message creator
      */
+
+    public message(){}
+
     public message(messageType type, int id){
         this.messageType = type;
         this.ID = id;
 
     }
 
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
     public int getID() {
         return ID;
+    }
+
+
+    public void setMessageType(commInfra.messages.messageType messageType) {
+        this.messageType = messageType;
     }
 
     public messageType getMessageType() {

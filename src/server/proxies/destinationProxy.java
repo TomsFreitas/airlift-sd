@@ -27,6 +27,7 @@ public class destinationProxy extends Thread implements Pilot, Passenger{
     private destinationInterface destinationInterface;
     private passengerStates passengerState;
     private pilotStates pilotState;
+    message in, out;
 
     /**
      * Interface instantiation
@@ -44,11 +45,11 @@ public class destinationProxy extends Thread implements Pilot, Passenger{
      */
     @Override
     public void run() {
-        message in, out;                                    // mensagem de entrada/saida
+                                           // mensagem de entrada/saida
 
         in = (message) this.sconi.readObject();
 
-        out = this.destinationInterface.process(in);
+        out = this.destinationInterface.processAndReply(in);
 
         this.sconi.writeObject(out);
         this.sconi.close();
@@ -86,7 +87,7 @@ public class destinationProxy extends Thread implements Pilot, Passenger{
 
     @Override
     public int getID() {
-        return 0;
+        return in.getID() ;
     }
 
     @Override

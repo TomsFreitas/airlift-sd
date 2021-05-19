@@ -68,6 +68,8 @@ public enum messageType implements Serializable {
 
     LEAVE,
 
-    FINAL_REPORT;
+    FINAL_REPORT,
+
+    ACK;
 
 }

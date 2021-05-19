@@ -28,7 +28,7 @@ public class destinationInterface {
      * @param in message with the request
      * @return reply message
      */
-    public message process(message in){
+    public message processAndReply(message in){
         message reply = new message();              // implementar construtor
         destinationProxy proxy = (destinationProxy) Thread.currentThread();
 

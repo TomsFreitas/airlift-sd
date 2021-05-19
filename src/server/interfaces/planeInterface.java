@@ -12,7 +12,7 @@ public class planeInterface {
         this.plane = plane;
     }
 
-    public message process(message in) {
+    public message processAndReply(message in) {
         planeProxy proxy = (planeProxy) Thread.currentThread();
         switch (in.getMessageType()){
             case BOARD_THE_PLANE:

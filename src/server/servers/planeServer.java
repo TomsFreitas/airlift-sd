@@ -9,7 +9,7 @@ import client.stubs.genRepoStub;
 
 public class planeServer {
 
-    private static final int port = SimulPar.planeServerPort;
+
     public static boolean waitConnection;
 
     public static void main(String[] args){
@@ -19,7 +19,7 @@ public class planeServer {
         planeProxy proxy;
         genRepoStub repoStub;
 
-        scon = new ServerCom(port);
+        scon = new ServerCom(SimulPar.planeServerPort);
         scon.start();
 
         repoStub = new genRepoStub(SimulPar.genRepoServerHost, SimulPar.genRepoServerPort);

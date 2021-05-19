@@ -62,7 +62,7 @@ public class departureProxy extends Thread implements Passenger, Pilot, Hostess 
 
         in = (message) this.sconi.readObject();
 
-        out = this.departureInterface.process(in);
+        out = this.departureInterface.processAndReply(in);
 
         this.sconi.writeObject(out);
         this.sconi.close();
@@ -96,13 +96,11 @@ public class departureProxy extends Thread implements Passenger, Pilot, Hostess 
     @Override
     public void setState(hostessStates state) {
         this.hostessState = state;
-        this.out.setHostessStates(state);
     }
 
     @Override
     public void setPassengersInFlight(int passengersInFlight) {
         this.passengersInFlight = passengersInFlight;
-        out.setAnInt(passengersInFlight);
     }
 
     @Override
