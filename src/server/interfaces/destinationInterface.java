@@ -1,6 +1,7 @@
 package server.interfaces;
 
 import commInfra.messages.*;
+import commInfra.states.pilotStates;
 import server.proxies.destinationProxy;
 import server.sharedRegion.destinationAirport;
 
@@ -39,7 +40,7 @@ public class destinationInterface {
             case FLY_TO_DEPARTURE_POINT:
                 destinationAirport.flyToDeparturePoint();
                 reply.setMessageType(messageType.ACK);
-                //reply.setMessageType(messageType.FLY_TO_DEPARTURE_POINT);     // implementar
+                reply.setPilotStates(pilotStates.FLYING_BACK);
                 break;
             case LEAVE:
                 destinationAirport.leave();
@@ -49,6 +50,7 @@ public class destinationInterface {
                boolean aBoolean = destinationAirport.endOfDay();
                reply.setaBoolean(aBoolean);
                reply.setMessageType(messageType.ACK);
+               break;
             default:
                 System.out.println("Error in destination interface");
         }

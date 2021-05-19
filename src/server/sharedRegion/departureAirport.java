@@ -105,11 +105,12 @@ public class departureAirport {
      * Called by the pilot.
      * Pilot state is set to AT_TRANSFER_GATE.
      */
-    public synchronized void parkAtTransferGate() {
+    public synchronized void parkAtTransferGate(boolean endOfDay) {
         Pilot pilot = (Pilot) Thread.currentThread();
         pilot.setState(pilotStates.AT_TRANSFER_GATE);
         repo.setPilotState(pilotStates.AT_TRANSFER_GATE.getState());
         repo.reportStatus();
+        if(endOfDay) repo.finalReport();
     }
 
     /**

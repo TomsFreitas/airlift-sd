@@ -73,7 +73,7 @@ public class Pilot extends Thread{
     @Override
     public void run() {
         while (true) {
-            this.da.parkAtTransferGate();
+            this.da.parkAtTransferGate(this.endOfDay);
             if (this.endOfDay){
                 break;
             }

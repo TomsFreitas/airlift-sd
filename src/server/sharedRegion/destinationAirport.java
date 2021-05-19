@@ -59,7 +59,7 @@ public class destinationAirport {
 
     public synchronized boolean endOfDay(){
         if(this.counter >= 21){
-            repo.finalReport();
+            //repo.finalReport();
             return true;
         }
         return false;

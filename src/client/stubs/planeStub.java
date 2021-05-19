@@ -34,8 +34,8 @@ public class planeStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        passenger.setState(in.getPassengerStates());
 
-        System.out.println("Passenger entered the plane ID: " + passenger.getID());
 
 
     }
@@ -79,6 +79,7 @@ public class planeStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        hostess.setState(in.getHostessStates());
     }
 
     /**
@@ -98,6 +99,7 @@ public class planeStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        pilot.setState(in.getPilotStates());
 
     }
 
@@ -119,6 +121,7 @@ public class planeStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        pilot.setState(in.getPilotStates());
 
 
     }
@@ -141,6 +144,7 @@ public class planeStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        passenger.setState(in.getPassengerStates());
 
 
 

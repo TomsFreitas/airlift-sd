@@ -30,6 +30,7 @@ public class destinationAirportStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        pilot.setState(in.getPilotStates());
     }
 
     public void leave(){

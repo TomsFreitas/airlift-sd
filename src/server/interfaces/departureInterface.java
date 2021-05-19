@@ -39,7 +39,7 @@ public class departureInterface {
         System.out.println("-------------------");
         switch (in.getMessageType()){
             case PARK_AT_TRANSFER_GATE:
-                departureAirport.parkAtTransferGate();
+                departureAirport.parkAtTransferGate(in.getaBoolean());
                 reply.setMessageType(messageType.ACK);
                 reply.setPilotStates(pilotStates.AT_TRANSFER_GATE);
                 break;

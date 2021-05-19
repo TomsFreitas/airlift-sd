@@ -31,10 +31,11 @@ public class departureAirportStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        pilot.setState(in.getPilotStates());
 
     }
 
-    public  void parkAtTransferGate() {
+    public  void parkAtTransferGate(boolean endOfDay) {
         Pilot pilot = (Pilot) Thread.currentThread();
 
         ClientCom con = new ClientCom(serverHostName, serverPort);
@@ -46,9 +47,11 @@ public class departureAirportStub {
         }
 
         out = new message(messageType.PARK_AT_TRANSFER_GATE, -1);
+        out.setaBoolean(endOfDay);
         con.writeObject(out);
 
         in = (message) con.readObject();
+        pilot.setState(in.getPilotStates());
 
     }
 
@@ -67,6 +70,7 @@ public class departureAirportStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        pilot.setState(in.getPilotStates());
 
     }
 
@@ -85,6 +89,7 @@ public class departureAirportStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        hostess.setState(in.getHostessStates());
     }
 
     public void waitInQueue() {
@@ -102,6 +107,7 @@ public class departureAirportStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        passenger.setState(in.getPassengerStates());
 
     }
 
@@ -120,6 +126,7 @@ public class departureAirportStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        hostess.setState(in.getHostessStates());
     }
 
     public  void checkDocuments() {
@@ -137,6 +144,7 @@ public class departureAirportStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        hostess.setState(in.getHostessStates());
     }
 
     public boolean waitForNextPassenger() {
@@ -155,6 +163,7 @@ public class departureAirportStub {
 
         in = (message) con.readObject();
         hostess.setPassengersInFlight(in.getAnInt());
+        hostess.setState(in.getHostessStates());
         return in.getaBoolean();
     }
 
