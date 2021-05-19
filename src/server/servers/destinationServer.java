@@ -10,7 +10,7 @@ public class destinationServer {
     public static boolean waitConnection;
 
     public static void main(String[] args) {
-        destinationServer destA;
+        destinationAirport destA;
         destinationInterface destinationInterface;
         ServerCom scon, sconi;
         destinationProxy proxy;
