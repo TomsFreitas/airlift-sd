@@ -1,8 +1,8 @@
 package server.sharedRegion;
 
-import client.entity.Hostess;
-import client.entity.Passenger;
-import client.entity.Pilot;
+import server.interfaces.Hostess;
+import server.interfaces.Passenger;
+import server.interfaces.Pilot;
 import commInfra.states.hostessStates;
 import commInfra.states.passengerStates;
 import commInfra.states.pilotStates;
@@ -84,11 +84,12 @@ public class Plane {
      * Called by the hostess, this function blocks until all checked in passengers are effectively on board.
      * Hostess state is set to READY_TO_FLY and warns the pilot to take off.
      */
-    public synchronized void informPlaneReadyForTakeOff() {
+    public synchronized void informPlaneReadyForTakeOff(int passengersInFlight) {
         Hostess hostess = (Hostess) Thread.currentThread();
 
-
-        while (this.occupiedSeats != hostess.getPassengersInFlight()){
+        System.out.println("AQUIIIII");
+        System.out.println(passengersInFlight);
+        while (this.occupiedSeats != passengersInFlight){
             try {
                 wait();
             } catch (InterruptedException e) {

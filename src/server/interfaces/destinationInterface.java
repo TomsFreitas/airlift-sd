@@ -31,6 +31,9 @@ public class destinationInterface {
     public message processAndReply(message in){
         message reply = new message();              // implementar construtor
         destinationProxy proxy = (destinationProxy) Thread.currentThread();
+        System.out.println("------------------");
+        System.out.println(in.getMessageType());
+        System.out.println("-------------------");
 
         switch (in.getMessageType()){
             case FLY_TO_DEPARTURE_POINT:

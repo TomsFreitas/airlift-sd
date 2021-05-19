@@ -18,6 +18,9 @@ public class planeInterface {
     public message processAndReply(message in) {
         message reply = new message();
         planeProxy proxy = (planeProxy) Thread.currentThread();
+        System.out.println("------------------");
+        System.out.println(in.getMessageType());
+        System.out.println("-------------------");
         switch (in.getMessageType()){
             case BOARD_THE_PLANE:
                 plane.boardThePlane();
@@ -29,7 +32,7 @@ public class planeInterface {
                 reply.setMessageType(messageType.ACK);
                 break;
             case INFORM_PLANE_READY_FOR_TAKEOFF:
-                plane.informPlaneReadyForTakeOff();
+                plane.informPlaneReadyForTakeOff(in.getAnInt());
                 reply.setMessageType(messageType.ACK);
                 reply.setHostessStates(hostessStates.READY_TO_FLY);
                 break;

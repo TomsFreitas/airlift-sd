@@ -46,7 +46,7 @@ public class genRepoStub {
         message in, out;
         while(!con.open());
 
-        out = new message(messageType.SET_PILOT_STATE, -1);
+        out = new message(messageType.SET_HOSTESS_STATE, -1);
         out.setaString(state);
         con.writeObject(out);
 
@@ -59,7 +59,7 @@ public class genRepoStub {
         message in, out;
         while(!con.open());
 
-        out = new message(messageType.SET_PILOT_STATE, id);
+        out = new message(messageType.SET_PASSENGER_STATE, id);
         out.setaString(state);
         con.writeObject(out);
 

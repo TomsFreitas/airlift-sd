@@ -88,6 +88,7 @@ public class Hostess extends Thread {
             while (!this.readyToFly) {
                 this.da.checkDocuments();
                 this.readyToFly = this.da.waitForNextPassenger();
+                System.out.println(this.readyToFly);
 
             }
             this.readyToFly = false;

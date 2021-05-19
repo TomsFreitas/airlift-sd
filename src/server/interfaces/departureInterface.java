@@ -34,7 +34,9 @@ public class departureInterface {
     public message processAndReply(message in){
         message reply = new message();              // implementar construtor
         departureProxy proxy = (departureProxy) Thread.currentThread();
-
+        System.out.println("------------------");
+        System.out.println(in.getMessageType());
+        System.out.println("-------------------");
         switch (in.getMessageType()){
             case PARK_AT_TRANSFER_GATE:
                 departureAirport.parkAtTransferGate();
@@ -74,9 +76,11 @@ public class departureInterface {
                 break;
             case WAIT_FOR_NEXT_PASSENGER:
                 // serviceProviderProxy implementar
-                departureAirport.waitForNextPassenger();
+                boolean aBoolean = departureAirport.waitForNextPassenger();
                 reply.setMessageType(messageType.ACK);
                 reply.setHostessStates(hostessStates.WAIT_FOR_PASSENGER);
+                reply.setaBoolean(aBoolean);
+                reply.setAnInt(proxy.getPassengersInFlight());
                 break;
             case WAIT_IN_QUEUE:
                 // serviceProviderProxy implementar
@@ -91,8 +95,15 @@ public class departureInterface {
                 reply.setID(in.getID());
                 reply.setMessageType(messageType.ACK);
                 break;
+            case END_OF_DAY:
+                aBoolean = departureAirport.endOfDay();
+                reply.setMessageType(messageType.ACK);
+                reply.setaBoolean(aBoolean);
+                break;
             default:
                 System.out.println("Error in departure interface");
+                System.out.println(in.getMessageType());
+                System.out.println("ERRO AQUI");
         }
 
         return reply;

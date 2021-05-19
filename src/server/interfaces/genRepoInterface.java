@@ -24,6 +24,8 @@ public class genRepoInterface {
 
     public message processAndReply(message in){
         message reply = new message();
+        System.out.println(in.getMessageType());
+
         switch (in.getMessageType()){
 
             case SET_FLIGHT_NUMBER:

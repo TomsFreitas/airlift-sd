@@ -154,6 +154,7 @@ public class departureAirportStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        hostess.setPassengersInFlight(in.getAnInt());
         return in.getaBoolean();
     }
 

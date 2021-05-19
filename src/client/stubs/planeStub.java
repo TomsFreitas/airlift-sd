@@ -75,6 +75,7 @@ public class planeStub {
         }
 
         out = new message(messageType.INFORM_PLANE_READY_FOR_TAKEOFF, -1);
+        out.setAnInt(hostess.getPassengersInFlight());
         con.writeObject(out);
 
         in = (message) con.readObject();

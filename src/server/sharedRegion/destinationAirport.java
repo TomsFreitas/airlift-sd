@@ -1,6 +1,6 @@
 package server.sharedRegion;
 
-import client.entity.Pilot;
+import server.interfaces.Pilot;
 import commInfra.SimulPar;
 import commInfra.states.pilotStates;
 import client.stubs.genRepoStub;
