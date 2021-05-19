@@ -42,7 +42,7 @@ public class genRepoProxy extends Thread {
 
         in = (message) this.sconi.readObject();
 
-        out = this.genRepoInterface.process(in);
+        out = this.genRepoInterface.processAndReply(in);
 
         this.sconi.writeObject(out);
         this.sconi.close();

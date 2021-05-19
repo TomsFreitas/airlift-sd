@@ -1,8 +1,8 @@
 package server.sharedRegion;
 import commInfra.SimulPar;
-import client.entity.Hostess;
-import client.entity.Passenger;
-import client.entity.Pilot;
+import server.interfaces.Hostess;
+import server.interfaces.Passenger;
+import server.interfaces.Pilot;
 import commInfra.states.hostessStates;
 import commInfra.states.passengerStates;
 import commInfra.states.pilotStates;

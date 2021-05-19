@@ -34,10 +34,18 @@ public class destinationInterface {
 
         switch (in.getMessageType()){
             case FLY_TO_DEPARTURE_POINT:
-                // serviceProviderProxy implementar
                 destinationAirport.flyToDeparturePoint();
+                reply.setMessageType(messageType.ACK);
                 //reply.setMessageType(messageType.FLY_TO_DEPARTURE_POINT);     // implementar
                 break;
+            case LEAVE:
+                destinationAirport.leave();
+                reply.setMessageType(messageType.ACK);
+                break;
+            case END_OF_DAY:
+               boolean aBoolean = destinationAirport.endOfDay();
+               reply.setaBoolean(aBoolean);
+               reply.setMessageType(messageType.ACK);
             default:
                 System.out.println("Error in destination interface");
         }
