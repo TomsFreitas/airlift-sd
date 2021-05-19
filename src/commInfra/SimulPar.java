@@ -36,12 +36,12 @@ public final class SimulPar{
     /**
      * Passenger minimum sleep time
      */
-    public static final int Passenger_MinSleep = 200;
+    public static final int Passenger_MinSleep = 500;
 
     /**
      * Passenger maximum sleep time
      */
-    public static final int Passenger_MaxSleep = 1000;
+    public static final int Passenger_MaxSleep = 2000;
 
     public static final String planeServerHost = "localhost";
     public static final int planeServerPort = 22190;

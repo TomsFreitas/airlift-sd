@@ -56,6 +56,10 @@ public class genRepoInterface {
                 genRepo.setPassengersInQueue(in.getAnInt());
                 reply.setMessageType(messageType.ACK);
                 break;
+            case SET_PASSENGER_CHECKED_ID:
+                genRepo.setPassengerCheckedId(in.getAnInt());
+                reply.setMessageType(messageType.ACK);
+                break;
             case REPORT_BOARDING_STARTED:
                 genRepo.reportBoardingStarted();
                 reply.setMessageType(messageType.ACK);
