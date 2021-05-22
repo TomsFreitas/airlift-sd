@@ -7,8 +7,20 @@ import server.proxies.genRepoProxy;
 
 import java.net.SocketTimeoutException;
 
+/**
+ * General Repository Server
+ *
+ * @author Tomás Freitas
+ * @author Tiago Almeioda
+ */
+
 public class genRepoServer {
 
+     /**
+     * Activity signalization
+     *
+     * @serialField waitConnection
+     */
     public static boolean waitConnection;
 
     public static void main(String[] args) {

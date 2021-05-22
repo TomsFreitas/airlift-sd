@@ -6,15 +6,12 @@ import server.interfaces.genRepoInterface;
 
 
 /**
- * genRepoProxy
- *
- * <p>
- *     Explain
- * </p>
+ * General Repository Proxy
  *
  * @author Tomás Freitas
  * @author Tiago Almeida
  */
+
 
 public class genRepoProxy extends Thread {
 
@@ -24,8 +21,9 @@ public class genRepoProxy extends Thread {
 
     /**
      * Interface instantiation
-     * @param sconi
-     * @param genRepoInterface
+     * 
+     * @param sconi Communication channel (package commInfra.communication)
+     * @param genRepoInterface General Repository Information Interface
      */
     public genRepoProxy(ServerCom sconi, genRepoInterface genRepoInterface){
         this.sconi = sconi;
@@ -47,6 +45,11 @@ public class genRepoProxy extends Thread {
         this.sconi.close();
     }
 
+    /**
+     * Get Communication channel
+     * 
+     * @return
+     */
     public ServerCom getSconi() {
         return sconi;
     }

@@ -9,10 +9,10 @@ import server.servers.departureServer;
 import server.sharedRegion.departureAirport;
 
 /**
- * departureInterface
+ * Departure Airport Interface
  *
  * <p>
- *     Explain
+ *     It provides the necessary states in departure airport.
  * </p>
  *
  * @author Tomás Freitas
@@ -24,12 +24,19 @@ public class departureInterface {
     private departureAirport departureAirport;
     private int shutdown;
 
+    /**
+     * Instantiation
+     * 
+     * @param departureAirport Departure Airport
+     */
     public departureInterface(departureAirport departureAirport){
         this.departureAirport = departureAirport;
         this.shutdown = 0;
     }
 
     /**
+     * Processing the messages by performing the respective task.
+     * Generates a response message.
      *
      * @param in message with the request
      * @return reply message

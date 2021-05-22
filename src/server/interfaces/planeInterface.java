@@ -9,16 +9,39 @@ import server.proxies.planeProxy;
 import server.sharedRegion.Plane;
 import server.servers.planeServer;
 
+/**
+ * Plane Interface
+ *
+ * <p>
+ *     It provides the necessary states in Plane.
+ * </p>
+ *
+ * @author Tomás Freitas
+ * @author Tiago Almeida
+ */
+
 public class planeInterface {
     private Plane plane;
 
     private int shutdown;
 
+    /**
+     * Instantiation
+     * 
+     * @param plane Plane
+     */
     public planeInterface(Plane plane){
         this.plane = plane;
         this.shutdown = 0;
     }
 
+    /**
+     * Processing the messages by performing the respective task.
+     * Generates a response message.
+     *
+     * @param in message with the request
+     * @return reply message
+     */
     public message processAndReply(message in) {
         message reply = new message();
         planeProxy proxy = (planeProxy) Thread.currentThread();

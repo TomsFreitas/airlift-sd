@@ -8,7 +8,20 @@ import server.stubs.genRepoStub;
 
 import java.net.SocketTimeoutException;
 
+/**
+ * Departure Airport Server
+ *
+ * @author Tomás Freitas
+ * @author Tiago Almeioda
+ */
+
 public class departureServer {
+    
+    /**
+     * Activity signalization
+     *
+     * @serialField waitConnection
+     */
     public static boolean waitConnection;
 
     public static void main(String[] args) {
