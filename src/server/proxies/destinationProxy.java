@@ -22,7 +22,7 @@ import server.interfaces.destinationInterface;
 public class destinationProxy extends Thread implements Pilot, Passenger{
     private static int proxyNo;
 
-    private ServerCom sconi;
+    private final ServerCom sconi;
 
     private destinationInterface destinationInterface;
     private passengerStates passengerState;
@@ -55,29 +55,8 @@ public class destinationProxy extends Thread implements Pilot, Passenger{
         this.sconi.close();
     }
 
-    /**
-     * Instantiation id
-     *
-     * @return id
-     */
-    public static int getProxyNo() {
-        Class<?> cl = null;
-        int proxyId;
-
-        try {
-            cl = Class.forName ("server.proxies.destinationProxy");
-        } catch (ClassNotFoundException e) {
-            System.out.println("destinationProxy not found!");
-            e.printStackTrace ();
-            System.exit (1);
-        }
-
-        synchronized (cl) {
-            proxyId = proxyNo;
-            proxyNo += 1;
-        }
-
-        return proxyId;
+    public ServerCom getSconi() {
+        return sconi;
     }
 
     @Override

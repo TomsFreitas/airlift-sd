@@ -1,6 +1,8 @@
 package server.interfaces;
 import commInfra.messages.message;
 import commInfra.messages.messageType;
+import server.proxies.genRepoProxy;
+import server.servers.genRepoServer;
 import server.sharedRegion.genRepo;
 
 /**
@@ -25,6 +27,7 @@ public class genRepoInterface {
     public message processAndReply(message in){
         message reply = new message();
         System.out.println(in.getMessageType());
+        genRepoProxy proxy = (genRepoProxy) Thread.currentThread();
 
         switch (in.getMessageType()){
 
@@ -88,11 +91,17 @@ public class genRepoInterface {
                 genRepo.finalReport();
                 reply.setMessageType(messageType.ACK);
                 break;
+            case SHUTDOWN:
+                genRepoServer.waitConnection = false;
+                proxy.getSconi().setTimeout(1);
+                reply.setMessageType(messageType.ACK);
+                break;
             default:
                 System.out.println("Error in genRepo interface");
                 break;
 
         }
+
         return reply;
     }
 

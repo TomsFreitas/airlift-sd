@@ -6,7 +6,7 @@ import server.interfaces.Pilot;
 import commInfra.states.hostessStates;
 import commInfra.states.passengerStates;
 import commInfra.states.pilotStates;
-import client.stubs.genRepoStub;
+import server.stubs.genRepoStub;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;

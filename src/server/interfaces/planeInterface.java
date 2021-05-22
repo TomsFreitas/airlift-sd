@@ -7,12 +7,16 @@ import commInfra.states.passengerStates;
 import commInfra.states.pilotStates;
 import server.proxies.planeProxy;
 import server.sharedRegion.Plane;
+import server.servers.planeServer;
 
 public class planeInterface {
     private Plane plane;
 
+    private int shutdown;
+
     public planeInterface(Plane plane){
         this.plane = plane;
+        this.shutdown = 0;
     }
 
     public message processAndReply(message in) {
@@ -51,10 +55,20 @@ public class planeInterface {
                 reply.setMessageType(messageType.ACK);
                 reply.setPassengerStates(passengerStates.AT_DESTINATION);
                 break;
+            case SHUTDOWN:
+                this.shutdown++;
+                reply.setMessageType(messageType.ACK);
+                break;
             default:
                 System.out.println("Error in plane interface");
 
         }
+        if (this.shutdown == 2){
+            planeServer.waitConnection = false;
+            proxy.getSconi().setTimeout(1);
+            System.out.println("INITIATED SHUTDOWN");
+        }
+
        return reply;
     }
 }

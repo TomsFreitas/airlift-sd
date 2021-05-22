@@ -4,7 +4,9 @@ import commInfra.communication.ServerCom;
 import server.sharedRegion.departureAirport;
 import server.interfaces.departureInterface;
 import server.proxies.departureProxy;
-import client.stubs.genRepoStub;
+import server.stubs.genRepoStub;
+
+import java.net.SocketTimeoutException;
 
 public class departureServer {
     public static boolean waitConnection;
@@ -30,11 +32,18 @@ public class departureServer {
         waitConnection = true;
 
         while (waitConnection){
+            try {
+                sconi = scon.accept();
+                proxy = new departureProxy(sconi, departureInterface);
+                proxy.start();
+            }catch (SocketTimeoutException e){
 
-            sconi = scon.accept();
-            proxy = new departureProxy(sconi, departureInterface);
-            proxy.start();
+            }
 
         }
+
+        repoStub.shutdown();
+        scon.end();
+        System.out.println("Departure shutdown");
     }
 }

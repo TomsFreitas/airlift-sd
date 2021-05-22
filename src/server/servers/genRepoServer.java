@@ -5,6 +5,8 @@ import server.sharedRegion.genRepo;
 import server.interfaces.genRepoInterface;
 import server.proxies.genRepoProxy;
 
+import java.net.SocketTimeoutException;
+
 public class genRepoServer {
 
     public static boolean waitConnection;
@@ -25,9 +27,13 @@ public class genRepoServer {
         waitConnection = true;
         while (waitConnection)
         {
-            sconi = scon.accept ();                          // entrada em processo de escuta
-            proxy = new genRepoProxy(sconi, genRepoInterface);  // lançamento do agente prestador do serviço
-            proxy.start ();
+            try {
+                sconi = scon.accept ();                          // entrada em processo de escuta
+                proxy = new genRepoProxy(sconi, genRepoInterface);  // lançamento do agente prestador do serviço
+                proxy.start ();
+            } catch (SocketTimeoutException e) {
+                e.printStackTrace();
+            }
         }
         scon.end ();                                         // terminação de operações
         System.out.println("O servidor foi desactivado.");

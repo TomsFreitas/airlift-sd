@@ -32,6 +32,8 @@ public class departureAirportStub {
 
         in = (message) con.readObject();
         pilot.setState(in.getPilotStates());
+        con.close();
+
 
     }
 
@@ -52,6 +54,8 @@ public class departureAirportStub {
 
         in = (message) con.readObject();
         pilot.setState(in.getPilotStates());
+        con.close();
+
 
     }
 
@@ -71,6 +75,8 @@ public class departureAirportStub {
 
         in = (message) con.readObject();
         pilot.setState(in.getPilotStates());
+        con.close();
+
 
     }
 
@@ -90,6 +96,8 @@ public class departureAirportStub {
 
         in = (message) con.readObject();
         hostess.setState(in.getHostessStates());
+        con.close();
+
     }
 
     public void waitInQueue() {
@@ -108,6 +116,8 @@ public class departureAirportStub {
 
         in = (message) con.readObject();
         passenger.setState(in.getPassengerStates());
+        con.close();
+
 
     }
 
@@ -127,6 +137,8 @@ public class departureAirportStub {
 
         in = (message) con.readObject();
         hostess.setState(in.getHostessStates());
+        con.close();
+
     }
 
     public  void checkDocuments() {
@@ -145,6 +157,8 @@ public class departureAirportStub {
 
         in = (message) con.readObject();
         hostess.setState(in.getHostessStates());
+        con.close();
+
     }
 
     public boolean waitForNextPassenger() {
@@ -164,6 +178,8 @@ public class departureAirportStub {
         in = (message) con.readObject();
         hostess.setPassengersInFlight(in.getAnInt());
         hostess.setState(in.getHostessStates());
+        con.close();
+
         return in.getaBoolean();
     }
 
@@ -182,6 +198,8 @@ public class departureAirportStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        con.close();
+
 
     }
 
@@ -200,7 +218,22 @@ public class departureAirportStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        con.close();
         return in.getaBoolean();
+
+    }
+
+    public void shutdown(){
+        ClientCom con = new ClientCom(serverHostName, serverPort);
+        message in, out;
+        while(!con.open());
+
+        out = new message(messageType.SHUTDOWN, -1);
+        con.writeObject(out);
+
+        in = (message) con.readObject();
+        con.close();
+
     }
     
 

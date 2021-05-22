@@ -5,6 +5,7 @@ import commInfra.states.hostessStates;
 import commInfra.states.passengerStates;
 import commInfra.states.pilotStates;
 import server.proxies.departureProxy;
+import server.servers.departureServer;
 import server.sharedRegion.departureAirport;
 
 /**
@@ -21,9 +22,11 @@ import server.sharedRegion.departureAirport;
 
 public class departureInterface {
     private departureAirport departureAirport;
+    private int shutdown;
 
     public departureInterface(departureAirport departureAirport){
         this.departureAirport = departureAirport;
+        this.shutdown = 0;
     }
 
     /**
@@ -100,10 +103,18 @@ public class departureInterface {
                 reply.setMessageType(messageType.ACK);
                 reply.setaBoolean(aBoolean);
                 break;
+            case SHUTDOWN:
+                this.shutdown++;
+                reply.setMessageType(messageType.ACK);
+                break;
             default:
                 System.out.println("Error in departure interface");
                 System.out.println(in.getMessageType());
                 System.out.println("ERRO AQUI");
+        }
+        if (this.shutdown == 2){
+            departureServer.waitConnection = false;
+            proxy.getSconi().setTimeout(1);
         }
 
         return reply;

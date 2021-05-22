@@ -4,6 +4,7 @@ import commInfra.messages.*;
 import commInfra.states.pilotStates;
 import server.proxies.destinationProxy;
 import server.sharedRegion.destinationAirport;
+import server.servers.destinationServer;
 
 /**
  * destinationInterface
@@ -51,6 +52,11 @@ public class destinationInterface {
                reply.setaBoolean(aBoolean);
                reply.setMessageType(messageType.ACK);
                break;
+            case SHUTDOWN:
+                destinationServer.waitConnection = false;
+                proxy.getSconi().setTimeout(1);
+                reply.setMessageType(messageType.ACK);
+                break;
             default:
                 System.out.println("Error in destination interface");
         }

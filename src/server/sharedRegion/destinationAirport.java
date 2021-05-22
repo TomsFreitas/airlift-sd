@@ -3,7 +3,7 @@ package server.sharedRegion;
 import server.interfaces.Pilot;
 import commInfra.SimulPar;
 import commInfra.states.pilotStates;
-import client.stubs.genRepoStub;
+import server.stubs.genRepoStub;
 
 /**
  * Implementation of the Destination Airport Shared Memory

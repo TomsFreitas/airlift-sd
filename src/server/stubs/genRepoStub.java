@@ -1,4 +1,4 @@
-package client.stubs;
+package server.stubs;
 
 import commInfra.communication.ClientCom;
 import commInfra.messages.message;
@@ -25,6 +25,8 @@ public class genRepoStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        con.close();
+
 
     }
 
@@ -38,6 +40,8 @@ public class genRepoStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        con.close();
+
 
     }
 
@@ -51,6 +55,8 @@ public class genRepoStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        con.close();
+
 
     }
 
@@ -64,6 +70,8 @@ public class genRepoStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        con.close();
+
 
     }
 
@@ -77,6 +85,8 @@ public class genRepoStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        con.close();
+
 
     }
     public void setPassengerInFlight(int passengerInFlight){
@@ -89,6 +99,8 @@ public class genRepoStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        con.close();
+
 
     }
 
@@ -102,6 +114,8 @@ public class genRepoStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        con.close();
+
 
     }
 
@@ -115,6 +129,8 @@ public class genRepoStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        con.close();
+
 
     }
 
@@ -127,6 +143,8 @@ public class genRepoStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        con.close();
+
 
     }
 
@@ -139,6 +157,8 @@ public class genRepoStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        con.close();
+
 
     }
 
@@ -151,6 +171,8 @@ public class genRepoStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        con.close();
+
 
     }
 
@@ -163,6 +185,8 @@ public class genRepoStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        con.close();
+
 
     }
 
@@ -175,6 +199,8 @@ public class genRepoStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        con.close();
+
 
     }
 
@@ -187,6 +213,8 @@ public class genRepoStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        con.close();
+
 
     }
 
@@ -200,5 +228,21 @@ public class genRepoStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        con.close();
+
     }
+    public void shutdown(){
+        ClientCom con = new ClientCom(serverHostName, serverPort);
+        message in, out;
+        while(!con.open());
+
+        out = new message(messageType.SHUTDOWN, -1);
+        con.writeObject(out);
+
+        in = (message) con.readObject();
+        con.close();
+
+
+    }
+
 }

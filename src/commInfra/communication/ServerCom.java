@@ -1,280 +1,296 @@
 package commInfra.communication;
 
-import genclass.GenericIO;
 import java.io.*;
 import java.net.*;
 
 /**
- *   Communication manager - server side.
- *
- *   Communication is based on message passing over sockets using the TCP protocol.
- *   It supposes the setup of a commInfra.communication channel between the two end points before data transfer can take place.
- *   Data transfer is bidirectional and is made through the transmission and the reception of objects in output and
- *   input streams, respectively.
- *
- * @author António Rui De Oliveira E Silva Borges
- *
+ *   Este tipo de dados implementa o canal de comunicação, lado do servidor, para uma comunicação baseada em passagem de
+ *   mensagens sobre sockets usando o protocolo TCP.
+ *   A transferência de dados é baseada em objectos, um objecto de cada vez.
  */
 
 public class ServerCom
 {
-  /**
-   *  Listening socket.
-   */
+    /**
+     *  Socket de escuta
+     *    @serialField listeningSocket
+     */
 
-   private ServerSocket listeningSocket = null;
+    private ServerSocket listeningSocket = null;
 
-  /**
-   *  Communication socket.
-   */
+    /**
+     *  Socket de comunicação
+     *    @serialField commSocket
+     */
 
-   private Socket commSocket = null;
+    private Socket commSocket = null;
 
-  /**
-   *  Number of the listening port at the computational system where the server is located.
-   */
+    /**
+     *  Número do port de escuta do servidor
+     *    @serialField serverPortNumb
+     */
 
-   private int serverPortNumb;
+    private int serverPortNumb;
 
-  /**
-   *  Input stream of the commInfra.communication channel.
-   */
+    /**
+     *  Stream de entrada do canal de comunicação
+     *    @serialField in
+     */
 
-   private ObjectInputStream in = null;
+    private ObjectInputStream in = null;
 
-  /**
-   *  Output stream of the commInfra.communication channel.
-   */
+    /**
+     *  Stream de saída do canal de comunicação
+     *    @serialField out
+     */
 
-   private ObjectOutputStream out = null;
+    private ObjectOutputStream out = null;
 
-  /**
-   *  Instantiation of a commInfra.communication channel (form 1).
-   *
-   *    @param portNumb number of the listening port at the computational system where the server is located
-   */
+    /**
+     *  Instanciação de um canal de comunicação (forma 1).
+     *
+     *    @param portNumb número do port de escuta do servidor
+     */
 
-   public ServerCom (int portNumb)
-   {
-      serverPortNumb = portNumb;
-   }
+    public ServerCom (int portNumb)
+    {
+        serverPortNumb = portNumb;
+    }
 
-  /**
-   *  Instantiation of a commInfra.communication channel (form 2).
-   *
-   *    @param portNumb number of the listening port at the computational system where the server is located
-   *    @param lSocket listening socket
-   */
+    /**
+     *  Instanciação de um canal de comunicação (forma 2).
+     *
+     *    @param portNumb número do port de escuta do servidor
+     *    @param lSocket socket de escuta
+     */
 
-   public ServerCom (int portNumb, ServerSocket lSocket)
-   {
-      serverPortNumb = portNumb;
-      listeningSocket = lSocket;
-   }
+    public ServerCom (int portNumb, ServerSocket lSocket)
+    {
+        serverPortNumb = portNumb;
+        listeningSocket = lSocket;
+    }
 
-  /**
-   *  Service setup.
-   *
-   *  Instantiation of the listening socket and its binding to the public server address and port number.
-   */
+    /**
+     *  Estabelecimento do serviço.
+     *  Instanciação de um socket de escuta e sua associação ao endereço da máquina local
+     *  e ao port de escuta públicos.
+     */
 
-   public void start ()
-   {
-      try
-      { listeningSocket = new ServerSocket (serverPortNumb);
-      }
-      catch (BindException e)                              // fatal error --- port already in use
-      { GenericIO.writelnString (Thread.currentThread ().getName () +
-                                 " - it was not possible the association of the listening socket to the port: " +
-                                 serverPortNumb + "!");
-        e.printStackTrace ();
-        System.exit (1);
-      }
-      catch (IOException e)                                // fatal error --- other reasons
-      { GenericIO.writelnString (Thread.currentThread ().getName () +
-                                 " - an indeterminate error has occurred in establishing the connection at: " +
-                                 serverPortNumb + "!");
-        e.printStackTrace ();
-        System.exit (1);
-      }
-   }
+    public void start ()
+    {
+        try
+        { listeningSocket = new ServerSocket (serverPortNumb);
+            setTimeout (10000);
+        }
+        catch (BindException e)                         // erro fatal --- port já em uso
+        { System.out.println (Thread.currentThread ().getName () +
+                " - não foi possível a associação do socket de escuta ao port: " +
+                serverPortNumb + "!");
+            e.printStackTrace ();
+            System.exit (1);
+        }
+        catch (IOException e)                           // erro fatal --- outras causas
+        { System.out.println (Thread.currentThread ().getName () +
+                " - ocorreu um erro indeterminado na associação do socket de escuta ao port: " +
+                serverPortNumb + "!");
+            e.printStackTrace ();
+            System.exit (1);
+        }
+    }
 
-  /**
-   *  Service shutdown.
-   *
-   *  The listening socket is closed.
-   */
+    /**
+     *  Encerramento do serviço.
+     *  Fecho do socket de escuta.
+     */
 
-   public void end ()
-   {
-      try
-      { listeningSocket.close ();
-      }
-      catch (IOException e)
-      { GenericIO.writelnString (Thread.currentThread ().getName () +
-                                 " - it was not possible to close the listening socket!");
-        e.printStackTrace ();
-        System.exit (1);
-      }
-   }
+    public void end ()
+    {
+        try
+        { listeningSocket.close ();
+        }
+        catch (IOException e)
+        { System.out.println (Thread.currentThread ().getName () +
+                " - não foi possível fechar o socket de escuta!");
+            e.printStackTrace ();
+            System.exit (1);
+        }
+    }
 
-  /**
-   *  Listening process.
-   *
-   *  Instantiation of a commInfra.communication channel for a pending request.
-   *  Instantiation of the commInfra.communication socket and its binding to the client address.
-   *  The socket input and output streams are opened.
-   *
-   *    @return reference to the commmunication channel
-   */
+    /**
+     *  Processo de escuta.
+     *  Criação de um canal de comunicação para um pedido pendente.
+     *  Instanciação de um socket de comunicação e sua associação ao endereço do cliente.
+     *  Abertura dos streams de entrada e de saída do socket.
+     *
+     *    @return canal de comunicação
+     */
 
-   public ServerCom accept ()
-   {
-      ServerCom scon;                                      // commInfra.communication channel
+    public ServerCom accept () throws SocketTimeoutException
+    {
+        ServerCom scon;                                      // canal de comunicação
 
-      scon = new ServerCom(serverPortNumb, listeningSocket);
-      try
-      { scon.commSocket = listeningSocket.accept();
-      }
-      catch (SocketException e)
-      { GenericIO.writelnString (Thread.currentThread ().getName () +
-                                 " - the listening socket was closed during the listening process!");
-        e.printStackTrace ();
-        System.exit (1);
-      }
-      catch (IOException e)
-      { GenericIO.writelnString (Thread.currentThread ().getName () +
-                                 " - it was not possible to instantiate a commInfra.communication channel for the pending request!");
-        e.printStackTrace ();
-        System.exit (1);
-      }
+        scon = new ServerCom(serverPortNumb, listeningSocket);
+        try
+        { scon.commSocket = listeningSocket.accept();
+        }
+        catch (SocketTimeoutException e)
+        { throw new SocketTimeoutException ("Timeout!");
+        }
+        catch (SocketException e)
+        { System.out.println (Thread.currentThread ().getName () +
+                " - foi fechado o socket de escuta durante o processo de escuta!");
+            e.printStackTrace ();
+            System.exit (1);
+        }
+        catch (IOException e)
+        { System.out.println (Thread.currentThread ().getName () +
+                " - não foi possível abrir um canal de comunicação para um pedido pendente!");
+            e.printStackTrace ();
+            System.exit (1);
+        }
 
-      try
-      { scon.in = new ObjectInputStream (scon.commSocket.getInputStream ());
-      }
-      catch (IOException e)
-      { GenericIO.writelnString (Thread.currentThread ().getName () +
-                                 " - it was not possible to open the input stream!");
-        e.printStackTrace ();
-        System.exit (1);
-      }
+        try
+        { scon.in = new ObjectInputStream (scon.commSocket.getInputStream ());
+        }
+        catch (IOException e)
+        { System.out.println (Thread.currentThread ().getName () +
+                " - não foi possível abrir o canal de entrada do socket!");
+            e.printStackTrace ();
+            System.exit (1);
+        }
 
-      try
-      { scon.out = new ObjectOutputStream (scon.commSocket.getOutputStream ());
-      }
-      catch (IOException e)
-      { GenericIO.writelnString (Thread.currentThread ().getName () +
-                                 " - it was not possible to open the output stream!");
-        e.printStackTrace ();
-        System.exit (1);
-      }
+        try
+        { scon.out = new ObjectOutputStream (scon.commSocket.getOutputStream ());
+        }
+        catch (IOException e)
+        { System.out.println (Thread.currentThread ().getName () +
+                " - não foi possível abrir o canal de saída do socket!");
+            e.printStackTrace ();
+            System.exit (1);
+        }
 
-      return scon;
-   }
+        return scon;
+    }
 
-  /**
-   *  Close the commInfra.communication channel.
-   *
-   *  The socket input and output streams are closed.
-   *  The commInfra.communication socket is closed.
-   */
+    /**
+     *  Fecho do canal de comunicação.
+     *  Fecho dos streams de entrada e de saída do socket.
+     *  Fecho do socket de comunicação.
+     */
 
-   public void close ()
-   {
-      try
-      { in.close();
-      }
-      catch (IOException e)
-      { GenericIO.writelnString (Thread.currentThread ().getName () +
-                                 " - it was not possible to close the input stream!");
-        e.printStackTrace ();
-        System.exit (1);
-      }
+    public void close ()
+    {
+        try
+        { in.close();
+        }
+        catch (IOException e)
+        { System.out.println (Thread.currentThread ().getName () +
+                " - não foi possível fechar o canal de entrada do socket!");
+            e.printStackTrace ();
+            System.exit (1);
+        }
 
-      try
-      { out.close();
-      }
-      catch (IOException e)
-      { GenericIO.writelnString (Thread.currentThread ().getName () +
-                                 " - it was not possible to close the output stream!");
-        e.printStackTrace ();
-        System.exit (1);
-      }
+        try
+        { out.close();
+        }
+        catch (IOException e)
+        { System.out.println (Thread.currentThread ().getName () +
+                " - não foi possível fechar o canal de saída do socket!");
+            e.printStackTrace ();
+            System.exit (1);
+        }
 
-      try
-      { commSocket.close();
-      }
-      catch (IOException e)
-      { GenericIO.writelnString (Thread.currentThread ().getName () +
-                                 " - it was not possible to close the commInfra.communication socket!");
-        e.printStackTrace ();
-        System.exit (1);
-      }
-   }
+        try
+        { commSocket.close();
+        }
+        catch (IOException e)
+        { System.out.println (Thread.currentThread ().getName () +
+                " - não foi possível fechar o socket de comunicação!");
+            e.printStackTrace ();
+            System.exit (1);
+        }
+    }
 
-  /**
-   *  Object read from the commInfra.communication channel.
-   *
-   *    @return reference to the object that was read
-   */
+    /**
+     *  Definição de um time out de escuta.
+     */
 
-   public Object readObject ()
-   {
-      Object fromClient = null;;                           // object that is read
+    public void setTimeout (int time)
+    {
+        try
+        { listeningSocket.setSoTimeout (time);
+        }
+        catch (SocketException e)
+        { System.out.println (Thread.currentThread ().getName () +
+                " - ocorreu um erro na fixação de um timeout de escuta!");
+            e.printStackTrace ();
+            System.exit (1);
+        }
+    }
 
-      try
-      { fromClient = in.readObject ();
-      }
-      catch (InvalidClassException e)
-      { GenericIO.writelnString (Thread.currentThread ().getName () +
-                                 " - the read object could not be deserialized!");
-        e.printStackTrace ();
-        System.exit (1);
-      }
-      catch (IOException e)
-      { GenericIO.writelnString (Thread.currentThread ().getName () +
-                                 " - error on reading an object from the input stream!");
-        e.printStackTrace ();
-        System.exit (1);
-      }
-      catch (ClassNotFoundException e)
-      { GenericIO.writelnString (Thread.currentThread ().getName () +
-                                 " - the read object belongs to an unknown data type!");
-        e.printStackTrace ();
-        System.exit (1);
-      }
+    /**
+     *  Leitura de um objecto do canal de comunicação.
+     *
+     *    @return objecto lido
+     */
 
-      return fromClient;
-   }
+    public Object readObject ()
+    {
+        Object fromClient = null;                            // objecto
 
-  /**
-   *  Object write to the commInfra.communication channel.
-   *
-   *    @param toClient reference to the object to be written
-   */
+        try
+        { fromClient = in.readObject ();
+        }
+        catch (InvalidClassException e)
+        { System.out.println (Thread.currentThread ().getName () +
+                " - o objecto lido não é passível de desserialização!");
+            e.printStackTrace ();
+            System.exit (1);
+        }
+        catch (IOException e)
+        { System.out.println (Thread.currentThread ().getName () +
+                " - erro na leitura de um objecto do canal de entrada do socket de comunicação!");
+            e.printStackTrace ();
+            System.exit (1);
+        }
+        catch (ClassNotFoundException e)
+        { System.out.println (Thread.currentThread ().getName () +
+                " - o objecto lido corresponde a um tipo de dados desconhecido!");
+            e.printStackTrace ();
+            System.exit (1);
+        }
 
-   public void writeObject (Object toClient)
-   {
-      try
-      { out.writeObject (toClient);
-      }
-      catch (InvalidClassException e)
-      { GenericIO.writelnString (Thread.currentThread ().getName () +
-                                 " - the object to be written can not be serialized!");
-        e.printStackTrace ();
-        System.exit (1);
-      }
-      catch (NotSerializableException e)
-      { GenericIO.writelnString (Thread.currentThread ().getName () +
-                                 " - the object to be written does not implement the Serializable interface!");
-        e.printStackTrace ();
-        System.exit (1);
-      }
-      catch (IOException e)
-      { GenericIO.writelnString (Thread.currentThread ().getName () +
-                                 " - error on writing an object to the output stream!");
-        e.printStackTrace ();
-        System.exit (1);
-      }
-   }
+        return fromClient;
+    }
+
+    /**
+     *  Escrita de um objecto no canal de comunicação.
+     *
+     *    @param toClient objecto a ser escrito
+     */
+
+    public void writeObject (Object toClient)
+    {
+        try
+        { out.writeObject (toClient);
+        }
+        catch (InvalidClassException e)
+        { System.out.println (Thread.currentThread ().getName () +
+                " - o objecto a ser escrito não é passível de serialização!");
+            e.printStackTrace ();
+            System.exit (1);
+        }
+        catch (NotSerializableException e)
+        { System.out.println (Thread.currentThread ().getName () +
+                " - o objecto a ser escrito pertence a um tipo de dados não serializável!");
+            e.printStackTrace ();
+            System.exit (1);
+        }
+        catch (IOException e)
+        { System.out.println (Thread.currentThread ().getName () +
+                " - erro na escrita de um objecto do canal de saída do socket de comunicação!");
+            e.printStackTrace ();
+            System.exit (1);
+        }
+    }
 }

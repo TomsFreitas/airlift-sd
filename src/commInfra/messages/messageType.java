@@ -70,6 +70,8 @@ public enum messageType implements Serializable {
 
     FINAL_REPORT,
 
-    ACK;
+    ACK,
+
+    SHUTDOWN;
 
 }

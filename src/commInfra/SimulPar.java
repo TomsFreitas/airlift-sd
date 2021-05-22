@@ -36,23 +36,23 @@ public final class SimulPar{
     /**
      * Passenger minimum sleep time
      */
-    public static final int Passenger_MinSleep = 500;
+    public static final int Passenger_MinSleep = 2000;
 
     /**
      * Passenger maximum sleep time
      */
-    public static final int Passenger_MaxSleep = 2000;
+    public static final int Passenger_MaxSleep = 15000;
 
-    public static final String planeServerHost = "localhost";
+    public static final String planeServerHost = "l040101-ws06.ua.pt";
     public static final int planeServerPort = 22190;
 
-    public static String genRepoServerHost = "localhost";
+    public static String genRepoServerHost = "l040101-ws07.ua.pt";
     public static int genRepoServerPort = 22191;
 
-    public static String departureAirportServerHost = "localhost";
+    public static String departureAirportServerHost = "l040101-ws01.ua.pt";
     public static int departureAirportServerPort = 22192;
 
-    public static String destinationAirportServerHost = "localhost";
+    public static String destinationAirportServerHost = "l040101-ws02.ua.pt";
     public static int destinationAirportServerPort = 22193;
 
 

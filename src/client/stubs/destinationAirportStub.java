@@ -31,6 +31,8 @@ public class destinationAirportStub {
 
         in = (message) con.readObject();
         pilot.setState(in.getPilotStates());
+        con.close();
+
     }
 
     public void leave(){
@@ -47,6 +49,8 @@ public class destinationAirportStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        con.close();
+
     }
 
     public boolean endOfDay(){
@@ -63,8 +67,23 @@ public class destinationAirportStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        con.close();
+
 
         return in.getaBoolean();
+
+    }
+    public void shutdown(){
+        ClientCom con = new ClientCom(serverHostName, serverPort);
+        message in, out;
+        while(!con.open());
+
+        out = new message(messageType.SHUTDOWN, -1);
+        con.writeObject(out);
+
+        in = (message) con.readObject();
+        con.close();
+
 
     }
 

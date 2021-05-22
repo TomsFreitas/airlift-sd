@@ -68,29 +68,8 @@ public class departureProxy extends Thread implements Passenger, Pilot, Hostess 
         this.sconi.close();
     }
 
-    /**
-     * Instantiation id
-     *
-     * @return id
-     */
-    public static int getProxyNo() {
-        Class<?> cl = null;
-        int proxyId;
-
-        try {
-            cl = Class.forName ("server.proxies.departureProxy");
-        } catch (ClassNotFoundException e) {
-            System.out.println("departureProxy not found!");
-            e.printStackTrace ();
-            System.exit (1);
-        }
-
-        synchronized (cl) {
-            proxyId = proxyNo;
-            proxyNo += 1;
-        }
-
-        return proxyId;
+    public ServerCom getSconi() {
+        return this.sconi;
     }
 
     @Override

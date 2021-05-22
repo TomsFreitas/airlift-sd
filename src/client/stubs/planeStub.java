@@ -35,6 +35,8 @@ public class planeStub {
 
         in = (message) con.readObject();
         passenger.setState(in.getPassengerStates());
+        con.close();
+
 
 
 
@@ -57,6 +59,8 @@ public class planeStub {
         con.writeObject(out);
 
         in = (message) con.readObject();
+        con.close();
+
 
     }
 
@@ -80,6 +84,8 @@ public class planeStub {
 
         in = (message) con.readObject();
         hostess.setState(in.getHostessStates());
+        con.close();
+
     }
 
     /**
@@ -100,6 +106,8 @@ public class planeStub {
 
         in = (message) con.readObject();
         pilot.setState(in.getPilotStates());
+        con.close();
+
 
     }
 
@@ -122,6 +130,8 @@ public class planeStub {
 
         in = (message) con.readObject();
         pilot.setState(in.getPilotStates());
+        con.close();
+
 
 
     }
@@ -145,8 +155,21 @@ public class planeStub {
 
         in = (message) con.readObject();
         passenger.setState(in.getPassengerStates());
+        con.close();
 
 
+    }
+
+    public void shutdown(){
+        ClientCom con = new ClientCom(serverHostName, serverPort);
+        message in, out;
+        while(!con.open());
+
+        out = new message(messageType.SHUTDOWN, -1);
+        con.writeObject(out);
+
+        in = (message) con.readObject();
+        con.close();
 
     }
 

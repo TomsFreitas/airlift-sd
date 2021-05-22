@@ -9,7 +9,6 @@ public class hostessMain {
     public static void main(String[] args) {
         departureAirportStub da = new departureAirportStub(SimulPar.departureAirportServerHost, SimulPar.departureAirportServerPort);
         planeStub plane = new planeStub(SimulPar.planeServerHost, SimulPar.planeServerPort);
-
         Hostess hostess = new Hostess(da, plane);
         hostess.start();
 
@@ -18,5 +17,7 @@ public class hostessMain {
         } catch (InterruptedException interruptedException) {
             interruptedException.printStackTrace();
         }
+        plane.shutdown();
+        da.shutdown();
     }
 }
