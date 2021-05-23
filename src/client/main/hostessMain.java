@@ -5,6 +5,14 @@ import client.stubs.departureAirportStub;
 import client.stubs.planeStub;
 import commInfra.SimulPar;
 
+/**
+ * Hostess Main Class implementation
+ *
+ * @author Tomás Freitas
+ * @author Tiago Almeida
+ */
+
+
 public class hostessMain {
     public static void main(String[] args) {
         departureAirportStub da = new departureAirportStub(SimulPar.departureAirportServerHost, SimulPar.departureAirportServerPort);

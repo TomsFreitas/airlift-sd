@@ -6,6 +6,13 @@ import client.stubs.destinationAirportStub;
 import client.stubs.planeStub;
 import commInfra.SimulPar;
 
+/**
+ * Pilot Main Class implementation
+ *
+ * @author Tomás Freitas
+ * @author Tiago Almeida
+ */
+
 public class pilotMain {
 
     public static void main(String[] args){

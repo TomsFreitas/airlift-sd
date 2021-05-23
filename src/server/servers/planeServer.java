@@ -9,9 +9,21 @@ import server.stubs.genRepoStub;
 
 import java.net.SocketTimeoutException;
 
+/**
+ * Plane Server
+ *
+ * @author Tomás Freitas
+ * @author Tiago Almeioda
+ */
+
+
 public class planeServer {
 
-
+    /**
+     * Activity signalization
+     *
+     * @serialField waitConnection
+     */
     public static boolean waitConnection;
 
     public static void main(String[] args){

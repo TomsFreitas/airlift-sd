@@ -7,10 +7,10 @@ import server.sharedRegion.destinationAirport;
 import server.servers.destinationServer;
 
 /**
- * destinationInterface
+ * Destination Airport Interface
  *
  * <p>
- *     Explain
+ *     It provides the necessary states in destination airport.
  * </p>
  *
  * @author Tomás Freitas
@@ -21,11 +21,18 @@ import server.servers.destinationServer;
 public class destinationInterface {
     private destinationAirport destinationAirport;
 
+    /**
+     * Instantiation
+     * 
+     * @param destinationAirport Destination Airport
+     */
     public destinationInterface(destinationAirport destinationAirport){
         this.destinationAirport = destinationAirport;
     }
 
     /**
+     * Processing the messages by performing the respective task.
+     * Generates a response message.
      *
      * @param in message with the request
      * @return reply message

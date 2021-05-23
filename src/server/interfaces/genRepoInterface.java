@@ -6,10 +6,10 @@ import server.servers.genRepoServer;
 import server.sharedRegion.genRepo;
 
 /**
- * genRepoInterface
+ * General Repository Interface
  *
  * <p>
- *     Explain
+ *     It provides the necessary states in general repository.
  * </p>
  *
  * @author Tomás Freitas
@@ -20,10 +20,22 @@ public class genRepoInterface {
 
     private genRepo genRepo;
 
+    /**
+     * Instantiation
+     * 
+     * @param genRepo General Repository Information
+     */
     public genRepoInterface(genRepo genRepo){
         this.genRepo = genRepo;
     }
 
+    /**
+     * Processing the messages by performing the respective task.
+     * Generates a response message.
+     *
+     * @param in message with the request
+     * @return reply message
+     */
     public message processAndReply(message in){
         message reply = new message();
         System.out.println(in.getMessageType());

@@ -9,11 +9,7 @@ import server.interfaces.Pilot;
 import server.interfaces.destinationInterface;
 
 /**
- * destinationProxy
- *
- * <p>
- *     Explain
- * </p>
+ * Destination Airport Proxy
  *
  * @author Tomás Freitas
  * @author Tiago Almeida
@@ -32,8 +28,8 @@ public class destinationProxy extends Thread implements Pilot, Passenger{
     /**
      * Interface instantiation
      *
-     * @param sconi commInfra.communication channel
-     * @param destinationInterface
+     * @param sconi Communication channel (package commInfra.communication)
+     * @param destinationInterface Destination Airport Interface
      */
     public destinationProxy(ServerCom sconi, destinationInterface destinationInterface){
         this.sconi = sconi;
@@ -55,20 +51,40 @@ public class destinationProxy extends Thread implements Pilot, Passenger{
         this.sconi.close();
     }
 
+    /**
+     * Get Communication channel
+     * 
+     * @return
+     */
     public ServerCom getSconi() {
         return sconi;
     }
 
+    /**
+     * Set Passenger state
+     * 
+     * @param state New state
+     */
     @Override
     public void setState(passengerStates state) {
         this.passengerState = state;
     }
 
+    /**
+     * Get passenger ID
+     * 
+     * @return Passenger ID
+     */
     @Override
     public int getID() {
         return in.getID() ;
     }
 
+    /**
+     * Set Pilot state
+     * 
+     * @param state New state
+     */
     @Override
     public void setState(pilotStates state) {
         this.pilotState = state;
