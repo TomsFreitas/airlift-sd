@@ -4,9 +4,14 @@ import java.io.*;
 import java.net.*;
 
 /**
- *   Este tipo de dados implementa o canal de comunicação, lado do servidor, para uma comunicação baseada em passagem de
- *   mensagens sobre sockets usando o protocolo TCP.
- *   A transferência de dados é baseada em objectos, um objecto de cada vez.
+ * Server Communication
+ *
+ * <p>
+ *      This data type implements the server-side communication channel for a communication based on passing message over sockets using the TCP protocol.
+ *      The data transfer is object-based, one object at a time.
+ * </p>
+ *
+ * @author António Rui De Oliveira E Silva Borges
  */
 
 public class ServerCom
@@ -47,23 +52,21 @@ public class ServerCom
     private ObjectOutputStream out = null;
 
     /**
-     *  Instanciação de um canal de comunicação (forma 1).
+     *  Instantiation of a communication channel (form 1).
      *
-     *    @param portNumb número do port de escuta do servidor
+     *    @param portNumb Number of the server's listening port
      */
-
     public ServerCom (int portNumb)
     {
         serverPortNumb = portNumb;
     }
 
     /**
-     *  Instanciação de um canal de comunicação (forma 2).
+     *  Instantiation of a communication channel (form 2).
      *
-     *    @param portNumb número do port de escuta do servidor
-     *    @param lSocket socket de escuta
+     *    @param portNumb Number of the server's listening port
+     *    @param lSocket Listening socket
      */
-
     public ServerCom (int portNumb, ServerSocket lSocket)
     {
         serverPortNumb = portNumb;
@@ -71,11 +74,9 @@ public class ServerCom
     }
 
     /**
-     *  Estabelecimento do serviço.
-     *  Instanciação de um socket de escuta e sua associação ao endereço da máquina local
-     *  e ao port de escuta públicos.
+     * Establishing the service.
+     * Instantiation of a listen socket and its association with the local host address and the public listening port.
      */
-
     public void start ()
     {
         try
@@ -99,10 +100,9 @@ public class ServerCom
     }
 
     /**
-     *  Encerramento do serviço.
-     *  Fecho do socket de escuta.
+     * Shutting down the service.
+     * Closing the listening socket.
      */
-
     public void end ()
     {
         try
@@ -117,14 +117,13 @@ public class ServerCom
     }
 
     /**
-     *  Processo de escuta.
-     *  Criação de um canal de comunicação para um pedido pendente.
-     *  Instanciação de um socket de comunicação e sua associação ao endereço do cliente.
-     *  Abertura dos streams de entrada e de saída do socket.
+     * Listening process.
+     * Creation of a communication channel for a pending request.
+     * Instantiation of a communication socket and its association with the client address.
+     * Opening the socket's input and output streams.
      *
-     *    @return canal de comunicação
+     * @return communication channel
      */
-
     public ServerCom accept () throws SocketTimeoutException
     {
         ServerCom scon;                                      // canal de comunicação
@@ -173,11 +172,10 @@ public class ServerCom
     }
 
     /**
-     *  Fecho do canal de comunicação.
-     *  Fecho dos streams de entrada e de saída do socket.
-     *  Fecho do socket de comunicação.
+     * Close the communication channel.
+     * Close the input and output streams of the socket.
+     * Close the communication socket.
      */
-
     public void close ()
     {
         try
@@ -212,9 +210,8 @@ public class ServerCom
     }
 
     /**
-     *  Definição de um time out de escuta.
+     *  Defining a listening time out.
      */
-
     public void setTimeout (int time)
     {
         try
@@ -229,11 +226,10 @@ public class ServerCom
     }
 
     /**
-     *  Leitura de um objecto do canal de comunicação.
+     * Reading an object from the communication channel.
      *
-     *    @return objecto lido
+     * @return object read
      */
-
     public Object readObject ()
     {
         Object fromClient = null;                            // objecto
@@ -264,11 +260,10 @@ public class ServerCom
     }
 
     /**
-     *  Escrita de um objecto no canal de comunicação.
+     * Writing an object to the communication channel.
      *
-     *    @param toClient objecto a ser escrito
+     * @param toClient object to be written
      */
-
     public void writeObject (Object toClient)
     {
         try

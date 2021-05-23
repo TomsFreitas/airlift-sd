@@ -4,11 +4,14 @@ import java.io.*;
 import java.net.*;
 
 /**
- *   Este tipo de dados implementa o canal de comunicação, lado do cliente, para uma comunicação baseada em passagem de
- *   mensagens sobre sockets usando o protocolo TCP.
- *   A transferência de dados é baseada em objectos, um objecto de cada vez.
+ * Server Communication
  *
- *   @author António Rui De Oliveira E Silva Borges
+ * <p>
+ *      This data type implements the client-side communication channel for a communication based on passing message over sockets using the TCP protocol.
+ *      The data transfer is object-based, one object at a time.
+ * </p>
+ *
+ * @author António Rui De Oliveira E Silva Borges
  */
 
 public class ClientCom
@@ -49,26 +52,24 @@ public class ClientCom
     private ObjectOutputStream out = null;
 
     /**
-     *  Instanciação de um canal de comunicação.
+     * Instantiation of a communication channel.
      *
-     *    @param hostName nome do sistema computacional onde está localizado o servidor
-     *    @param portNumb número do port de escuta do servidor
+     * @param hostName name of the computer system where the server is located
+     * @param portNumb number of the server's listening port
      */
-
     public ClientCom(String hostName, int portNumb){
         serverHostName = hostName;
         serverPortNumb = portNumb;
     }
 
     /**
-     *  Abertura do canal de comunicação.
-     *  Instanciação de um socket de comunicação e sua associação ao endereço do servidor.
-     *  Abertura dos streams de entrada e de saída do socket.
+     * Open the communication channel.
+     * Instantiation of a communication socket and its association with the server address.
+     * Opening the input and output streams of the socket
      *
-     *    @return <li>true, se o canal de comunicação foi aberto
-     *            <li>false, em caso contrário
+     * @return  <li>true, if the communication channel was opened
+     *          <li>false, otherwise
      */
-
     public boolean open(){
 
         boolean success = true;
@@ -135,11 +136,10 @@ public class ClientCom
     }
 
     /**
-     *  Fecho do canal de comunicação.
-     *  Fecho dos streams de entrada e de saída do socket.
-     *  Fecho do socket de comunicação.
+     * Close of the communication channel.
+     * Close the input and output streams of the socket.
+     * Close the communication socket.
      */
-
     public void close(){
 
         try {
@@ -171,11 +171,10 @@ public class ClientCom
     }
 
     /**
-     *  Leitura de um objecto do canal de comunicação.
+     * Reading an object from the communication channel.
      *
-     *    @return objecto lido
+     * @return object read
      */
-
     public Object readObject(){
         Object fromServer = null;                            // objecto
 
@@ -202,11 +201,10 @@ public class ClientCom
     }
 
     /**
-     *  Escrita de um objecto no canal de comunicação.
+     * Writing an object to the communication channel.
      *
-     *    @param toServer objecto a ser escrito
+     * @param toServer object to be written
      */
-
     public void writeObject(Object toServer){
         try {
             out.writeObject(toServer);

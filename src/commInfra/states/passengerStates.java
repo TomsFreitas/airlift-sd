@@ -2,7 +2,7 @@ package commInfra.states;
 
 
 /**
- * Enum implementing the typical hostess States:
+ * Enum implementing the typical passenger States:
  *
  * <ul>
  *     <li>GOING_TO_AIRPORT - The passenger goes to the airport.</li>

@@ -1,7 +1,7 @@
 package commInfra.states;
 
 /**
- * Enum implementing the typical hostess States:
+ * Enum implementing the typical pilot States:
  *
  * <ul>
  *     <li>AT_TRANSFER_GATE - The pilot parks the plane at transfer gate.</li>

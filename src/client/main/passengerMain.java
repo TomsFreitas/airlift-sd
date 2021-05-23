@@ -7,6 +7,13 @@ import client.stubs.destinationAirportStub;
 import client.stubs.planeStub;
 import commInfra.SimulPar;
 
+/**
+ * Passenger Main Class implementation
+ *
+ * @author Tomás Freitas
+ * @author Tiago Almeida
+ */
+
 public class passengerMain {
 
     public static void main(String[] args) {
