@@ -18,10 +18,10 @@ import java.io.Serializable;
  *     <li>INFORM_PLANE_READY_FOR_TAKEOFF - The hostess notifies the pilot that the flight is ready to take off.</li>
  *     <li>WAIT_IN_QUEUE - The passenger queue in at transfer gate waiting to be called by the hostess.</li>
  *     <li>SHOW_DOCUMENTS - The passenger shows the documents.</li>
- *     <li>PREPARE_FOR_PASS_BOARDING - </li>
- *     <li>END_OF_DAY - </li>
+ *     <li>PREPARE_FOR_PASS_BOARDING - Wait for a passenger to be in queue </li>
+ *     <li>END_OF_DAY - Check for end of working day </li>
  *     <li>BOARD_THE_PLANE - The passenger boards the plane.</li>
- *     <li>WAIT_FOR_END_OF_FLIGHT - </li>
+ *     <li>WAIT_FOR_END_OF_FLIGHT - Wait for end of flight </li>
  *     <li>LEAVE_THE_PLANE - The passenger leaves the plane.</li>
  *     <li>SET_FLIGHT_NUMBER - Set the flight number.</li>
  *     <li>SET_PILOT_STATE - Set the Pilot state.</li>
@@ -29,8 +29,8 @@ import java.io.Serializable;
  *     <li>SET_PASSENGER_STATE - Set the Passenger state.</li>
  *     <li>SET_NUMBER_OF_PASSENGERS_ARRIVED - Set the number of passengers arrived.</li>
  *     <li>SET_PASSENGER_IN_FLIGHT - Set the passenger in flight.</li>
- *     <li>SET_PASSENGER_CHECKED_ID - </li>
- *     <li>SET_PASSENGERS_IN_QUEUE - </li>
+ *     <li>SET_PASSENGER_CHECKED_ID - Set the ID of the passenger being checked in </li>
+ *     <li>SET_PASSENGERS_IN_QUEUE - Set number of passengers in queue </li>
  *     <li>REPORT_BOARDING_STARTED - Report the boarding has started. </li>
  *     <li>REPORT_PASSENGER_CHECKED - Report the passenger has checked. </li>
  *     <li>REPORT_FLIGHT_DEPARTED - Report the flight has departed.</li>
@@ -38,8 +38,8 @@ import java.io.Serializable;
  *     <li>REPORT_FLIGHT_RETURNING - Report the flight is returning </li>
  *     <li>REPORT_STATUS - Report the current status information.</li>
  *     <li>LEAVE - The passenger leaves de destination airport.</li>
- *     <li>FINAL_REPORT - </li>
- *     <li>ACK - </li>
+ *     <li>FINAL_REPORT - Request for final report to be printed </li>
+ *     <li>ACK - Acknowledge the request</li>
  *     <li>SHUTDOWN - Shut down the server</li>
  *
  * </ul>

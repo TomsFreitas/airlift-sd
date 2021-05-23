@@ -4,7 +4,7 @@ import commInfra.states.*;
 import java.io.Serializable;
 
 /**
- * Messages
+ * This class defines the messages that are exchanged between servers and clients.
  *
  * @author Tomás Freitas
  * @author Tiago Almeida
@@ -18,7 +18,7 @@ public class message implements Serializable {
 
 
     /**
-     * ID of the client.entity that sent the message
+     * ID of the entity that sent the message
      */
     private int ID;
 
@@ -27,14 +27,27 @@ public class message implements Serializable {
      */
     private boolean aBoolean;
 
+    /**
+     * Placeholder for a String value to be sent
+     */
     private String aString;
 
+    /**
+     * Placeholder for an int value to be sent
+     */
     private int anInt;
-    
+
+    /**
+     * To send / receive a hostess state
+     */
     private hostessStates hostessStates;
-    
+    /**
+     * To send / receive a pilot state
+     */
     private pilotStates pilotStates;
-    
+    /**
+     * To send / receive a passenger state
+     */
     private passengerStates passengerStates;
 
 

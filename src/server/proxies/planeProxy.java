@@ -11,7 +11,7 @@ import server.interfaces.Pilot;
 import server.interfaces.planeInterface;
 
 /**
- * Plane Proxy
+ * Plane Proxy. Provides services to client requests.
  *
  * @author Tomás Freitas
  * @author Tiago Almeida
@@ -62,7 +62,7 @@ public class planeProxy extends Thread implements Passenger, Pilot, Hostess {
     /**
      * Get Communication channel
      * 
-     * @return
+     * @return ServerCom communication channel
      */
     public ServerCom getSconi() {
         return sconi;

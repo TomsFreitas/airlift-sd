@@ -8,7 +8,7 @@ import server.proxies.genRepoProxy;
 import java.net.SocketTimeoutException;
 
 /**
- * General Repository Server
+ * General Repository Server. Provides communication between the client and the service provider.
  *
  * @author Tomás Freitas
  * @author Tiago Almeioda

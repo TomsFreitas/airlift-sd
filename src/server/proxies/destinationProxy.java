@@ -9,7 +9,7 @@ import server.interfaces.Pilot;
 import server.interfaces.destinationInterface;
 
 /**
- * Destination Airport Proxy
+ * Destination Airport Proxy. Provides services to client requests.
  *
  * @author Tomás Freitas
  * @author Tiago Almeida
@@ -54,7 +54,7 @@ public class destinationProxy extends Thread implements Pilot, Passenger{
     /**
      * Get Communication channel
      * 
-     * @return
+     * @return ServerCom communication channel
      */
     public ServerCom getSconi() {
         return sconi;

@@ -36,10 +36,17 @@ public enum passengerStates {
 
     private String state;
 
+    /** passengerStates Constructor
+     * @param state
+     */
     passengerStates(String state){
         this.state = state;
     }
 
+    /**
+     * Getter for the state
+     * @return String representation of state
+     */
     public String getState() {
         return state;
     }

@@ -12,7 +12,7 @@ import server.sharedRegion.departureAirport;
  * Departure Airport Interface
  *
  * <p>
- *     It provides the necessary states in departure airport.
+ *     It provides message processing and method execution for this shared region.
  * </p>
  *
  * @author Tomás Freitas

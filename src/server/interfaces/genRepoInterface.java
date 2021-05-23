@@ -9,7 +9,7 @@ import server.sharedRegion.genRepo;
  * General Repository Interface
  *
  * <p>
- *     It provides the necessary states in general repository.
+ *     It provides message processing and method execution for this shared region.
  * </p>
  *
  * @author Tomás Freitas

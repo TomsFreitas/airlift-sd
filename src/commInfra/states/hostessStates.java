@@ -34,10 +34,17 @@ public enum hostessStates {
 
     private String state;
 
+    /** hostessStates Constructor
+     * @param state
+     */
     hostessStates(String state){
         this.state = state;
     }
 
+    /**
+     * Getter for the state
+     * @return String representation of state
+     */
     public String getState() {
         return state;
     }

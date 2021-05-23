@@ -6,7 +6,7 @@ import server.interfaces.genRepoInterface;
 
 
 /**
- * General Repository Proxy
+ * General Repository Proxy. Provides services to client requests.
  *
  * @author Tomás Freitas
  * @author Tiago Almeida
@@ -48,7 +48,7 @@ public class genRepoProxy extends Thread {
     /**
      * Get Communication channel
      * 
-     * @return
+     * @return ServerCom communication channel
      */
     public ServerCom getSconi() {
         return sconi;

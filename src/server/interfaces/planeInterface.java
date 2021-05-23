@@ -13,7 +13,7 @@ import server.servers.planeServer;
  * Plane Interface
  *
  * <p>
- *     It provides the necessary states in Plane.
+ *     It provides message processing and method execution for this shared region.
  * </p>
  *
  * @author Tomás Freitas

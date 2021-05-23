@@ -11,7 +11,7 @@ import server.interfaces.Hostess;
 import server.interfaces.Passenger;
 
 /**
- * Departure Airport Proxy
+ * Departure Airport Proxy. Provides services to client requests.
  *
  * @author Tomás Freitas
  * @author Tiago Almeida
@@ -67,7 +67,7 @@ public class departureProxy extends Thread implements Passenger, Pilot, Hostess 
     /**
      * Get Communication channel
      * 
-     * @return
+     * @return ServerCom communication channel
      */
     public ServerCom getSconi() {
         return this.sconi;

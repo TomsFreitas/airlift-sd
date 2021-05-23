@@ -9,7 +9,7 @@ import server.stubs.genRepoStub;
 import java.net.SocketTimeoutException;
 
 /**
- * Destination Airport Server
+ * Destination Airport Server. Provides communication between the client and the service provider.
  *
  * @author Tomás Freitas
  * @author Tiago Almeioda

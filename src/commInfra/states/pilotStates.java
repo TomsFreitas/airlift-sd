@@ -47,10 +47,17 @@ public enum pilotStates {
 
     private String state;
 
+    /** pilotStates Constructor
+     * @param state
+     */
     pilotStates(String state){
         this.state = state;
     }
 
+    /**
+     * Getter for the state
+     * @return String representation of state
+     */
     public String getState() {
         return state;
     }
