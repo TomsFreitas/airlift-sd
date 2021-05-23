@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+#!/usr/bin/bash
 pass="qwerty"
 
 for i in {1..7} ; do

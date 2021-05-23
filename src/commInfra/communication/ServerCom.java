@@ -221,10 +221,7 @@ public class ServerCom
         { listeningSocket.setSoTimeout (time);
         }
         catch (SocketException e)
-        { System.out.println (Thread.currentThread ().getName () +
-                " - ocorreu um erro na fixação de um timeout de escuta!");
-            e.printStackTrace ();
-            System.exit (1);
+        {
         }
     }
 

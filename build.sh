@@ -6,7 +6,7 @@ echo "Compiling Java files"
 javac -cp ".:src/genclass.jar" @sources.txt
 
 echo "Creating Directories"
-
+mkdir prod
 for i in {passenger,hostess,pilot} ; do
     mkdir -p prod/deploy_$i/client/{entity,main,stubs}
     mkdir -p prod/deploy_$i/commInfra
