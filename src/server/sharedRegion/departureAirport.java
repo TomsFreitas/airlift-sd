@@ -67,6 +67,8 @@ public class departureAirport {
      */
     private int flightNumber;
 
+    private boolean first;
+
     /**
      * Departure Airport constructor
      * @param repo General Repository of information
@@ -81,6 +83,7 @@ public class departureAirport {
         this.passengersChecked = 0;
         this.passengersFlown = 0;
         this.flightNumber = 0;
+        this.first = true;
 
     }
 
@@ -109,7 +112,12 @@ public class departureAirport {
         Pilot pilot = (Pilot) Thread.currentThread();
         pilot.setState(pilotStates.AT_TRANSFER_GATE);
         repo.setPilotState(pilotStates.AT_TRANSFER_GATE.getState());
-        repo.reportStatus();
+        if (!this.first){
+            repo.reportStatus();
+
+        }else{
+            this.first = false;
+        }
         if(endOfDay) repo.finalReport();
     }
 
