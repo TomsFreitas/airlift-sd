@@ -1,6 +1,8 @@
 package interfaces;
 
-public interface genRepoInterface {
+import java.rmi.Remote;
+
+public interface genRepoInterface extends Remote {
 
     void setFlightNumber(int flightNumber);
 

@@ -2,7 +2,9 @@ package interfaces;
 
 import commInfra.ReturnObject;
 
-public interface destinationAirportInterface {
+import java.rmi.Remote;
+
+public interface destinationAirportInterface extends Remote {
     ReturnObject flyToDeparturePoint();
 
     void leave();

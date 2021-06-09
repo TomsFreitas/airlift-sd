@@ -84,6 +84,10 @@ public final class SimulPar{
      */
     public static int destinationAirportServerPort = 22193;
 
+    public static String RegistryHost = "l040101-ws05.ua.pt";
+
+    public static int RegistryPort = 22194;
+
 
 
 

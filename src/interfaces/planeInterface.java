@@ -2,7 +2,9 @@ package interfaces;
 
 import commInfra.ReturnObject;
 
-public interface planeInterface {
+import java.rmi.Remote;
+
+public interface planeInterface extends Remote {
 
     ReturnObject boardThePlane(int id);
 

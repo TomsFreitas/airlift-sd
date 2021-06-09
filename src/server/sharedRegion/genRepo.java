@@ -67,6 +67,8 @@ public class genRepo implements genRepoInterface {
      * Number of flights made and how many passengers where transported
      */
     private ArrayList<Integer> flightsmade;
+    private boolean running;
+    private int clientDisconnected;
 
 
     /**
@@ -363,9 +365,24 @@ public class genRepo implements genRepoInterface {
             e.printStackTrace();
         }
 
+    }
+    public synchronized void disconnect(){
+        this.clientDisconnected++;
 
+        if(this.clientDisconnected == 3){
+            this.running = false;
+            notifyAll();
+        }
+    }
 
-
+    public synchronized void waitShutdown(){
+        while (this.running){
+            try {
+                wait();
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
+            }
+        }
     }
 
 }
