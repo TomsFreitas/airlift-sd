@@ -1,6 +1,7 @@
 package client.entity;
-import client.stubs.departureAirportStub;
-import client.stubs.planeStub;
+import commInfra.ReturnObject;
+import interfaces.departureAirportInterface;
+import interfaces.planeInterface;
 import commInfra.states.hostessStates;
 
 
@@ -17,11 +18,11 @@ public class Hostess extends Thread {
     /**
      * Departure Airport Shared Region
      */
-    private departureAirportStub da;
+    private departureAirportInterface da;
     /**
      * Plane Shared Region
      */
-    private planeStub plane;
+    private planeInterface plane;
     /**
      * True if conditions are met for the plane to takeoff
      */
@@ -33,10 +34,10 @@ public class Hostess extends Thread {
 
 
     /** Hostess constructor
-     * @param da Departure Airport Stub
-     * @param plane Plane Stub
+     * @param da Departure Airport Interface
+     * @param plane Plane Interface
      */
-    public Hostess(departureAirportStub da, planeStub plane){
+    public Hostess(departureAirportInterface da, planeInterface plane){
         this.state = hostessStates.WAIT_FOR_NEXT_FLIGHT;
         this.da = da;
         this.plane = plane;
@@ -78,21 +79,30 @@ public class Hostess extends Thread {
      */
     @Override
     public void run() {
-
+        ReturnObject ret;
         while (true) {
-            this.da.waitForNextFlight();
+            ret = this.da.waitForNextFlight();
+            this.state = ret.getHostessState();
             if(this.da.endOfDay()){
                 break;
             }
-            this.da.prepareForPassBoarding();
+            ret = this.da.prepareForPassBoarding();
+            this.state = ret.getHostessState();
             while (!this.readyToFly) {
-                this.da.checkDocuments();
-                this.readyToFly = this.da.waitForNextPassenger();
+                ret = this.da.checkDocuments();
+                this.state = ret.getHostessState();
+                ret = this.da.waitForNextPassenger();
+                this.readyToFly = ret.isBool();
+                if(this.readyToFly){
+                    this.passengersInFlight = ret.getPassengerschecked();
+                }
+                this.state = ret.getHostessState();
                 System.out.println(this.readyToFly);
 
             }
             this.readyToFly = false;
-            this.plane.informPlaneReadyForTakeOff();
+            ret = this.plane.informPlaneReadyForTakeOff(this.passengersInFlight);
+            this.state = ret.getHostessState();
 
         }
 

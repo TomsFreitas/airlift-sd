@@ -1,15 +1,12 @@
 package server.sharedRegion;
-import commInfra.SimulPar;
-import server.interfaces.Hostess;
-import server.interfaces.Passenger;
-import server.interfaces.Pilot;
-import commInfra.states.hostessStates;
-import commInfra.states.passengerStates;
-import commInfra.states.pilotStates;
-import server.stubs.genRepoStub;
 
+import interfaces.genRepoInterface;
+import interfaces.departureAirportInterface;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import commInfra.SimulPar;
+import commInfra.states.*;
+import commInfra.ReturnObject;
 
 /**
  * Implementation of the Departure Airport Shared Memory
@@ -18,17 +15,17 @@ import java.util.concurrent.LinkedBlockingQueue;
  * @author Tiago Gomes
  */
 
-public class departureAirport {
+public class departureAirport implements departureAirportInterface {
 
     /**
      * General Repository Shared Region
      */
-    private genRepoStub repo;
+    private genRepoInterface repo;
 
     /**
      * List of passengers in the transfer gate
      */
-    private BlockingQueue<Passenger> passengerQueue;
+    private BlockingQueue<Integer> passengerQueue;
 
 
     /**
@@ -68,12 +65,13 @@ public class departureAirport {
     private int flightNumber;
 
     private boolean first;
+    private int passengersCheckedtmp;
 
     /**
      * Departure Airport constructor
      * @param repo General Repository of information
      */
-    public departureAirport(genRepoStub repo){
+    public departureAirport(genRepoInterface repo){
         this.repo = repo;
         this.passengerQueue = new LinkedBlockingQueue<>();
         this.ReadyForBoarding = false;
@@ -90,10 +88,11 @@ public class departureAirport {
     /**
      * Called by the pilot.
      * Pilot state is set to READY_FOR_BOARDING and warns the hostess to start calling passengers for the documentation check.
+     * @return
      */
-    public synchronized void informPlaneReadyForBoarding(){
-        Pilot pilot = (Pilot) Thread.currentThread();
-        pilot.setState(pilotStates.READY_FOR_BOARDING);
+    @Override
+    public synchronized ReturnObject informPlaneReadyForBoarding(){
+
         repo.setPilotState(pilotStates.READY_FOR_BOARDING.getState());
         this.ReadyForBoarding = true;
         this.flightNumber++;
@@ -101,16 +100,18 @@ public class departureAirport {
         repo.reportBoardingStarted();
         repo.reportStatus();
         notifyAll();
+        return new ReturnObject(pilotStates.READY_FOR_BOARDING);
 
     }
 
     /**
      * Called by the pilot.
      * Pilot state is set to AT_TRANSFER_GATE.
+     * @return
      */
-    public synchronized void parkAtTransferGate(boolean endOfDay) {
-        Pilot pilot = (Pilot) Thread.currentThread();
-        pilot.setState(pilotStates.AT_TRANSFER_GATE);
+    @Override
+    public synchronized ReturnObject parkAtTransferGate(boolean endOfDay) {
+
         repo.setPilotState(pilotStates.AT_TRANSFER_GATE.getState());
         if (!this.first){
             repo.reportStatus();
@@ -119,15 +120,18 @@ public class departureAirport {
             this.first = false;
         }
         if(endOfDay) repo.finalReport();
+
+        return new ReturnObject(pilotStates.AT_TRANSFER_GATE);
     }
 
     /**
      * Called by the pilot.
      * Pilot state is set to FLYING_FORWARD and this function blocks the current thread execution for a random duration.
+     * @return
      */
-    public synchronized void flyToDestinationPoint(){
-        Pilot pilot = (Pilot) Thread.currentThread();
-        pilot.setState(pilotStates.FLYING_FORWARD);
+    @Override
+    public synchronized ReturnObject flyToDestinationPoint(){
+
         repo.setPilotState(pilotStates.FLYING_FORWARD.getState());
         repo.reportStatus();
         long duration = (long) (SimulPar.Pilot_MinSleep + SimulPar.Pilot_MaxSleep * Math.random());
@@ -136,20 +140,23 @@ public class departureAirport {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        return new ReturnObject(pilotStates.FLYING_FORWARD);
     }
 
     /**
      * Called by the hostess.
      * Hostess state is set to WAIT_FOR_NEXT_FLIGHT.
      * This function blocks until the pilot announces that the plane is ready to board.
+     * @return
      */
-    public synchronized void waitForNextFlight() {
-        Hostess hostess = (Hostess) Thread.currentThread();
-        hostess.setState(hostessStates.WAIT_FOR_NEXT_FLIGHT);
+    @Override
+    public synchronized ReturnObject waitForNextFlight() {
+
         repo.setHostessState(hostessStates.WAIT_FOR_NEXT_FLIGHT.getState());
         repo.reportStatus();
         if(this.endOfDay()){
-            return;
+            return null;
         }
         while(!this.ReadyForBoarding){
             System.out.println(this.ReadyForBoarding);
@@ -161,30 +168,34 @@ public class departureAirport {
         }
         this.ReadyForBoarding = false;
 
+        return new ReturnObject(hostessStates.WAIT_FOR_NEXT_FLIGHT);
+
     }
 
     /**
      * Called by a passenger.
      * Passenger state is set to IN_QUEUE.
      * This function blocks until the id of the passenger called by the hostess for the documentation check matches to the current passenger
+     * @return
      */
-    public synchronized void waitInQueue(){
+    @Override
+    public synchronized ReturnObject waitInQueue(int id){
 
-        Passenger passenger = (Passenger) Thread.currentThread();
-        passenger.setState(passengerStates.IN_QUEUE);
-        repo.setPassengerState(passenger.getID(), passengerStates.IN_QUEUE.getState());
+        repo.setPassengerState(id, passengerStates.IN_QUEUE.getState());
         try {
-            this.passengerQueue.put(passenger);
+            this.passengerQueue.put(id);
             repo.setPassengersInQueue(this.passengerQueue.size());
             repo.reportStatus();
-            System.out.println("Added to Queue passenger id " + passenger.getID() + "QUEUE SIZE: " + this.passengerQueue.size());
+            System.out.println("Added to Queue passenger id " +id + "QUEUE SIZE: " + this.passengerQueue.size());
             notifyAll();
-            while (this.passengerToCheck != passenger.getID()) {
+            while (this.passengerToCheck != id) {
                 wait();
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        return new ReturnObject(passengerStates.IN_QUEUE);
     }
 
 
@@ -192,10 +203,11 @@ public class departureAirport {
      * Called by the hostess.
      * Hostess state is set to WAIT_FOR_PASSENGER.
      * This function blocks until some passenger arrives at transfer gate
+     * @return
      */
-    public synchronized void prepareForPassBoarding() {
-        Hostess hostess = (Hostess) Thread.currentThread();
-        hostess.setState(hostessStates.WAIT_FOR_PASSENGER);
+    @Override
+    public synchronized ReturnObject prepareForPassBoarding() {
+
         repo.setHostessState(hostessStates.WAIT_FOR_PASSENGER.getState());
         repo.reportStatus();
         while(this.passengerQueue.size() == 0){
@@ -205,27 +217,28 @@ public class departureAirport {
                 e.printStackTrace();
             }
         }
+
+        return new ReturnObject(hostessStates.WAIT_FOR_PASSENGER);
     }
 
     /**
      * Called by the hostess.
      * Hostess state is set to CHECK_PASSENGER.
      * This function blocks until the id of the passenger currently showing the documents matches to the id of the passenger called by the hostess for the documentation check
+     * @return
      */
-    public synchronized void checkDocuments() {
-
-        Hostess hostess = (Hostess) Thread.currentThread();
-        hostess.setState(hostessStates.CHECK_PASSENGER);
+    @Override
+    public synchronized ReturnObject checkDocuments() {
 
         try {
-            Passenger passenger = this.passengerQueue.take();
-            repo.setPassengerCheckedId(passenger.getID());
+            int passenger = this.passengerQueue.take();
+            repo.setPassengerCheckedId(passenger);
             repo.reportPassengerChecked();
             repo.setHostessState(hostessStates.CHECK_PASSENGER.getState());
             repo.setPassengersInQueue(this.passengerQueue.size());
             repo.reportStatus();
-            System.out.println("Waking up passenger " + passenger.getID());
-            this.passengerToCheck = passenger.getID();
+            System.out.println("Waking up passenger " + passenger);
+            this.passengerToCheck = passenger;
             notifyAll();
             while (this.documentsgiven != this.passengerToCheck) {
                 wait();
@@ -238,6 +251,8 @@ public class departureAirport {
             e.printStackTrace();
         }
 
+        return new ReturnObject(hostessStates.CHECK_PASSENGER);
+
     }
 
     /**
@@ -248,22 +263,21 @@ public class departureAirport {
      *
      * @return <code>true</code> if ready to fly.
      */
-    public synchronized boolean waitForNextPassenger(){
-        Hostess hostess = (Hostess) Thread.currentThread();
-        hostess.setState(hostessStates.WAIT_FOR_PASSENGER);
+    @Override
+    public synchronized ReturnObject waitForNextPassenger(){
+
         repo.setHostessState(hostessStates.WAIT_FOR_PASSENGER.getState());
         this.boardThePlane = true;
         repo.reportStatus();
         System.out.println("Passenger allowed to Board");
         notifyAll();
-        // TODO check this expression for the blocking status
         if ((this.passengerQueue.size() == 0 && this.passengersChecked >= SimulPar.F_MinCapacity) || this.passengersChecked == SimulPar.F_MaxCapacity || this.passengersFlown + this.passengersChecked == SimulPar.N_Passengers){
             this.passengersFlown += this.passengersChecked;
-            hostess.setPassengersInFlight(this.passengersChecked);
+            this.passengersCheckedtmp = this.passengersChecked;
             this.passengersChecked = 0;
             System.out.println(this.passengerQueue.size());
             System.out.println("Ready to Fly");
-            return true;
+            return new ReturnObject(true, this.passengersCheckedtmp, hostessStates.WAIT_FOR_PASSENGER);
         }
         System.out.println("There are more passengers to check");
 
@@ -275,17 +289,17 @@ public class departureAirport {
             }
         }
 
-        return false;
+        return new ReturnObject(false, hostessStates.WAIT_FOR_PASSENGER);
     }
 
     /**
      * Called by a passenger.
      * This function blocks until the hostess gives this passenger permission to board the plane.
      */
-    public synchronized void showDocuments() {
-        Passenger passenger = (Passenger) Thread.currentThread();
-        System.out.println("Passenger showed documents " + passenger.getID());
-        this.documentsgiven = passenger.getID();
+    @Override
+    public synchronized void showDocuments(int id) {
+        System.out.println("Passenger showed documents " + id);
+        this.documentsgiven = id;
         notifyAll();
 
         while(!this.boardThePlane){
@@ -304,6 +318,7 @@ public class departureAirport {
      * All passengers arrived at the destination
      * @return True if all passengers have flown to the destination
      */
+    @Override
     public boolean endOfDay(){
         System.out.println(this.passengersFlown);
         return this.passengersFlown == SimulPar.N_Passengers;

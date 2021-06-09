@@ -1,7 +1,8 @@
 package client.entity;
+import commInfra.ReturnObject;
 import commInfra.SimulPar;
 import commInfra.states.passengerStates;
-import client.stubs.*;
+import interfaces.*;
 
 /**
  * Passenger thread and lifecycle implementation
@@ -22,28 +23,28 @@ public class Passenger extends Thread {
     /**
      * Departure Airport Shared Region
      */
-    private departureAirportStub da;
+    private departureAirportInterface da;
 
     /**
      * Destination Airport Shared Region
      */
-    private destinationAirportStub destA;
+    private destinationAirportInterface destA;
 
     /**
      * Plane Shared Region
      */
 
-    private planeStub plane;
+    private planeInterface plane;
 
 
     /**
      * Passenger constructor
      * @param id Passenger ID
-     * @param da Departure Airport Stub
-     * @param destA Destination Airport Stub
-     * @param plane Plane Stub
+     * @param da Departure Airport Interface
+     * @param destA Destination Airport Interface
+     * @param plane Plane Interface
      */
-    public Passenger(int id, departureAirportStub da, destinationAirportStub destA, planeStub plane){
+    public Passenger(int id, departureAirportInterface da, destinationAirportInterface destA, planeInterface plane){
         this.id = id;
         this.state = passengerStates.GOING_TO_AIRPORT;
         this.da = da;
@@ -62,13 +63,17 @@ public class Passenger extends Thread {
      */
     @Override
     public void run(){
+        ReturnObject ret;
         travelToAirport();
         System.out.println("Passenger arrived at airport ID: " + this.id);
-        this.da.waitInQueue();
-        this.da.showDocuments();
-        this.plane.boardThePlane();
+        ret = this.da.waitInQueue(this.id);
+        this.state = ret.getPassengerState();
+        this.da.showDocuments(this.id);
+        ret = this.plane.boardThePlane(this.id);
+        this.state = ret.getPassengerState();
         this.plane.waitForEndOfFlight();
-        this.plane.leaveThePlane();
+        ret = this.plane.leaveThePlane(this.id);
+        this.state = ret.getPassengerState();
         this.destA.leave();
 
         System.out.println("Life cycle of passenger ended ID: " + this.id);

@@ -1,12 +1,13 @@
 package server.sharedRegion;
 
 import commInfra.SimulPar;
-import commInfra.states.*;
+import interfaces.genRepoInterface;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
+import commInfra.states.*;
 
 
 /**
@@ -15,7 +16,7 @@ import java.util.Objects;
  * @author Tomás Freitas
  * @author Tiago Gomes
  */
-public class genRepo {
+public class genRepo implements genRepoInterface {
 
     /**
      * Name of the file where the logger will be saved.
@@ -101,6 +102,7 @@ public class genRepo {
      *  @param flightNumber number of the actual flight
      */
 
+    @Override
     public void setFlightNumber(int flightNumber){
         this.flightNumber = flightNumber;
     }
@@ -109,6 +111,7 @@ public class genRepo {
      *  Set pilotState
      *  @param state state of the pilot
      */
+    @Override
     public void setPilotState(String state){
         this.pilotState = state;
     }
@@ -117,6 +120,7 @@ public class genRepo {
      *  Set hostessState
      *  @param state state of the hostess
      */
+    @Override
     public void setHostessState(String state){
         this.hostessState = state;
     }
@@ -126,6 +130,7 @@ public class genRepo {
      *  @param id id passenger to set state
      *  @param state state of the passenger
      */
+    @Override
     public synchronized void setPassengerState(int id, String state){
         this.passengerState[id-1] = state;
     }
@@ -134,6 +139,7 @@ public class genRepo {
      *  Set number of passengers arrived
      *  @param numberOfPassengersArrived number of passengers at destination
      */
+    @Override
     public void setNumberOfPassengersArrived(Integer numberOfPassengersArrived) {
         this.numberOfPassengersArrived = numberOfPassengersArrived;
     }
@@ -142,6 +148,7 @@ public class genRepo {
      *  Set passenger in flight
      *  @param passengerInFlight Number of passengers in flight
      */
+    @Override
     public void setPassengerInFlight(int passengerInFlight) {
         this.passengerInFlight = passengerInFlight;
     }
@@ -150,6 +157,7 @@ public class genRepo {
      *  Set passenger checked
      *  @param passengerCheckedId ID of passenger being checked
      */
+    @Override
     public void setPassengerCheckedId(int passengerCheckedId) {
         this.passengerCheckedId = passengerCheckedId;
     }
@@ -158,6 +166,7 @@ public class genRepo {
      *  Set passengers in transfer gate (queue)
      *  @param passengersInQueue Number of passengers in Queue
      */
+    @Override
     public void setPassengersInQueue(int passengersInQueue) {
         this.passengersInQueue = passengersInQueue;
     }
@@ -216,6 +225,7 @@ public class genRepo {
      * Boarding started
      * Append the message to the logger file.
      */
+    @Override
     public void reportBoardingStarted(){
         try {
             FileWriter log = new FileWriter(logFileName, true);
@@ -234,6 +244,7 @@ public class genRepo {
      * Passenger checked
      * Append the message to the logger file.
      */
+    @Override
     public void reportPassengerChecked(){
         try {
             FileWriter log = new FileWriter(logFileName, true);
@@ -251,6 +262,7 @@ public class genRepo {
      * Flight departed
      * Append the message to the logger file.
      */
+    @Override
     public void reportFlightDeparted(){
         try {
             FileWriter log = new FileWriter(logFileName, true);
@@ -269,6 +281,7 @@ public class genRepo {
      * Flight arrived
      * Append the message to the logger file.
      */
+    @Override
     public void reportFlightArrived(){
         try {
             FileWriter log = new FileWriter(logFileName, true);
@@ -286,6 +299,7 @@ public class genRepo {
      * Flight returning
      * Append the message to the logger file.
      */
+    @Override
     public void reportFlightReturning(){
         try {
             FileWriter log = new FileWriter(logFileName, true);
@@ -303,6 +317,7 @@ public class genRepo {
      * Calculate the Airlift sum up (number of passengers transported per flight)
      * Append the final report to the logger file.
      */
+    @Override
     public void finalReport(){
         try {
             FileWriter log = new FileWriter(logFileName, true);
@@ -322,6 +337,7 @@ public class genRepo {
      * Report status
      * Append the message to the logger file.
      */
+    @Override
     public synchronized void reportStatus(){
         try{
             FileWriter log = new FileWriter(logFileName, true);

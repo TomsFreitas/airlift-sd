@@ -1,7 +1,7 @@
 package client.entity;
+import commInfra.ReturnObject;
 import commInfra.states.pilotStates;
-import client.stubs.*;
-
+import interfaces.*;
 /**
  * Pilot thread and life cycle implementation
  * @author Tomás Freitas
@@ -16,16 +16,16 @@ public class Pilot extends Thread{
     /**
      * DepartureAirport Shared Region
      */
-    private departureAirportStub da;
+    private departureAirportInterface da;
 
     /**
      * DestinationAirport Shared Region
      */
-    private destinationAirportStub destA;
+    private destinationAirportInterface destA;
     /**
      * Plane Shared Region
      */
-    private planeStub plane;
+    private planeInterface plane;
 
     /**
      * True if end of work day
@@ -40,7 +40,7 @@ public class Pilot extends Thread{
      * @param destA Destination Airport Stub
      * @param plane Plane Stub
      */
-    public Pilot(departureAirportStub da, destinationAirportStub destA, planeStub plane){
+    public Pilot(departureAirportInterface da, destinationAirportInterface destA, planeInterface plane){
         this.state = pilotStates.AT_TRANSFER_GATE;
         this.da = da;
         this.destA = destA;
@@ -72,16 +72,23 @@ public class Pilot extends Thread{
      */
     @Override
     public void run() {
+        ReturnObject ret;
         while (true) {
-            this.da.parkAtTransferGate(this.endOfDay);
+            ret = this.da.parkAtTransferGate(this.endOfDay);
+            this.state = ret.getPilotState();
             if (this.endOfDay){
                 break;
             }
-            this.da.informPlaneReadyForBoarding();
-            this.plane.waitForAllInBoard();
-            this.da.flyToDestinationPoint();
-            this.plane.announceArrival();
-            this.destA.flyToDeparturePoint();
+            ret = this.da.informPlaneReadyForBoarding();
+            this.state = ret.getPilotState();
+            ret = this.plane.waitForAllInBoard();
+            this.state = ret.getPilotState();
+            ret = this.da.flyToDestinationPoint();
+            this.state = ret.getPilotState();
+            ret = this.plane.announceArrival();
+            this.state = ret.getPilotState();
+            ret = this.destA.flyToDeparturePoint();
+            this.state = ret.getPilotState();
             System.out.println("Flying to departure");
             this.endOfDay = this.destA.endOfDay();
         }

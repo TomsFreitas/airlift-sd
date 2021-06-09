@@ -1,8 +1,0 @@
-
-G
-java:S1068",Remove this unused "endOfDay" private field.(‹¼ÍÆýÿÿÿÿ
-D
-java:S1068")Remove this unused "destA" private field.(Æì½þÿÿÿÿ
-S	java:S1066"9Replace this use of System.out or System.err by a logger.(×§õ¾þÿÿÿÿ
->
-java:S1068")Remove this unused "state" private field.(Ï×Ø

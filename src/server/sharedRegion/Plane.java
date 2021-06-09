@@ -1,12 +1,12 @@
 package server.sharedRegion;
 
-import server.interfaces.Hostess;
-import server.interfaces.Passenger;
-import server.interfaces.Pilot;
+
+import commInfra.ReturnObject;
 import commInfra.states.hostessStates;
 import commInfra.states.passengerStates;
 import commInfra.states.pilotStates;
-import server.stubs.genRepoStub;
+import interfaces.genRepoInterface;
+import interfaces.planeInterface;
 
 /**
  * Plane Shared Region
@@ -14,11 +14,11 @@ import server.stubs.genRepoStub;
  * @author Tomás Freitas
  * @author Tiago Gomes
  */
-public class Plane {
+public class Plane implements planeInterface {
     /**
      * General Repository Shared Region
      */
-    private genRepoStub repo;
+    private genRepoInterface repo;
 
     /**
      * Number of occupied seats in the plane
@@ -44,7 +44,7 @@ public class Plane {
      * Plane Shared Region constructor
      * @param repo General Repository Shared Region
      */
-    public Plane(genRepoStub repo){
+    public Plane(genRepoInterface repo){
         this.repo = repo;
         this.occupiedSeats = 0;
         this.passengersAtDestination = 0;
@@ -54,22 +54,24 @@ public class Plane {
 
     /**
      * Called by a passenger this function sets the passenger state to IN_FLIGHT and increments the plane's seat counter.
+     * @return
      */
-    public synchronized void boardThePlane() {
+    @Override
+    public synchronized ReturnObject boardThePlane(int id) {
         this.occupiedSeats++;
-        Passenger passenger = (Passenger) Thread.currentThread();
-        passenger.setState(passengerStates.IN_FLIGHT);
-        repo.setPassengerState(passenger.getID(), passengerStates.IN_FLIGHT.getState());
+        repo.setPassengerState(id, passengerStates.IN_FLIGHT.getState());
         repo.setPassengerInFlight(occupiedSeats);
         repo.reportStatus();
-        System.out.println("Passenger entered the plane ID: " + passenger.getID());
+        System.out.println("Passenger entered the plane ID: " + id);
         notifyAll();
+        return new ReturnObject(passengerStates.IN_FLIGHT);
 
     }
 
     /**
      * Called by a passenger thread this function blocks the passenger until the pilot announces the flight has landed.
      */
+    @Override
     public synchronized void waitForEndOfFlight(){
         while (!timeToLeave){
             try {
@@ -83,11 +85,11 @@ public class Plane {
     /**
      * Called by the hostess, this function blocks until all checked in passengers are effectively on board.
      * Hostess state is set to READY_TO_FLY and warns the pilot to take off.
+     * @return
      */
-    public synchronized void informPlaneReadyForTakeOff(int passengersInFlight) {
-        Hostess hostess = (Hostess) Thread.currentThread();
+    @Override
+    public synchronized ReturnObject informPlaneReadyForTakeOff(int passengersInFlight) {
 
-        System.out.println("AQUIIIII");
         System.out.println(passengersInFlight);
         while (this.occupiedSeats != passengersInFlight){
             try {
@@ -96,21 +98,22 @@ public class Plane {
                 e.printStackTrace();
             }
         }
-        hostess.setState(hostessStates.READY_TO_FLY);
         repo.reportFlightDeparted();
         repo.setHostessState(hostessStates.READY_TO_FLY.getState());
         repo.reportStatus();
         this.planeReadyForTakeOff = true;
         notifyAll();
+        return new ReturnObject(hostessStates.READY_TO_FLY);
 
     }
 
     /**
      * Called by the pilot, this function sets the state to WAIT_FOR_BOARDING and blocks until the hostess lets the pilot know it's time to take off.
+     * @return
      */
-    public synchronized void waitForAllInBoard() {
-        Pilot pilot = (Pilot) Thread.currentThread();
-        pilot.setState(pilotStates.WAIT_FOR_BOARDING);
+    @Override
+    public synchronized ReturnObject waitForAllInBoard() {
+
         repo.setPilotState(pilotStates.WAIT_FOR_BOARDING.getState());
         repo.reportStatus();
         System.out.println(this.planeReadyForTakeOff);
@@ -123,17 +126,19 @@ public class Plane {
         }
         System.out.println("PLANE TAKING OFF WITH " + this.occupiedSeats);
         this.planeReadyForTakeOff = false;
+        return new ReturnObject(pilotStates.WAIT_FOR_BOARDING);
 
     }
 
     /**
      * Called by the pilot, this function set the state to DEBOARDING and warns all the passengers that the plane has landed.
      * It blocks until all the passengers have left the plane
+     * @return
      */
-    public synchronized void announceArrival(){
+    @Override
+    public synchronized ReturnObject announceArrival(){
 
-        Pilot pilot = (Pilot) Thread.currentThread();
-        pilot.setState(pilotStates.DEBOARDING);
+
         repo.reportFlightArrived();
         repo.setPilotState(pilotStates.DEBOARDING.getState());
         repo.reportStatus();
@@ -148,26 +153,29 @@ public class Plane {
         }
         System.out.println("The plane is empty");
         this.timeToLeave = false;
+        return new ReturnObject(pilotStates.DEBOARDING);
 
     }
 
     /**
      * Called by a passenger, this function sets the state to AT_DESTINATION and decrements the occupied seats counter.
      * When called by the last passenger inside the plane, it warns the pilot that the plane is empty.
+     * @return
      */
-    public synchronized void leaveThePlane() {
-        Passenger passenger = (Passenger) Thread.currentThread();
-        passenger.setState(passengerStates.AT_DESTINATION);
+    @Override
+    public synchronized ReturnObject leaveThePlane(int id) {
+
         this.passengersAtDestination++;
         this.occupiedSeats--;
-        repo.setPassengerState(passenger.getID(), passengerStates.AT_DESTINATION.getState());
+        repo.setPassengerState(id, passengerStates.AT_DESTINATION.getState());
         repo.setNumberOfPassengersArrived(this.passengersAtDestination);
         this.repo.setPassengerInFlight(this.occupiedSeats);
         repo.reportStatus();
         if(this.occupiedSeats == 0) {
             notifyAll();
         }
-        System.out.println("Passenger left the plane ID: " + passenger.getID() );
+        System.out.println("Passenger left the plane ID: " + id);
+        return new ReturnObject(passengerStates.AT_DESTINATION);
 
 
     }

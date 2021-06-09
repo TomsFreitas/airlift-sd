@@ -1,9 +1,10 @@
 package server.sharedRegion;
 
-import server.interfaces.Pilot;
+import commInfra.ReturnObject;
 import commInfra.SimulPar;
 import commInfra.states.pilotStates;
-import server.stubs.genRepoStub;
+import interfaces.destinationAirportInterface;
+import interfaces.genRepoInterface;
 
 /**
  * Implementation of the Destination Airport Shared Memory
@@ -12,12 +13,12 @@ import server.stubs.genRepoStub;
  * @author Tiago Gomes
  */
 
-public class destinationAirport {
+public class destinationAirport implements destinationAirportInterface {
 
     /**
      * General Repository Shared Region
      */
-    private genRepoStub repo;
+    private genRepoInterface repo;
 
     /**
      * Passenger counter
@@ -29,7 +30,7 @@ public class destinationAirport {
      * Destination Airport constructor
      * @param repo General Repository of information
      */
-    public destinationAirport(genRepoStub repo) {
+    public destinationAirport(genRepoInterface repo) {
         this.repo = repo;
         this.counter = 0;
 
@@ -38,11 +39,11 @@ public class destinationAirport {
     /**
      * Called by the pilot.
      *Pilot state is set to FLYING_BACK and this function pauses(suspend) the current thread execution for a random duration.
+     * @return
      */
-    public synchronized void flyToDeparturePoint(){
+    @Override
+    public synchronized ReturnObject flyToDeparturePoint(){
         repo.reportFlightReturning();
-        Pilot pilot = (Pilot) Thread.currentThread();
-        pilot.setState(pilotStates.FLYING_BACK);
         repo.setPilotState(pilotStates.FLYING_BACK.getState());
         repo.reportStatus();
         long duration = (long) (SimulPar.Pilot_MinSleep + SimulPar.Pilot_MaxSleep * Math.random());
@@ -51,12 +52,15 @@ public class destinationAirport {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        return new ReturnObject(pilotStates.FLYING_BACK);
     }
 
+    @Override
     public synchronized void leave(){
         this.counter++;
     }
 
+    @Override
     public synchronized boolean endOfDay(){
         if(this.counter >= 21){
             //repo.finalReport();
