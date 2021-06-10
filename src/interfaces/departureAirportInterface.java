@@ -24,4 +24,8 @@ public interface departureAirportInterface extends Remote {
     void showDocuments(int id);
 
     boolean endOfDay();
+
+    void disconnect();
+
+    void waitShutdown();
 }

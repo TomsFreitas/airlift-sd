@@ -24,6 +24,8 @@ public class destinationAirport implements destinationAirportInterface {
      * Passenger counter
      */
     private int counter;
+    private boolean running;
+    private int clientDisconnected;
 
 
     /**
@@ -33,6 +35,8 @@ public class destinationAirport implements destinationAirportInterface {
     public destinationAirport(genRepoInterface repo) {
         this.repo = repo;
         this.counter = 0;
+        this.clientDisconnected = 0;
+        this.running = true;
 
     }
 
@@ -67,6 +71,26 @@ public class destinationAirport implements destinationAirportInterface {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public synchronized void disconnect(){
+        this.clientDisconnected++;
+
+        if(this.clientDisconnected == 23){
+            this.running = false;
+            notifyAll();
+        }
+    }
+    @Override
+    public synchronized void waitShutdown(){
+        while (this.running){
+            try {
+                wait();
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
+            }
+        }
     }
 
 

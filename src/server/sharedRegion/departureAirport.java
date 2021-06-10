@@ -66,6 +66,8 @@ public class departureAirport implements departureAirportInterface {
 
     private boolean first;
     private int passengersCheckedtmp;
+    private int clientDisconnected;
+    private boolean running;
 
     /**
      * Departure Airport constructor
@@ -82,6 +84,8 @@ public class departureAirport implements departureAirportInterface {
         this.passengersFlown = 0;
         this.flightNumber = 0;
         this.first = true;
+        this.clientDisconnected = 0;
+        this.running = true;
 
     }
 
@@ -324,4 +328,23 @@ public class departureAirport implements departureAirportInterface {
         return this.passengersFlown == SimulPar.N_Passengers;
     }
 
+    @Override
+    public synchronized void disconnect(){
+        this.clientDisconnected++;
+
+        if(this.clientDisconnected == 23){
+            this.running = false;
+            notifyAll();
+        }
+    }
+    @Override
+    public synchronized void waitShutdown(){
+        while (this.running){
+            try {
+                wait();
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
+            }
+        }
+    }
 }

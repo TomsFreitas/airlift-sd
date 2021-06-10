@@ -10,4 +10,8 @@ public interface destinationAirportInterface extends Remote {
     void leave();
 
     boolean endOfDay();
+
+    void disconnect();
+
+    void waitShutdown();
 }

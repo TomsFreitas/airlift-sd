@@ -33,4 +33,8 @@ public interface genRepoInterface extends Remote {
     void finalReport();
 
     void reportStatus();
+
+    void disconnect();
+
+    void waitShutdown();
 }

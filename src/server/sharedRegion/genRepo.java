@@ -97,6 +97,8 @@ public class genRepo implements genRepoInterface {
         this.passengersInQueue = 0;
         this.flightsmade = new ArrayList<>();
         reportInitialStatus();
+        this.clientDisconnected = 0;
+        this.running = true;
     }
 
     /**
@@ -366,6 +368,7 @@ public class genRepo implements genRepoInterface {
         }
 
     }
+    @Override
     public synchronized void disconnect(){
         this.clientDisconnected++;
 
@@ -374,7 +377,7 @@ public class genRepo implements genRepoInterface {
             notifyAll();
         }
     }
-
+    @Override
     public synchronized void waitShutdown(){
         while (this.running){
             try {

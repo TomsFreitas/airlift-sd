@@ -1,10 +1,16 @@
 package client.main;
 
 import client.entity.Pilot;
-import client.stubs.departureAirportStub;
-import client.stubs.destinationAirportStub;
-import client.stubs.planeStub;
+
 import commInfra.SimulPar;
+import interfaces.departureAirportInterface;
+import interfaces.planeInterface;
+import interfaces.destinationAirportInterface;
+
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 /**
  * Pilot Main Class implementation
@@ -17,11 +23,21 @@ public class pilotMain {
 
     public static void main(String[] args){
 
-        departureAirportStub da = new departureAirportStub(SimulPar.departureAirportServerHost, SimulPar.departureAirportServerPort);
-        destinationAirportStub destA = new destinationAirportStub(SimulPar.destinationAirportServerHost, SimulPar.destinationAirportServerPort);
-        planeStub plane = new planeStub(SimulPar.planeServerHost, SimulPar.planeServerPort);
+        departureAirportInterface depA = null;
+        planeInterface plane = null;
+        destinationAirportInterface destA = null;
 
-        Pilot pilot = new Pilot(da, destA, plane);
+        try{
+            Registry registry = LocateRegistry.getRegistry(SimulPar.RegistryHost, SimulPar.RegistryPort);
+            depA = (departureAirportInterface) registry.lookup("departureAirport");
+            plane = (planeInterface) registry.lookup("Plane");
+            destA = (destinationAirportInterface) registry.lookup("destinationAirport");
+        } catch (RemoteException | NotBoundException e) {
+            e.printStackTrace();
+        }
+
+        Pilot pilot = new Pilot(depA, destA, plane);
+
         pilot.start();
 
         try {
@@ -29,9 +45,10 @@ public class pilotMain {
         } catch (InterruptedException interruptedException) {
             interruptedException.printStackTrace();
         }
-        plane.shutdown();
-        destA.shutdown();
-        da.shutdown();
+
+        depA.disconnect();
+        destA.disconnect();
+        plane.disconnect();
 
     }
 

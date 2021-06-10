@@ -39,6 +39,8 @@ public class Plane implements planeInterface {
      * True if plane is ready to take off
      */
     private boolean planeReadyForTakeOff;
+    private int clientDisconnected;
+    private boolean running;
 
     /**
      * Plane Shared Region constructor
@@ -49,6 +51,8 @@ public class Plane implements planeInterface {
         this.occupiedSeats = 0;
         this.passengersAtDestination = 0;
         this.timeToLeave = false;
+        this.running = true;
+        this.clientDisconnected = 0;
     }
 
 
@@ -178,6 +182,26 @@ public class Plane implements planeInterface {
         return new ReturnObject(passengerStates.AT_DESTINATION);
 
 
+    }
+
+    @Override
+    public synchronized void disconnect(){
+        this.clientDisconnected++;
+
+        if(this.clientDisconnected == 23){
+            this.running = false;
+            notifyAll();
+        }
+    }
+    @Override
+    public synchronized void waitShutdown(){
+        while (this.running){
+            try {
+                wait();
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
+            }
+        }
     }
 
 }

@@ -1,9 +1,14 @@
 package client.main;
 
 import client.entity.Hostess;
-import client.stubs.departureAirportStub;
-import client.stubs.planeStub;
 import commInfra.SimulPar;
+import interfaces.departureAirportInterface;
+import interfaces.planeInterface;
+
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 /**
  * Hostess Main Class implementation
@@ -15,9 +20,19 @@ import commInfra.SimulPar;
 
 public class hostessMain {
     public static void main(String[] args) {
-        departureAirportStub da = new departureAirportStub(SimulPar.departureAirportServerHost, SimulPar.departureAirportServerPort);
-        planeStub plane = new planeStub(SimulPar.planeServerHost, SimulPar.planeServerPort);
-        Hostess hostess = new Hostess(da, plane);
+        departureAirportInterface depA = null;
+        planeInterface plane = null;
+
+        try{
+            Registry registry = LocateRegistry.getRegistry(SimulPar.RegistryHost, SimulPar.RegistryPort);
+            depA = (departureAirportInterface) registry.lookup("departureAirport");
+            plane = (planeInterface) registry.lookup("Plane");
+        } catch (RemoteException | NotBoundException e) {
+            e.printStackTrace();
+        }
+
+        Hostess hostess = new Hostess(depA, plane);
+
         hostess.start();
 
         try {
@@ -25,7 +40,9 @@ public class hostessMain {
         } catch (InterruptedException interruptedException) {
             interruptedException.printStackTrace();
         }
-        plane.shutdown();
-        da.shutdown();
+
+        depA.disconnect();
+        plane.disconnect();
+
     }
 }

@@ -17,4 +17,8 @@ public interface planeInterface extends Remote {
     ReturnObject announceArrival();
 
     ReturnObject leaveThePlane(int id);
+
+    void disconnect();
+
+    void waitShutdown();
 }
