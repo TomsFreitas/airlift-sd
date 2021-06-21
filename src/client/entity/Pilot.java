@@ -2,6 +2,9 @@ package client.entity;
 import commInfra.ReturnObject;
 import commInfra.states.pilotStates;
 import interfaces.*;
+
+import java.rmi.RemoteException;
+
 /**
  * Pilot thread and life cycle implementation
  * @author Tomás Freitas
@@ -72,25 +75,53 @@ public class Pilot extends Thread{
      */
     @Override
     public void run() {
-        ReturnObject ret;
+        ReturnObject ret = null;
         while (true) {
-            ret = this.da.parkAtTransferGate(this.endOfDay);
+            try {
+                ret = this.da.parkAtTransferGate(this.endOfDay);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             this.state = ret.getPilotState();
             if (this.endOfDay){
                 break;
             }
-            ret = this.da.informPlaneReadyForBoarding();
+            try {
+                ret = this.da.informPlaneReadyForBoarding();
+            } catch (java.rmi.RemoteException e) {
+                e.printStackTrace();
+            }
             this.state = ret.getPilotState();
-            ret = this.plane.waitForAllInBoard();
+            try {
+                ret = this.plane.waitForAllInBoard();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             this.state = ret.getPilotState();
-            ret = this.da.flyToDestinationPoint();
+            try {
+                ret = this.da.flyToDestinationPoint();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             this.state = ret.getPilotState();
-            ret = this.plane.announceArrival();
+            try {
+                ret = this.plane.announceArrival();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             this.state = ret.getPilotState();
-            ret = this.destA.flyToDeparturePoint();
+            try {
+                ret = this.destA.flyToDeparturePoint();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             this.state = ret.getPilotState();
             System.out.println("Flying to departure");
-            this.endOfDay = this.destA.endOfDay();
+            try {
+                this.endOfDay = this.destA.endOfDay();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
 
         System.out.println("Pilot lifecycle ended");

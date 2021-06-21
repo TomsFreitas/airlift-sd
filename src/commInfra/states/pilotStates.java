@@ -1,5 +1,7 @@
 package commInfra.states;
 
+import java.io.Serializable;
+
 /**
  * Enum implementing the typical pilot States:
  *
@@ -13,7 +15,7 @@ package commInfra.states;
  * </ul>
  */
 
-public enum pilotStates {
+public enum pilotStates implements Serializable {
 
     /**
      * The pilot parks the plane at transfer gate.

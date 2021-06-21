@@ -8,6 +8,8 @@ import commInfra.states.pilotStates;
 import interfaces.genRepoInterface;
 import interfaces.planeInterface;
 
+import java.rmi.RemoteException;
+
 /**
  * Plane Shared Region
  * Takes passengers to their destination
@@ -61,7 +63,7 @@ public class Plane implements planeInterface {
      * @return
      */
     @Override
-    public synchronized ReturnObject boardThePlane(int id) {
+    public synchronized ReturnObject boardThePlane(int id) throws RemoteException {
         this.occupiedSeats++;
         repo.setPassengerState(id, passengerStates.IN_FLIGHT.getState());
         repo.setPassengerInFlight(occupiedSeats);
@@ -92,7 +94,7 @@ public class Plane implements planeInterface {
      * @return
      */
     @Override
-    public synchronized ReturnObject informPlaneReadyForTakeOff(int passengersInFlight) {
+    public synchronized ReturnObject informPlaneReadyForTakeOff(int passengersInFlight) throws RemoteException {
 
         System.out.println(passengersInFlight);
         while (this.occupiedSeats != passengersInFlight){
@@ -116,7 +118,7 @@ public class Plane implements planeInterface {
      * @return
      */
     @Override
-    public synchronized ReturnObject waitForAllInBoard() {
+    public synchronized ReturnObject waitForAllInBoard() throws RemoteException {
 
         repo.setPilotState(pilotStates.WAIT_FOR_BOARDING.getState());
         repo.reportStatus();
@@ -140,7 +142,7 @@ public class Plane implements planeInterface {
      * @return
      */
     @Override
-    public synchronized ReturnObject announceArrival(){
+    public synchronized ReturnObject announceArrival() throws RemoteException {
 
 
         repo.reportFlightArrived();
@@ -167,7 +169,7 @@ public class Plane implements planeInterface {
      * @return
      */
     @Override
-    public synchronized ReturnObject leaveThePlane(int id) {
+    public synchronized ReturnObject leaveThePlane(int id) throws RemoteException {
 
         this.passengersAtDestination++;
         this.occupiedSeats--;
@@ -185,7 +187,7 @@ public class Plane implements planeInterface {
     }
 
     @Override
-    public synchronized void disconnect(){
+    public synchronized void disconnect() throws RemoteException{
         this.clientDisconnected++;
 
         if(this.clientDisconnected == 23){
@@ -194,7 +196,7 @@ public class Plane implements planeInterface {
         }
     }
     @Override
-    public synchronized void waitShutdown(){
+    public synchronized void waitShutdown() throws RemoteException{
         while (this.running){
             try {
                 wait();

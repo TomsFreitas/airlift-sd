@@ -56,7 +56,11 @@ public class genRepoMain {
             System.exit(1);
         }
 
-        repo.waitShutdown();
+        try {
+            repo.waitShutdown();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         try {
             reg.unbind("genRepo");

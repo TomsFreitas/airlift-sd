@@ -37,12 +37,12 @@ public final class SimulPar{
     /**
      * Passenger minimum sleep time
      */
-    public static final int Passenger_MinSleep = 2000;
+    public static final int Passenger_MinSleep = 1000;
 
     /**
      * Passenger maximum sleep time
      */
-    public static final int Passenger_MaxSleep = 15000;
+    public static final int Passenger_MaxSleep = 3000;
 
     /**
      * Plane Server HostName
@@ -87,6 +87,8 @@ public final class SimulPar{
     public static String RegistryHost = "l040101-ws05.ua.pt";
 
     public static int RegistryPort = 22194;
+
+    public static int regPort = 22195;
 
 
 

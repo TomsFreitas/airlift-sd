@@ -50,7 +50,7 @@ public class passengerMain {
                 depA.disconnect();
                 plane.disconnect();
                 destA.disconnect();
-            } catch (InterruptedException interruptedException) {
+            } catch (InterruptedException | RemoteException interruptedException) {
                 interruptedException.printStackTrace();
             }
         }

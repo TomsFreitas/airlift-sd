@@ -2,6 +2,8 @@ package server.sharedRegion;
 
 import interfaces.genRepoInterface;
 import interfaces.departureAirportInterface;
+
+import java.rmi.RemoteException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import commInfra.SimulPar;
@@ -95,7 +97,7 @@ public class departureAirport implements departureAirportInterface {
      * @return
      */
     @Override
-    public synchronized ReturnObject informPlaneReadyForBoarding(){
+    public synchronized ReturnObject informPlaneReadyForBoarding() throws RemoteException {
 
         repo.setPilotState(pilotStates.READY_FOR_BOARDING.getState());
         this.ReadyForBoarding = true;
@@ -114,7 +116,7 @@ public class departureAirport implements departureAirportInterface {
      * @return
      */
     @Override
-    public synchronized ReturnObject parkAtTransferGate(boolean endOfDay) {
+    public synchronized ReturnObject parkAtTransferGate(boolean endOfDay) throws RemoteException{
 
         repo.setPilotState(pilotStates.AT_TRANSFER_GATE.getState());
         if (!this.first){
@@ -134,7 +136,7 @@ public class departureAirport implements departureAirportInterface {
      * @return
      */
     @Override
-    public synchronized ReturnObject flyToDestinationPoint(){
+    public synchronized ReturnObject flyToDestinationPoint() throws RemoteException{
 
         repo.setPilotState(pilotStates.FLYING_FORWARD.getState());
         repo.reportStatus();
@@ -155,7 +157,7 @@ public class departureAirport implements departureAirportInterface {
      * @return
      */
     @Override
-    public synchronized ReturnObject waitForNextFlight() {
+    public synchronized ReturnObject waitForNextFlight()  throws RemoteException{
 
         repo.setHostessState(hostessStates.WAIT_FOR_NEXT_FLIGHT.getState());
         repo.reportStatus();
@@ -183,7 +185,7 @@ public class departureAirport implements departureAirportInterface {
      * @return
      */
     @Override
-    public synchronized ReturnObject waitInQueue(int id){
+    public synchronized ReturnObject waitInQueue(int id) throws RemoteException{
 
         repo.setPassengerState(id, passengerStates.IN_QUEUE.getState());
         try {
@@ -210,7 +212,7 @@ public class departureAirport implements departureAirportInterface {
      * @return
      */
     @Override
-    public synchronized ReturnObject prepareForPassBoarding() {
+    public synchronized ReturnObject prepareForPassBoarding() throws RemoteException {
 
         repo.setHostessState(hostessStates.WAIT_FOR_PASSENGER.getState());
         repo.reportStatus();
@@ -232,7 +234,7 @@ public class departureAirport implements departureAirportInterface {
      * @return
      */
     @Override
-    public synchronized ReturnObject checkDocuments() {
+    public synchronized ReturnObject checkDocuments()  throws RemoteException{
 
         try {
             int passenger = this.passengerQueue.take();
@@ -268,7 +270,7 @@ public class departureAirport implements departureAirportInterface {
      * @return <code>true</code> if ready to fly.
      */
     @Override
-    public synchronized ReturnObject waitForNextPassenger(){
+    public synchronized ReturnObject waitForNextPassenger() throws RemoteException{
 
         repo.setHostessState(hostessStates.WAIT_FOR_PASSENGER.getState());
         this.boardThePlane = true;
@@ -301,7 +303,7 @@ public class departureAirport implements departureAirportInterface {
      * This function blocks until the hostess gives this passenger permission to board the plane.
      */
     @Override
-    public synchronized void showDocuments(int id) {
+    public synchronized void showDocuments(int id) throws RemoteException {
         System.out.println("Passenger showed documents " + id);
         this.documentsgiven = id;
         notifyAll();
@@ -323,13 +325,13 @@ public class departureAirport implements departureAirportInterface {
      * @return True if all passengers have flown to the destination
      */
     @Override
-    public boolean endOfDay(){
+    public boolean endOfDay() throws RemoteException{
         System.out.println(this.passengersFlown);
         return this.passengersFlown == SimulPar.N_Passengers;
     }
 
     @Override
-    public synchronized void disconnect(){
+    public synchronized void disconnect() throws RemoteException{
         this.clientDisconnected++;
 
         if(this.clientDisconnected == 23){
@@ -338,7 +340,7 @@ public class departureAirport implements departureAirportInterface {
         }
     }
     @Override
-    public synchronized void waitShutdown(){
+    public synchronized void waitShutdown() throws RemoteException {
         while (this.running){
             try {
                 wait();

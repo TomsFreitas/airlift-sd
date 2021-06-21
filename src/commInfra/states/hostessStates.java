@@ -1,5 +1,7 @@
 package commInfra.states;
 
+import java.io.Serializable;
+
 /**
  * Enum implementing the typical hostess States:
  *
@@ -10,7 +12,7 @@ package commInfra.states;
  *     <li>READY_TO_FLY - The hostess notifies the pilot that the flight is ready to take off.</li>
  * </ul>
  */
-public enum hostessStates {
+public enum hostessStates implements Serializable {
 
     /**
      * The hostess waits for the next flight (pilot parks the plane at the departure gate).

@@ -3,22 +3,23 @@ package interfaces;
 import commInfra.ReturnObject;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 public interface planeInterface extends Remote {
 
-    ReturnObject boardThePlane(int id);
+    ReturnObject boardThePlane(int id) throws RemoteException;
 
-    void waitForEndOfFlight();
+    void waitForEndOfFlight() throws RemoteException;
 
-    ReturnObject informPlaneReadyForTakeOff(int passengersInFlight);
+    ReturnObject informPlaneReadyForTakeOff(int passengersInFlight) throws RemoteException;
 
-    ReturnObject waitForAllInBoard();
+    ReturnObject waitForAllInBoard() throws RemoteException;
 
-    ReturnObject announceArrival();
+    ReturnObject announceArrival() throws RemoteException;
 
-    ReturnObject leaveThePlane(int id);
+    ReturnObject leaveThePlane(int id) throws RemoteException;
 
-    void disconnect();
+    void disconnect() throws RemoteException;
 
-    void waitShutdown();
+    void waitShutdown() throws RemoteException;
 }

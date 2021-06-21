@@ -1,14 +1,18 @@
 package commInfra;
 import commInfra.states.*;
 
-public class ReturnObject {
+import java.io.Serializable;
 
+public class ReturnObject implements Serializable {
+
+    public static final long serialVersionUID = 2021L;
 
     private int passengerschecked;
     private boolean bool;
     private passengerStates passengerState;
     private pilotStates pilotState;
     private hostessStates hostessState;
+
 
     public int getPassengerschecked() {
         return passengerschecked;
@@ -42,9 +46,10 @@ public class ReturnObject {
         this.passengerState = state;
     }
 
-    public ReturnObject(boolean bool, int passengersCheckedtmp, hostessStates waitForPassenger) {
+    public ReturnObject(boolean bool, int passengersCheckedtmp, hostessStates state) {
         this.bool = bool;
         this.passengerschecked = passengersCheckedtmp;
+        this.hostessState = state;
     }
 
     public ReturnObject(boolean bool, hostessStates state) {

@@ -4,6 +4,8 @@ import interfaces.departureAirportInterface;
 import interfaces.planeInterface;
 import commInfra.states.hostessStates;
 
+import java.rmi.RemoteException;
+
 
 /**
  * Hostess thread and Lifecycle implementation
@@ -79,19 +81,39 @@ public class Hostess extends Thread {
      */
     @Override
     public void run() {
-        ReturnObject ret;
+        ReturnObject ret = null;
         while (true) {
-            ret = this.da.waitForNextFlight();
-            this.state = ret.getHostessState();
-            if(this.da.endOfDay()){
-                break;
+            try {
+                ret = this.da.waitForNextFlight();
+            } catch (RemoteException e) {
+                e.printStackTrace();
             }
-            ret = this.da.prepareForPassBoarding();
+            this.state = ret.getHostessState();
+            try {
+                if(this.da.endOfDay()){
+                    break;
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            try {
+                ret = this.da.prepareForPassBoarding();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             this.state = ret.getHostessState();
             while (!this.readyToFly) {
-                ret = this.da.checkDocuments();
+                try {
+                    ret = this.da.checkDocuments();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
                 this.state = ret.getHostessState();
-                ret = this.da.waitForNextPassenger();
+                try {
+                    ret = this.da.waitForNextPassenger();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
                 this.readyToFly = ret.isBool();
                 if(this.readyToFly){
                     this.passengersInFlight = ret.getPassengerschecked();
@@ -101,7 +123,11 @@ public class Hostess extends Thread {
 
             }
             this.readyToFly = false;
-            ret = this.plane.informPlaneReadyForTakeOff(this.passengersInFlight);
+            try {
+                ret = this.plane.informPlaneReadyForTakeOff(this.passengersInFlight);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             this.state = ret.getHostessState();
 
         }

@@ -62,8 +62,16 @@ public class planeMain {
             System.exit(1);
         }
 
-        plane.waitShutdown();
-        genRepoInt.disconnect();
+        try {
+            plane.waitShutdown();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        try {
+            genRepoInt.disconnect();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         try {
             reg.unbind("Plane");

@@ -6,7 +6,7 @@ import java.rmi.RemoteException;
 import java.rmi.AccessException;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.server.*;
-import genclass.GenericIO;
+import commInfra.SimulPar;
 import interfaces.Register;
 
 /**
@@ -31,31 +31,29 @@ public class ServerRegisterRemoteObject
      String rmiRegHostName;
      int rmiRegPortNumb;
 
-     GenericIO.writeString ("Name of the processing node where the registering service is located? ");
-     rmiRegHostName = GenericIO.readlnString ();
-     GenericIO.writeString ("Port number where the registering service is listening to? ");
-     rmiRegPortNumb = GenericIO.readlnInt ();
+     rmiRegHostName = SimulPar.RegistryHost;
+     rmiRegPortNumb = SimulPar.RegistryPort;
 
     /* create and install the security manager */
 
      if (System.getSecurityManager () == null)
         System.setSecurityManager (new SecurityManager ());
-     GenericIO.writelnString ("Security manager was installed!");
+     System.out.println ("Security manager was installed!");
 
     /* instantiate a registration remote object and generate a stub for it */
 
      RegisterRemoteObject regEngine = new RegisterRemoteObject (rmiRegHostName, rmiRegPortNumb);
      Register regEngineStub = null;
-     int listeningPort = 22191;                                      /* it should be set accordingly in each case */
+     int listeningPort = SimulPar.regPort;                                      /* it should be set accordingly in each case */
 
      try
      { regEngineStub = (Register) UnicastRemoteObject.exportObject (regEngine, listeningPort);
      }
      catch (RemoteException e)
-     { GenericIO.writelnString ("RegisterRemoteObject stub generation exception: " + e.getMessage ());
+     { System.out.println ("RegisterRemoteObject stub generation exception: " + e.getMessage ());
        System.exit (1);
      }
-     GenericIO.writelnString ("Stub was generated!");
+     System.out.println ("Stub was generated!");
 
     /* register it with the local registry service */
 
@@ -66,18 +64,18 @@ public class ServerRegisterRemoteObject
      { registry = LocateRegistry.getRegistry (rmiRegHostName, rmiRegPortNumb);
      }
      catch (RemoteException e)
-     { GenericIO.writelnString ("RMI registry creation exception: " + e.getMessage ());
+     { System.out.println ("RMI registry creation exception: " + e.getMessage ());
        System.exit (1);
      }
-     GenericIO.writelnString ("RMI registry was created!");
+     System.out.println ("RMI registry was created!");
 
      try
      { registry.rebind (nameEntry, regEngineStub);
      }
      catch (RemoteException e)
-     { GenericIO.writelnString ("RegisterRemoteObject remote exception on registration: " + e.getMessage ());
+     { System.out.println ("RegisterRemoteObject remote exception on registration: " + e.getMessage ());
        System.exit (1);
      }
-     GenericIO.writelnString ("RegisterRemoteObject object was registered!");
+     System.out.println ("RegisterRemoteObject object was registered!");
    }
 }

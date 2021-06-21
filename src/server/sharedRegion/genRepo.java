@@ -5,6 +5,7 @@ import interfaces.genRepoInterface;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Objects;
 import commInfra.states.*;
@@ -96,7 +97,11 @@ public class genRepo implements genRepoInterface {
         this.numberOfPassengersArrived = 0;
         this.passengersInQueue = 0;
         this.flightsmade = new ArrayList<>();
-        reportInitialStatus();
+        try {
+            reportInitialStatus();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         this.clientDisconnected = 0;
         this.running = true;
     }
@@ -107,7 +112,7 @@ public class genRepo implements genRepoInterface {
      */
 
     @Override
-    public void setFlightNumber(int flightNumber){
+    public void setFlightNumber(int flightNumber) throws RemoteException {
         this.flightNumber = flightNumber;
     }
 
@@ -116,7 +121,7 @@ public class genRepo implements genRepoInterface {
      *  @param state state of the pilot
      */
     @Override
-    public void setPilotState(String state){
+    public void setPilotState(String state) throws RemoteException{
         this.pilotState = state;
     }
 
@@ -125,7 +130,7 @@ public class genRepo implements genRepoInterface {
      *  @param state state of the hostess
      */
     @Override
-    public void setHostessState(String state){
+    public void setHostessState(String state) throws RemoteException{
         this.hostessState = state;
     }
 
@@ -135,7 +140,7 @@ public class genRepo implements genRepoInterface {
      *  @param state state of the passenger
      */
     @Override
-    public synchronized void setPassengerState(int id, String state){
+    public synchronized void setPassengerState(int id, String state) throws RemoteException{
         this.passengerState[id-1] = state;
     }
 
@@ -144,7 +149,7 @@ public class genRepo implements genRepoInterface {
      *  @param numberOfPassengersArrived number of passengers at destination
      */
     @Override
-    public void setNumberOfPassengersArrived(Integer numberOfPassengersArrived) {
+    public void setNumberOfPassengersArrived(Integer numberOfPassengersArrived) throws RemoteException {
         this.numberOfPassengersArrived = numberOfPassengersArrived;
     }
 
@@ -153,7 +158,7 @@ public class genRepo implements genRepoInterface {
      *  @param passengerInFlight Number of passengers in flight
      */
     @Override
-    public void setPassengerInFlight(int passengerInFlight) {
+    public void setPassengerInFlight(int passengerInFlight)  throws RemoteException{
         this.passengerInFlight = passengerInFlight;
     }
 
@@ -162,7 +167,7 @@ public class genRepo implements genRepoInterface {
      *  @param passengerCheckedId ID of passenger being checked
      */
     @Override
-    public void setPassengerCheckedId(int passengerCheckedId) {
+    public void setPassengerCheckedId(int passengerCheckedId) throws RemoteException {
         this.passengerCheckedId = passengerCheckedId;
     }
 
@@ -171,7 +176,7 @@ public class genRepo implements genRepoInterface {
      *  @param passengersInQueue Number of passengers in Queue
      */
     @Override
-    public void setPassengersInQueue(int passengersInQueue) {
+    public void setPassengersInQueue(int passengersInQueue) throws RemoteException {
         this.passengersInQueue = passengersInQueue;
     }
 
@@ -201,7 +206,7 @@ public class genRepo implements genRepoInterface {
      */
 
 
-    private synchronized void reportInitialStatus(){
+    private synchronized void reportInitialStatus() throws RemoteException{
         try{
             FileWriter log = new FileWriter(logFileName, false);
             String header = getHeader();
@@ -230,7 +235,7 @@ public class genRepo implements genRepoInterface {
      * Append the message to the logger file.
      */
     @Override
-    public void reportBoardingStarted(){
+    public void reportBoardingStarted() throws RemoteException{
         try {
             FileWriter log = new FileWriter(logFileName, true);
             StringBuilder lineStatus = new StringBuilder();
@@ -249,7 +254,7 @@ public class genRepo implements genRepoInterface {
      * Append the message to the logger file.
      */
     @Override
-    public void reportPassengerChecked(){
+    public void reportPassengerChecked() throws RemoteException{
         try {
             FileWriter log = new FileWriter(logFileName, true);
             StringBuilder lineStatus = new StringBuilder();
@@ -267,7 +272,7 @@ public class genRepo implements genRepoInterface {
      * Append the message to the logger file.
      */
     @Override
-    public void reportFlightDeparted(){
+    public void reportFlightDeparted() throws RemoteException{
         try {
             FileWriter log = new FileWriter(logFileName, true);
             StringBuilder lineStatus = new StringBuilder();
@@ -286,7 +291,7 @@ public class genRepo implements genRepoInterface {
      * Append the message to the logger file.
      */
     @Override
-    public void reportFlightArrived(){
+    public void reportFlightArrived() throws RemoteException{
         try {
             FileWriter log = new FileWriter(logFileName, true);
             StringBuilder lineStatus = new StringBuilder();
@@ -304,7 +309,7 @@ public class genRepo implements genRepoInterface {
      * Append the message to the logger file.
      */
     @Override
-    public void reportFlightReturning(){
+    public void reportFlightReturning() throws RemoteException{
         try {
             FileWriter log = new FileWriter(logFileName, true);
             StringBuilder lineStatus = new StringBuilder();
@@ -322,7 +327,7 @@ public class genRepo implements genRepoInterface {
      * Append the final report to the logger file.
      */
     @Override
-    public void finalReport(){
+    public void finalReport() throws RemoteException{
         try {
             FileWriter log = new FileWriter(logFileName, true);
             try (PrintWriter pw = new PrintWriter(log)) {
@@ -342,7 +347,7 @@ public class genRepo implements genRepoInterface {
      * Append the message to the logger file.
      */
     @Override
-    public synchronized void reportStatus(){
+    public synchronized void reportStatus() throws RemoteException{
         try{
             FileWriter log = new FileWriter(logFileName, true);
             StringBuilder lineStatus = new StringBuilder();                                     // state line to be printed
@@ -369,7 +374,7 @@ public class genRepo implements genRepoInterface {
 
     }
     @Override
-    public synchronized void disconnect(){
+    public synchronized void disconnect() throws RemoteException{
         this.clientDisconnected++;
 
         if(this.clientDisconnected == 3){
@@ -378,7 +383,7 @@ public class genRepo implements genRepoInterface {
         }
     }
     @Override
-    public synchronized void waitShutdown(){
+    public synchronized void waitShutdown() throws RemoteException{
         while (this.running){
             try {
                 wait();

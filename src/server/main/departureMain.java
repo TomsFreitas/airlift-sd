@@ -62,7 +62,11 @@ public class departureMain {
             System.exit(1);
         }
 
-        depA.waitShutdown();
+        try {
+            depA.waitShutdown();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         try {
             reg.unbind("departureAirport");
@@ -75,7 +79,11 @@ public class departureMain {
         } catch (NoSuchObjectException e) {
             e.printStackTrace();
         }
-        genRepoInt.disconnect();
+        try {
+            genRepoInt.disconnect();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
 
     }

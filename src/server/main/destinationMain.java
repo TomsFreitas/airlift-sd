@@ -62,8 +62,16 @@ public class destinationMain {
             System.exit(1);
         }
 
-        destA.waitShutdown();
-        genRepoInt.disconnect();
+        try {
+            destA.waitShutdown();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        try {
+            genRepoInt.disconnect();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         try {
             reg.unbind("destinationAirport");

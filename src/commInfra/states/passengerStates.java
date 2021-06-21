@@ -1,6 +1,8 @@
 package commInfra.states;
 
 
+import java.io.Serializable;
+
 /**
  * Enum implementing the typical passenger States:
  *
@@ -12,7 +14,7 @@ package commInfra.states;
  * </ul>
  */
 
-public enum passengerStates {
+public enum passengerStates implements Serializable {
 
     /**
      * The passenger goes to the airport.

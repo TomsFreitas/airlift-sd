@@ -41,8 +41,16 @@ public class hostessMain {
             interruptedException.printStackTrace();
         }
 
-        depA.disconnect();
-        plane.disconnect();
+        try {
+            depA.disconnect();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        try {
+            plane.disconnect();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
     }
 }

@@ -6,6 +6,8 @@ import commInfra.states.pilotStates;
 import interfaces.destinationAirportInterface;
 import interfaces.genRepoInterface;
 
+import java.rmi.RemoteException;
+
 /**
  * Implementation of the Destination Airport Shared Memory
  * The passengers arrive after the travel
@@ -46,7 +48,7 @@ public class destinationAirport implements destinationAirportInterface {
      * @return
      */
     @Override
-    public synchronized ReturnObject flyToDeparturePoint(){
+    public synchronized ReturnObject flyToDeparturePoint() throws RemoteException {
         repo.reportFlightReturning();
         repo.setPilotState(pilotStates.FLYING_BACK.getState());
         repo.reportStatus();
@@ -60,12 +62,12 @@ public class destinationAirport implements destinationAirportInterface {
     }
 
     @Override
-    public synchronized void leave(){
+    public synchronized void leave() throws RemoteException{
         this.counter++;
     }
 
     @Override
-    public synchronized boolean endOfDay(){
+    public synchronized boolean endOfDay() throws RemoteException{
         if(this.counter >= 21){
             //repo.finalReport();
             return true;
@@ -74,16 +76,16 @@ public class destinationAirport implements destinationAirportInterface {
     }
 
     @Override
-    public synchronized void disconnect(){
+    public synchronized void disconnect() throws RemoteException{
         this.clientDisconnected++;
 
-        if(this.clientDisconnected == 23){
+        if(this.clientDisconnected == 22){
             this.running = false;
             notifyAll();
         }
     }
     @Override
-    public synchronized void waitShutdown(){
+    public synchronized void waitShutdown() throws RemoteException{
         while (this.running){
             try {
                 wait();

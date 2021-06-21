@@ -4,6 +4,8 @@ import commInfra.SimulPar;
 import commInfra.states.passengerStates;
 import interfaces.*;
 
+import java.rmi.RemoteException;
+
 /**
  * Passenger thread and lifecycle implementation
  * @author Tomás Freitas
@@ -63,18 +65,42 @@ public class Passenger extends Thread {
      */
     @Override
     public void run(){
-        ReturnObject ret;
+        ReturnObject ret = null;
         travelToAirport();
         System.out.println("Passenger arrived at airport ID: " + this.id);
-        ret = this.da.waitInQueue(this.id);
+        try {
+            ret = this.da.waitInQueue(this.id);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         this.state = ret.getPassengerState();
-        this.da.showDocuments(this.id);
-        ret = this.plane.boardThePlane(this.id);
+        try {
+            this.da.showDocuments(this.id);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        try {
+            ret = this.plane.boardThePlane(this.id);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         this.state = ret.getPassengerState();
-        this.plane.waitForEndOfFlight();
-        ret = this.plane.leaveThePlane(this.id);
+        try {
+            this.plane.waitForEndOfFlight();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        try {
+            ret = this.plane.leaveThePlane(this.id);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         this.state = ret.getPassengerState();
-        this.destA.leave();
+        try {
+            this.destA.leave();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         System.out.println("Life cycle of passenger ended ID: " + this.id);
     }

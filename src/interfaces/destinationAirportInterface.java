@@ -3,15 +3,16 @@ package interfaces;
 import commInfra.ReturnObject;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 public interface destinationAirportInterface extends Remote {
-    ReturnObject flyToDeparturePoint();
+    ReturnObject flyToDeparturePoint() throws RemoteException;
 
-    void leave();
+    void leave() throws RemoteException;
 
-    boolean endOfDay();
+    boolean endOfDay() throws RemoteException;
 
-    void disconnect();
+    void disconnect() throws RemoteException;
 
-    void waitShutdown();
+    void waitShutdown() throws RemoteException;
 }

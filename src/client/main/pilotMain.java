@@ -46,9 +46,13 @@ public class pilotMain {
             interruptedException.printStackTrace();
         }
 
-        depA.disconnect();
-        destA.disconnect();
-        plane.disconnect();
+        try {
+            depA.disconnect();
+            destA.disconnect();
+            plane.disconnect();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
     }
 
